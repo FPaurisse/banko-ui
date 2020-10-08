@@ -2,7 +2,7 @@ import * as React           from 'react';
 
 import { usePeriodContext } from '@providers/period/usePeriodContext';
 
-const Table: React.FC = () => {
+const Navigation: React.FC = () => {
     const vm = usePeriodContext();
 
     return (
@@ -16,4 +16,4 @@ const Table: React.FC = () => {
     );
 };
 
-export default Table;
+export default Navigation;
