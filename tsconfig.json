@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "skipLibCheck": true,
+        "sourceMap": true,
+        "noImplicitAny": true,
+        "module": "commonjs",
+        "target": "es5",
+        "lib": ["es2015", "es2017", "dom", "ES2015.Promise"],
+        "removeComments": true,
+        "allowSyntheticDefaultImports": true,
+        "esModuleInterop": true,
+        "jsx": "react",
+        "allowJs": true,
+        "baseUrl": ".",
+        "paths": {
+            "@components/*": ["src/components/*"],
+            "@library/*": ["src/library/*"],
+            "@providers/*": ["src/providers/*"],
+            "@models/*": ["src/models/*"],
+            "@service/*": ["src/service/*"]
+      },
+    },
+    "include": ["src"],
+    "exclude": ["node_modules"]
+  }
