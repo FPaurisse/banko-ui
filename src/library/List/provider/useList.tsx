@@ -6,7 +6,7 @@ export type useListContextValues<T> = {
     actions: {
         remove: FetchData<Result, Record<string, unknown>>
     };
-    error: APIError,
+    serverError: APIError,
     loading: boolean
 }
 
@@ -27,7 +27,7 @@ export const useList = <T extends unknown>({ listing, actions }: useListProps<T>
         actions: {
             remove
         },
-        error,
+        serverError: error,
         loading
     })
 };

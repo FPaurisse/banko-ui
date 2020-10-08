@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { CreateReturn } from '@service/useOperations';
 import { APIError, FetchData, Result } from 'graphql-hooks';
-import { useForm as useHookForm } from 'react-hook-form';
+import { DeepMap, FieldError, useForm as useHookForm } from 'react-hook-form';
 
 export type UseFormOptions<T> = {
     initial: T;
@@ -18,7 +18,8 @@ export type UseFormContextValues<T> = {
     actions: {
         create: FetchData<Result, T>
     };
-    error: APIError,
+    inputsError: DeepMap<T, FieldError>;
+    serverError: APIError,
     loading: boolean
 }
 
@@ -26,6 +27,8 @@ const useForm = <T extends unknown> (options: UseFormOptions<T>): UseFormContext
     const [entity, setEntity] = React.useState<T>(null);
 
     const form = { ...useHookForm<T>() };
+
+    const { errors } = form;
 
     const { create, error, loading } = options.actions.create();
 
@@ -39,7 +42,8 @@ const useForm = <T extends unknown> (options: UseFormOptions<T>): UseFormContext
         actions: {
             create
         },
-        error: error,
+        inputsError: errors,
+        serverError: error,
         loading: loading
     })
 

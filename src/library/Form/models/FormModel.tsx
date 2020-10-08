@@ -1,3 +1,3 @@
-import { FormFieldModel } from './FormFieldModel';
+import { InputDefinitionModel } from './InputModel';
 
-export type FormModel<T = never> = FormFieldModel<T>[];
+export type FormModel<T = never> = InputDefinitionModel<T>[];

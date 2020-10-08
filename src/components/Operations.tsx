@@ -10,19 +10,19 @@ import { usePeriod }                from '@providers/period/usePeriod';
 import { PeriodContextProvider }    from '@providers/period/usePeriodContext';
 import useOperationsList            from '@providers/operation/useOperationsList';
 import { ListContextProvider }      from '@library/List/provider/useListContext';
+import Input                        from '@library/Form/Input';
 
 const Operations: React.FC<RouteComponentProps> = () => {
     const period = usePeriod();
     const { form, definition, list } = useOperationsList();
-    const { register } = form.form;
 
     return (
         <React.Fragment>
             <FormContextProvider { ...form }>
                 <Form action={ form.actions.create }>
-                    <input ref={ register } { ...definition.find((field) => field.name === 'title') } />
-                    <input ref={ register }  { ...definition.find((field) => field.name === 'amount') } />
-                    <input ref={ register }  { ...definition.find((field) => field.name === 'date') } />
+                    <Input { ...definition.find((field) => field.name === 'title') } />
+                    <Input { ...definition.find((field) => field.name === 'amount') } />
+                    <Input { ...definition.find((field) => field.name === 'date') } />
                 </Form>
             </FormContextProvider>
             <PeriodContextProvider { ...period }>

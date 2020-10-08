@@ -6,8 +6,8 @@ interface FormProps {
 }
 
 const Form: React.FC<FormProps> = ({ children, action }) => {
-    const { form } = useFormContext();
-    const { handleSubmit } = form;
+    const { form }          = useFormContext();
+    const { handleSubmit }  = form;
 
     const onSubmit = async (data: Record<string, unknown>): Promise<void> => {
         action({ variables: data });

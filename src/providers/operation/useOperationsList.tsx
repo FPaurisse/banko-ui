@@ -24,14 +24,14 @@ const useOperationsList = (): OperationListProvider => {
     const list = useList<OperationModel>({ listing: operations, actions: { remove: useOperationRemove() } });
 
     React.useEffect(() => {
-        if (form.loading && !form.error) {
+        if (form.loading && !form.serverError) {
             reload();
             form.form.reset();
         }
     }, [form])
 
     React.useEffect(() => {
-        if(list.loading && !list.error){
+        if(list.loading && !list.serverError){
             reload();
         }
     }, [list])

@@ -19,17 +19,20 @@ const useOperationForm = (): OperationReturn => {
         },
     });
 
-    const definition = [
+    const definition: FormModel<OperationModel> = [
         {
-            name: 'title',   
+            name: 'title', 
+            type: 'text',
             label: 'Titre',
         },
         {
             name: 'amount', 
+            type: 'text',
             label: 'Montant',
         },
         {
             name: 'date', 
+            type: 'date',
             label: 'Date',
         },
     ];
