@@ -21,19 +21,33 @@ const useOperationForm = (): OperationReturn => {
 
     const definition: FormModel<OperationModel> = [
         {
-            name: 'title', 
+            name: 'title',
             type: 'text',
             label: 'Titre',
+            required: true
         },
         {
-            name: 'amount', 
-            type: 'text',
+            name: 'amount',
+            type: 'number',
             label: 'Montant',
+            required: true,
+            operator: form.form.watch('isCredit') === true ? '+' : '-'
         },
         {
             name: 'date', 
             type: 'date',
             label: 'Date',
+            required: true
+        },
+        {
+            name: 'isPassed', 
+            type: 'checkbox',
+            label: 'Opération passée',
+        },
+        {
+            name: 'isCredit', 
+            type: 'checkbox',
+            label: 'Crédit'
         },
     ];
 

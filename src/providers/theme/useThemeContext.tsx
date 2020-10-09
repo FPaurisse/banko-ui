@@ -1,9 +1,7 @@
 import * as React from 'react';
 import { ThemeContextValues } from './useTheme';
 
-const ThemeContext = React.createContext<ThemeContextValues>({
-    theme: 'dark'
-});
+const ThemeContext = React.createContext<ThemeContextValues>(null);
 
 export const useThemeContext = (): ThemeContextValues => {
     return React.useContext(ThemeContext);

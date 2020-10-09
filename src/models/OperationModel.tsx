@@ -3,13 +3,16 @@ export class OperationModel {
     title: string;
     amount: string;
     date: string;
+    isPassed: boolean;
+    isCredit: boolean;
     
     static Empty(): OperationModel {
         return new OperationModel({
             _id: null,
             title: '',
             amount: '0',
-            date: ''
+            date: '',
+            isPassed: false
         });
     }
 

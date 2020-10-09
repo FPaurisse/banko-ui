@@ -14,16 +14,18 @@ import { PeriodContextProvider }    from '@providers/period/usePeriodContext';
 import useOperationsList            from '@providers/operation/useOperationsList';
 
 const Operations: React.FC<RouteComponentProps> = () => {
-    const { form, definition, list }    = useOperationsList();
-    const period                        = usePeriod();
+    const period = usePeriod();
+    const { form, definition, list } = useOperationsList();
 
     return (
         <React.Fragment>
             <FormContextProvider { ...form }>
                 <Form action={ form.actions.create }>
                     <Input { ...definition.find((field) => field.name === 'title') } />
+                    <Input { ...definition.find((field) => field.name === 'isCredit') } />
                     <Input { ...definition.find((field) => field.name === 'amount') } />
                     <Input { ...definition.find((field) => field.name === 'date') } />
+                    <Input { ...definition.find((field) => field.name === 'isPassed') } />
                 </Form>
             </FormContextProvider>
             <PeriodContextProvider { ...period }>

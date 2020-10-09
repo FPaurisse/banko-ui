@@ -23,7 +23,7 @@ const List: React.FC = () => {
                             .map((operation: OperationModel) => {
                                 return (   
                                     <li key={ operation._id }>
-                                        { operation.title } - { operation.amount } - { operation.date }
+                                        Le { operation.date } - { operation.title } : { operation.amount }€ - { operation.isPassed && '(Passée)' }
                                         <button onClick={ () => vm.actions.remove({ variables: { _id: operation._id } }) }>delete</button>
                                     </li>
                                 )

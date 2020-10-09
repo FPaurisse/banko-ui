@@ -6,7 +6,12 @@ const DateInput: React.FC<InputProps> = (props) => {
     const { name, innerRef } = props;
 
     return (
-        <input type='date' ref={ innerRef } name={ name } />
+        <input
+            type='date'
+            ref={ innerRef }
+            name={ name } 
+            autoComplete='off'
+        />
     )
 };
 

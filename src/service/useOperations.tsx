@@ -33,14 +33,14 @@ export interface RemoveReturn {
 const LIST_OPERATIONS_QUERY = `
 query QueryRootType {
   operations {
-    _id, title, amount, date
+    _id, title, amount, date, isPassed, isCredit
   }
 }`
 
 const CREATE_OPERATION_MUTATION = `
-mutation Mutation($title: String!, $amount: String!, $date: String!) {
-  addOperation(title: $title, amount: $amount, date: $date) {
-    title, amount, date
+mutation Mutation($title: String!, $amount: String!, $date: String!, $isPassed: Boolean!, $isCredit: Boolean!) {
+  addOperation(title: $title, amount: $amount, date: $date, isPassed: $isPassed, isCredit: $isCredit) {
+    title, amount, date, isPassed, isCredit
   }
 }`
 
