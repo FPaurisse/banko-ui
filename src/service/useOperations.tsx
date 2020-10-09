@@ -30,40 +30,40 @@ export interface RemoveReturn {
     error: APIError;
 }
 
-const LIST_OPERATIONS_QUERY = `
+const OPERATIONS_BY_PERIOD_QUERY = (period: Record<string, unknown>): string => `
 query QueryRootType {
-  operations {
-    _id, title, amount, date, isPassed, isCredit
-  }
+    operations(month: "${period.month}", year: "${period.year}") {
+        _id, title, amount, date, isPassed, isCredit
+    }
 }`
 
-const CREATE_OPERATION_MUTATION = `
+const CREATE_OPERATION_MUTATION = (): string => `
 mutation Mutation($title: String!, $amount: String!, $date: String!, $isPassed: Boolean!, $isCredit: Boolean!) {
   addOperation(title: $title, amount: $amount, date: $date, isPassed: $isPassed, isCredit: $isCredit) {
     title, amount, date, isPassed, isCredit
   }
 }`
 
-const REMOVE_OPERATION_MUTATION = `
+const REMOVE_OPERATION_MUTATION = (): string => `
 mutation Mutation($_id: String!) {
     removeOperation(_id: $_id) {
       _id
     }
 }`
 
-const useAllOperations = (): ListReturn<OperationModel[]> => {
-    const { cacheHit,  data = { operations: [] }, loading, error, refetch } = useQuery(LIST_OPERATIONS_QUERY);
+const useOperationsByPeriod = (period: Record<string, unknown>): ListReturn<OperationModel[]> => {
+    const { cacheHit, data = { operations: [] }, loading, error, refetch } = useQuery(OPERATIONS_BY_PERIOD_QUERY(period));
     return { cacheHit, loading, error, data: data.operations, refetch };
 }
 
 const useOperationCreate = (): CreateReturn<OperationModel> => {
-    const [addOperation, { loading, error }] = useMutation(CREATE_OPERATION_MUTATION);
+    const [addOperation, { loading, error }] = useMutation(CREATE_OPERATION_MUTATION());
     return { create: addOperation, loading, error };
 }
 
 const useOperationRemove = (): RemoveReturn => {
-    const [removeOperation, { loading, error }] = useMutation(REMOVE_OPERATION_MUTATION);
+    const [removeOperation, { loading, error }] = useMutation(REMOVE_OPERATION_MUTATION());
     return { remove: removeOperation, loading, error };
 }
 
-export { useAllOperations, useOperationCreate, useOperationRemove };
+export { useOperationsByPeriod, useOperationCreate, useOperationRemove };

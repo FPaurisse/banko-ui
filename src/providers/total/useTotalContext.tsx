@@ -11,7 +11,7 @@ type TotalContextProps = TotalContextValues & {
     children: React.ReactNode;
 };
 
-export const TotalProvider: React.FC<TotalContextProps> = (props): JSX.Element => {
+export const TotalContextProvider: React.FC<TotalContextProps> = (props): JSX.Element => {
     const { children, ...rest } = props;
     
     return (

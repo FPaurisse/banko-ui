@@ -9,7 +9,8 @@ import { OperationModel }                   from '@models/OperationModel';
 
 import useOperationForm                     from '@providers/operation/useOperationForm';
 
-import { useAllOperations, useOperationRemove } from '@service/useOperations';
+import { useOperationsByPeriod, useOperationRemove } from '@service/useOperations';
+import { PeriodContextValues } from '@providers/period/usePeriod';
 
 type OperationListProvider = {
     definition: FormModel<OperationModel>;
@@ -18,9 +19,10 @@ type OperationListProvider = {
     reload: (options?: UseQueryOptions) => Promise<UseClientRequestResult<UseQueryOptions>>;
 };
 
-const useOperationsList = (): OperationListProvider => {
+const useOperationsList = (period: PeriodContextValues): OperationListProvider => {
     const { definition, form } = useOperationForm();
-    const { data: operations, refetch: reload } = useAllOperations();
+    const { month, year } = period;
+    const { data: operations, refetch: reload } = useOperationsByPeriod({ month, year });
     const list = useList<OperationModel>({ listing: operations, actions: { remove: useOperationRemove() } });
 
     React.useEffect(() => {

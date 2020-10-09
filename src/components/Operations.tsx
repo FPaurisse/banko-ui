@@ -12,10 +12,13 @@ import { FormContextProvider }      from '@library/Form/provider/useFormContext'
 import { usePeriod }                from '@providers/period/usePeriod';
 import { PeriodContextProvider }    from '@providers/period/usePeriodContext';
 import useOperationsList            from '@providers/operation/useOperationsList';
+import { TotalContextProvider } from '@providers/total/useTotalContext';
+import { useTotal } from '@providers/total/useTotal';
 
 const Operations: React.FC<RouteComponentProps> = () => {
-    const period = usePeriod();
-    const { form, definition, list } = useOperationsList();
+    const period                        = usePeriod();
+    const { form, definition, list }    = useOperationsList(period);
+    const total                         = useTotal(period, list, form);
 
     return (
         <React.Fragment>
@@ -32,8 +35,10 @@ const Operations: React.FC<RouteComponentProps> = () => {
                 <Navigation />
                 <ListContextProvider { ...list }>
                     <List />
-                    <Total />
                 </ListContextProvider>
+                <TotalContextProvider { ...total }>
+                    <Total />
+                </TotalContextProvider>
             </PeriodContextProvider>
         </React.Fragment>
     )

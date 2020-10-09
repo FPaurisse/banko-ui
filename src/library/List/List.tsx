@@ -1,5 +1,4 @@
 import * as React                               from 'react';
-import moment                                   from 'moment';
 
 import { usePeriodContext }                     from '@providers/period/usePeriodContext';
 import { useListContext } from './provider/useListContext';
@@ -16,10 +15,6 @@ const List: React.FC = () => {
                 <ul>
                     {
                         vm.list
-                            .filter((operation: OperationModel) => 
-                                moment(new Date(operation.date)).format('MM') === period.month
-                                && moment(new Date(operation.date)).format('YYYY') === period.year
-                            )
                             .map((operation: OperationModel) => {
                                 return (   
                                     <li key={ operation._id }>

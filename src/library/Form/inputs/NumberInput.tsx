@@ -12,6 +12,7 @@ const NumberInput: React.FC<InputProps> = (props) => {
                 type='number'
                 ref={ innerRef }
                 name={ name }
+                min='0'
                 autoComplete='off'
             />
         </React.Fragment>
