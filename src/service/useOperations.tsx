@@ -1,9 +1,9 @@
 import {
-    useQuery,
-    useMutation,
-    APIError,
-    FetchData,
     Result,
+    APIError,
+    useQuery,
+    FetchData,
+    useMutation,
     UseQueryOptions,
     UseClientRequestResult
 }                           from 'graphql-hooks'
@@ -30,15 +30,22 @@ export interface RemoveReturn {
     error: APIError;
 }
 
-const OPERATIONS_BY_PERIOD_QUERY = (period: Record<string, unknown>): string => `
+const OPERATIONS_BY_PERIOD_QUERY = (fields: Array<keyof OperationModel> ,period: Record<string, unknown>): string => `
 query QueryRootType {
-    operations(month: "${period.month}", year: "${period.year}") {
-        _id, title, amount, date, isPassed, isCredit
+    operationsByPeriod(month: "${period.month}", year: "${period.year}") {
+        ${fields}
+    }
+}`
+
+const OPERATIONS_TO_CALCULATE_QUERY = (fields: Array<keyof OperationModel> ,period: Record<string, unknown>): string => `
+query QueryRootType {
+    operationsToCalculate(month: "${period.month}", year: "${period.year}") {
+        ${fields}
     }
 }`
 
 const CREATE_OPERATION_MUTATION = (): string => `
-mutation Mutation($title: String!, $amount: String!, $date: String!, $isPassed: Boolean!, $isCredit: Boolean!) {
+mutation Mutation($title: String!, $amount: String!, $date: !, $isPassed: Boolean!, $isCredit: Boolean!) {
   addOperation(title: $title, amount: $amount, date: $date, isPassed: $isPassed, isCredit: $isCredit) {
     title, amount, date, isPassed, isCredit
   }
@@ -51,9 +58,14 @@ mutation Mutation($_id: String!) {
     }
 }`
 
-const useOperationsByPeriod = (period: Record<string, unknown>): ListReturn<OperationModel[]> => {
-    const { cacheHit, data = { operations: [] }, loading, error, refetch } = useQuery(OPERATIONS_BY_PERIOD_QUERY(period));
-    return { cacheHit, loading, error, data: data.operations, refetch };
+const useOperationsByPeriod = (fields: Array<keyof OperationModel>, period: Record<string, unknown>): ListReturn<OperationModel[]> => {
+    const { cacheHit, data = { operationsByPeriod: [] }, loading, error, refetch } = useQuery(OPERATIONS_BY_PERIOD_QUERY(fields, period));
+    return { cacheHit, loading, error, data: data.operationsByPeriod, refetch };
+}
+
+const useOperationsToCalculate = (fields: Array<keyof OperationModel>, period: Record<string, unknown>): ListReturn<OperationModel[]> => {
+    const { cacheHit, data = { operationsToCalculate: [] }, loading, error, refetch } = useQuery(OPERATIONS_TO_CALCULATE_QUERY(fields, period));
+    return { cacheHit, loading, error, data: data.operationsToCalculate, refetch };
 }
 
 const useOperationCreate = (): CreateReturn<OperationModel> => {
@@ -66,4 +78,4 @@ const useOperationRemove = (): RemoveReturn => {
     return { remove: removeOperation, loading, error };
 }
 
-export { useOperationsByPeriod, useOperationCreate, useOperationRemove };
+export { useOperationsByPeriod, useOperationsToCalculate, useOperationCreate, useOperationRemove };

@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { sum, toNumber, round } from 'lodash';
 import { PeriodContextValues } from '@providers/period/usePeriod';
-import { useOperationsByPeriod } from '@service/useOperations';
+import { useOperationsToCalculate } from '@service/useOperations';
 import { OperationModel } from '@models/OperationModel';
 import { useListContextValues } from '@library/List/provider/useList';
 import { UseFormContextValues } from '@library/Form/provider/useForm';
@@ -15,8 +15,8 @@ export const useTotal = (period: PeriodContextValues, list: useListContextValues
     const [real, setReal] = React.useState<number>(0.00);
     const [actual, setActual] = React.useState<number>(0.00);
     const { month, year } = period;
-    const { data: operations, refetch: reload } = useOperationsByPeriod({ month, year });
-    
+    const { data: operations, refetch: reload } = useOperationsToCalculate(['amount', 'isPassed'], { month, year });
+
     React.useEffect(() => {
         if(list.loading && !list.serverError){
             reload();
