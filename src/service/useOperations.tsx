@@ -20,24 +20,37 @@ export interface ListReturn<T> {
 
 export interface CreateReturn<T> {
     create: FetchData<Result, T>;
-    loading: boolean;
-    error: APIError;
+    creating: boolean;
+    createError: APIError;
+}
+
+export interface UpdateReturn<T>  {
+    update: FetchData<Result, T>;
+    updating: boolean;
+    updateError: APIError;
 }
 
 export interface RemoveReturn {
     remove: FetchData<Result, Record<string, unknown>>;
-    loading: boolean;
-    error: APIError;
+    removing: boolean;
+    removeError: APIError;
 }
 
-const OPERATIONS_BY_PERIOD_QUERY = (fields: Array<keyof OperationModel> ,period: Record<string, unknown>): string => `
+const OPERATIONS_BY_PERIOD_QUERY = (fields: Array<keyof OperationModel>, period: Record<string, unknown>): string => `
 query QueryRootType {
     operationsByPeriod(month: "${period.month}", year: "${period.year}") {
         ${fields}
     }
 }`
 
-const OPERATIONS_TO_CALCULATE_QUERY = (fields: Array<keyof OperationModel> ,period: Record<string, unknown>): string => `
+const OPERATION_BY_ID = (fields: Array<keyof OperationModel>, id: string): string => `
+query QueryRootType {
+    operationById(_id: "${id}") {
+        ${fields}
+    }
+}`
+
+const OPERATIONS_TO_CALCULATE_QUERY = (fields: Array<keyof OperationModel>, period: Record<string, unknown>): string => `
 query QueryRootType {
     operationsToCalculate(month: "${period.month}", year: "${period.year}") {
         ${fields}
@@ -45,10 +58,17 @@ query QueryRootType {
 }`
 
 const CREATE_OPERATION_MUTATION = (): string => `
-mutation Mutation($title: String!, $amount: String!, $date: !, $isPassed: Boolean!, $isCredit: Boolean!) {
+mutation Mutation($title: String!, $amount: String!, $date: String!, $isPassed: Boolean!, $isCredit: Boolean!) {
   addOperation(title: $title, amount: $amount, date: $date, isPassed: $isPassed, isCredit: $isCredit) {
     title, amount, date, isPassed, isCredit
   }
+}`
+
+const UPDATE_OPERATION_MUTATION = (id: string): string => `
+mutation Mutation($title: String!, $amount: String!, $date: String!, $isPassed: Boolean!, $isCredit: Boolean!) {
+    updateOperation(_id: "${id}", title: $title, amount: $amount, date: $date, isPassed: $isPassed, isCredit: $isCredit) {
+      _id
+    }
 }`
 
 const REMOVE_OPERATION_MUTATION = (): string => `
@@ -63,19 +83,29 @@ const useOperationsByPeriod = (fields: Array<keyof OperationModel>, period: Reco
     return { cacheHit, loading, error, data: data.operationsByPeriod, refetch };
 }
 
+const useOperationById = (fields: Array<keyof OperationModel>, id: string): ListReturn<OperationModel> => {
+    const { cacheHit, data = { operationById: null }, loading, error, refetch } = useQuery(OPERATION_BY_ID(fields, id));
+    return { cacheHit, loading, error, data: data.operationById, refetch };
+}
+
 const useOperationsToCalculate = (fields: Array<keyof OperationModel>, period: Record<string, unknown>): ListReturn<OperationModel[]> => {
     const { cacheHit, data = { operationsToCalculate: [] }, loading, error, refetch } = useQuery(OPERATIONS_TO_CALCULATE_QUERY(fields, period));
     return { cacheHit, loading, error, data: data.operationsToCalculate, refetch };
 }
 
 const useOperationCreate = (): CreateReturn<OperationModel> => {
-    const [addOperation, { loading, error }] = useMutation(CREATE_OPERATION_MUTATION());
-    return { create: addOperation, loading, error };
+    const [addOperation, { loading: creating, error: createError }] = useMutation(CREATE_OPERATION_MUTATION());
+    return { create: addOperation, creating, createError };
+}
+
+const useOperationUpdate = (id: string): UpdateReturn<OperationModel> => {
+    const [updateOperation, { loading: updating, error: updateError }] = useMutation(UPDATE_OPERATION_MUTATION(id));
+    return { update: updateOperation, updating, updateError };
 }
 
 const useOperationRemove = (): RemoveReturn => {
-    const [removeOperation, { loading, error }] = useMutation(REMOVE_OPERATION_MUTATION());
-    return { remove: removeOperation, loading, error };
+    const [removeOperation, { loading: removing, error: removeError }] = useMutation(REMOVE_OPERATION_MUTATION());
+    return { remove: removeOperation, removing, removeError };
 }
 
-export { useOperationsByPeriod, useOperationsToCalculate, useOperationCreate, useOperationRemove };
+export { useOperationById, useOperationsByPeriod, useOperationsToCalculate, useOperationCreate, useOperationUpdate, useOperationRemove };

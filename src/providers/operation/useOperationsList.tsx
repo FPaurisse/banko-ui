@@ -9,8 +9,9 @@ import { OperationModel }                   from '@models/OperationModel';
 
 import useOperationForm                     from '@providers/operation/useOperationForm';
 
-import { useOperationsByPeriod, useOperationRemove } from '@service/useOperations';
+import { useOperationsByPeriod, useOperationRemove, useOperationById } from '@service/useOperations';
 import { PeriodContextValues } from '@providers/period/usePeriod';
+import { useParams } from '@reach/router';
 
 type OperationListProvider = {
     definition: FormModel<OperationModel>;
@@ -21,20 +22,26 @@ type OperationListProvider = {
 
 const useOperationsList = (period: PeriodContextValues): OperationListProvider => {
     const { definition, form } = useOperationForm();
+    const { id } = useParams();
     const { month, year } = period;
-    const { data: operations, refetch: reload } = useOperationsByPeriod(['_id', 'title', 'amount', 'date', 'isCredit', 'isPassed'], { month, year });
+    const { data: operations, refetch: listReload } = useOperationsByPeriod(['_id', 'title', 'amount', 'date', 'isCredit', 'isPassed'], { month, year });
+    const { data: operation, refetch: reload } = useOperationById(['_id', 'title', 'amount', 'date', 'isCredit', 'isPassed'], id);
     const list = useList<OperationModel>({ listing: operations, actions: { remove: useOperationRemove() } });
 
     React.useEffect(() => {
+        form.form.reset(operation);
+    }, [id, operation])
+
+    React.useEffect(() => {
         if (form.loading && !form.serverError) {
-            reload();
+            listReload();
             form.form.reset();
         }
     }, [form])
 
     React.useEffect(() => {
         if(list.loading && !list.serverError){
-            reload();
+            listReload();
         }
     }, [list])
 

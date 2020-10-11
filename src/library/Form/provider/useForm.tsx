@@ -1,12 +1,13 @@
 import * as React from 'react';
-import { CreateReturn } from '@service/useOperations';
+import { CreateReturn, UpdateReturn } from '@service/useOperations';
 import { APIError, FetchData, Result } from 'graphql-hooks';
 import { DeepMap, FieldError, useForm as useHookForm } from 'react-hook-form';
+import { useParams } from '@reach/router';
 
 export type UseFormOptions<T> = {
-    initial: T;
     actions: {
         create: () => CreateReturn<T>;
+        update: (id: string) => UpdateReturn<T>;
     };
 }
 
@@ -15,8 +16,10 @@ type HookFormType = ReturnType<typeof useHookForm>;
 export type UseFormContextValues<T> = {
     form: HookFormType;
     entity: T;
+    setEntity: React.Dispatch<React.SetStateAction<T>>;
     actions: {
-        create: FetchData<Result, T>
+        create: FetchData<Result, T>,
+        update: FetchData<Result, T>
     };
     inputsError: DeepMap<T, FieldError>;
     serverError: APIError,
@@ -24,27 +27,31 @@ export type UseFormContextValues<T> = {
 }
 
 const useForm = <T extends unknown> (options: UseFormOptions<T>): UseFormContextValues<T> => {
-    const [entity, setEntity] = React.useState<T>(null);
-
+    const [entity, setEntity]   = React.useState<T>(null);
     const form = { ...useHookForm<T>() };
+    const { id } = useParams();
+    const { errors }            = form;
 
-    const { errors } = form;
-
-    const { create, error, loading } = options.actions.create();
+    const { create, creating, createError } = options.actions.create();
+    const { update, updating, updateError } = options.actions.update(id);
 
     React.useEffect(() => {
-        setEntity(options.initial)
-    }, [])
+        if (creating || updating) {
+            form.reset()
+        }
+    }, [creating, updating])
 
     return ({
         form,
         entity: entity,
+        setEntity: setEntity,
         actions: {
-            create
+            create,
+            update
         },
         inputsError: errors,
-        serverError: error,
-        loading: loading
+        serverError: createError || updateError,
+        loading: creating || updating
     })
 
 };

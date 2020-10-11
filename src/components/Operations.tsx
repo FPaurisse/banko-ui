@@ -22,23 +22,23 @@ const Operations: React.FC<RouteComponentProps> = () => {
 
     return (
         <React.Fragment>
-            <FormContextProvider { ...form }>
-                <Form action={ form.actions.create }>
-                    <Input { ...definition.find((field) => field.name === 'title') } />
-                    <Input { ...definition.find((field) => field.name === 'isCredit') } />
-                    <Input { ...definition.find((field) => field.name === 'amount') } />
-                    <Input { ...definition.find((field) => field.name === 'date') } />
-                    <Input { ...definition.find((field) => field.name === 'isPassed') } />
-                </Form>
-            </FormContextProvider>
             <PeriodContextProvider { ...period }>
-                <Navigation />
-                <ListContextProvider { ...list }>
-                    <List />
-                </ListContextProvider>
-                <TotalContextProvider { ...total }>
-                    <Total />
-                </TotalContextProvider>
+                <FormContextProvider { ...form }>
+                    <Form>
+                        <Input { ...definition.find((field) => field.name === 'title') } />
+                        <Input { ...definition.find((field) => field.name === 'isCredit') } />
+                        <Input { ...definition.find((field) => field.name === 'amount') } />
+                        <Input { ...definition.find((field) => field.name === 'date') } />
+                        <Input { ...definition.find((field) => field.name === 'isPassed') } />
+                    </Form>
+                    <Navigation />
+                    <ListContextProvider { ...list }>
+                        <List />
+                    </ListContextProvider>
+                    <TotalContextProvider { ...total }>
+                        <Total />
+                    </TotalContextProvider>
+                </FormContextProvider>
             </PeriodContextProvider>
         </React.Fragment>
     )

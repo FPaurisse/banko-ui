@@ -1,26 +1,29 @@
-import { OperationModel } from '@models/OperationModel';
 import * as React from 'react';
+import { OperationModel } from '@models/OperationModel';
 import { useFormContext } from './provider/useFormContext';
-  
-interface FormProps {
-    action: (variables: Record<string, unknown>) => void;
-}
+import { useParams } from '@reach/router';
 
-const Form: React.FC<FormProps> = ({ children, action }) => {
-    const { form }          = useFormContext();
-    const { handleSubmit }  = form;
+const Form: React.FC = ({ children }) => {
+    const { id } = useParams();
+    const { form, actions } = useFormContext();
+    const { handleSubmit } = form;
 
     const onSubmit = async (data: OperationModel): Promise<void> => {
         if (!data.isCredit) {
             data.amount = `-${data.amount}`;
         }
-        action({ variables: data });
+        actions[id ? 'update' : 'create']({ variables: data });
     };
 
+    const handleUndo = (): void => {
+        form.reset();
+    }
+ 
     return (
         <form onSubmit={ handleSubmit(onSubmit) }>
             { children }
-            <button type='submit'>Add</button>
+            <button type='submit'>{ id ? 'Modifier' : 'Ajouter' }</button>
+            <button type='reset' onClick={ handleUndo }>Annuler</button>
         </form>
     )
 }

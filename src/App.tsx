@@ -19,6 +19,7 @@ const App: React.FC = () => {
                 <Router>
                     <Redirect noThrow from='/' to='/operations' />
                     <Operations path="/operations" />
+                    <Operations path="/operations/:id" />
                 </Router>
             </ThemeContextProvider>
         </ClientContext.Provider>

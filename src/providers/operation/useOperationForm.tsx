@@ -3,7 +3,7 @@ import useForm, { UseFormContextValues }    from '@library/Form/provider/useForm
 
 import { OperationModel }                   from '@models/OperationModel';
 
-import { useOperationCreate }               from '@service/useOperations';
+import { useOperationCreate, useOperationUpdate }               from '@service/useOperations';
 
 export type OperationReturn = {
     form: UseFormContextValues<OperationModel>;
@@ -12,10 +12,10 @@ export type OperationReturn = {
 
 const useOperationForm = (): OperationReturn => {
 
-    const form = useForm({
-        initial: OperationModel.Empty(),
+    const form = useForm<OperationModel>({
         actions: {
             create: useOperationCreate,
+            update: useOperationUpdate
         },
     });
 

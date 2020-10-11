@@ -4,14 +4,14 @@ import { RemoveReturn } from '@service/useOperations';
 export type useListContextValues<T> = {
     list: T[];
     actions: {
-        remove: FetchData<Result, Record<string, unknown>>
+        remove: FetchData<Result, Record<string, unknown>>,
     };
     serverError: APIError,
     loading: boolean
 }
 
 interface ActionsModel {
-    remove: RemoveReturn
+    remove: RemoveReturn,
 }
 
 interface useListProps<T> {
@@ -20,14 +20,14 @@ interface useListProps<T> {
 }
 
 export const useList = <T extends unknown>({ listing, actions }: useListProps<T>): useListContextValues<T> => {
-    const { remove, loading, error } = actions.remove;
+    const { remove, removing, removeError } = actions.remove;
 
     return ({
         list: listing,
         actions: {
             remove
         },
-        serverError: error,
-        loading
+        serverError: removeError,
+        loading: removing
     })
 };
