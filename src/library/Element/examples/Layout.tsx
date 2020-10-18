@@ -8,7 +8,7 @@ const Layout: React.FC<RouteComponentProps & ElementProps> = (props) => {
     return (
         <React.Fragment>
             { /* Layout */ }
-            <Element fitted grouped stretch spaced { ...rest }> 
+            <Element fitted grouped stretch { ...rest }> 
                 { /* Layout.Header */ }
                 <Element>Layout header</Element>
                 { /* Layout.Content */ }

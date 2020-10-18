@@ -20,8 +20,10 @@ const Element: React.FC<ElementProps> = (props) => {
         accent,
         spaced,
         fitted,
+        action,
         aside,
         color,
+        fluid,
         main,
         row,
         ...rest
@@ -39,8 +41,10 @@ const Element: React.FC<ElementProps> = (props) => {
         accent,
         spaced,
         fitted,
+        action,
         aside,
         color,
+        fluid,
         main,
         row,
     })

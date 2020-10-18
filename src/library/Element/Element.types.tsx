@@ -12,7 +12,10 @@ export default interface ElementProps extends React.HTMLAttributes<HTMLDivElemen
     accent?: boolean;
     spaced?: boolean;
     fitted?: boolean;
+    active?: boolean;
+    action?: boolean;
     aside?: boolean;
+    fluid?: boolean;
     color?: string;
     main?: boolean;
     row?: boolean;

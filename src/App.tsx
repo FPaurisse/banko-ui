@@ -22,8 +22,8 @@ const App: React.FC = () => {
                         <Redirect noThrow from='/' to='/operations' />
                         <Operations path="/operations" />
                         <Operations path="/operations/:id" />
-                        <Layout color='primary' path='/layout' />
-                        <Accordion color='primary' path='/accordion' />
+                        <Layout color='primary' spaced path='/layout' />
+                        <Accordion color='primary' spaced path='/accordion' />
                     </Router>
                 </ThemeContextProvider>
             </ClientContext.Provider>

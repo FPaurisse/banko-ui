@@ -21,17 +21,11 @@ const DynamicElement = styled(StaticElement)`
     box-sizing: border-box;
     background-color: #FFFFFF;
     justify-content: flex-start;
-    cursor: ${(props) => props.onClick && 'pointer'};
     box-shadow: 1px 0 0 0 #E1E1E1, // left
                 0 1px 0 0 #E1E1E1, // bottom
                 1px 1px 0 0 #E1E1E1, // bottom-left corner
                 1px 0 0 0 #E1E1E1 inset, // right
                 0 1px 0 0 #E1E1E1 inset; // top
-
-    &:hover {
-        transition: .2s;
-        background-color: ${(props) => props.onClick && '#F9F9F9'};
-    }
 
     &:after {
         content: '';
@@ -52,6 +46,12 @@ const DynamicElement = styled(StaticElement)`
     &.additional {
         justify-content: space-between;
         flex-direction: row;
+        & > ${StaticElement}{
+            &:last-child{
+                flex-shrink:0;
+                cursor: auto;
+            }
+        }
     }
 
     &.spaced {
@@ -87,25 +87,12 @@ const DynamicElement = styled(StaticElement)`
         flex: 1 1 100%;
     }
 
+    &.fluid {
+        width: 100%;
+    }
+
     &.recessed {
         border-radius: 0px;
-    }
-
-    &.accent {
-        background-color: #F9F9F9;
-    }
-
-    &.transparent {
-        background: transparent;
-        &:hover{
-            background: transparent;
-        }
-        & > ${StaticElement}{
-            background: transparent;
-            &:hover{
-                background: transparent;
-            }
-        }
     }
 
     &.grouped {
@@ -126,6 +113,10 @@ const DynamicElement = styled(StaticElement)`
         }
     }
 
+    &.accent {
+        background: #F9F9F9;
+    }
+
     &.borderless {
         background: transparent;
         box-shadow: 0 0 0 0 transparent;
@@ -139,6 +130,26 @@ const DynamicElement = styled(StaticElement)`
                 height: 0px;
                 box-shadow: 0 0 0 0 transparent;
             }
+        }
+    }
+
+    &.transparent {
+        background: transparent;
+        &:hover{
+            background: transparent;
+        }
+        & > ${StaticElement}{
+            background: transparent;
+            &:hover{
+                background: transparent;
+            }
+        }
+    }
+
+    &.action {
+        cursor: pointer;
+        &:hover {
+            transition: .2s;
         }
     }
 
