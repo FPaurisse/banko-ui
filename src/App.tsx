@@ -23,7 +23,7 @@ const App: React.FC = () => {
                         <Operations path="/operations" />
                         <Operations path="/operations/:id" />
                         <Layout color='primary' spaced path='/layout' />
-                        <Accordion color='primary' spaced path='/accordion' />
+                        <Accordion path='/accordion' />
                     </Router>
                 </ThemeContextProvider>
             </ClientContext.Provider>

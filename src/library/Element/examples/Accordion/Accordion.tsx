@@ -1,62 +1,31 @@
 import * as React                           from 'react';
-import { RouteComponentProps }              from '@reach/router';
+import classnames                           from 'clsx';
 
-import { ElementProps, Element, Layout }    from '@library/Element';
+import { ElementProps, Element }            from '@library/Element';
 import AccordionTitle                       from '@library/Element/examples/Accordion/AccordionTitle';
 import AccordionContent                     from '@library/Element/examples/Accordion/AccordionContent';
+import AccordionGroup                       from '@library/Element/examples/Accordion/AccordionGroup';
 
 interface AccordionStaticComponents {
     Title?: typeof AccordionTitle;
     Content?: typeof AccordionContent;
+    Group?: typeof AccordionGroup;
 }
 
-const Accordion: React.FC<RouteComponentProps & ElementProps> & AccordionStaticComponents = (props) => {
-    const { ...rest } = props;
-    const [active, setActive] = React.useState<number>(0);
+const Accordion: React.FC<ElementProps> & AccordionStaticComponents = (props) => {
+    const { active, className, children, ...rest } = props;
+
+    const cx = classnames(className, 'accordion', {})
 
     return (
-        <React.Fragment>
-            { /* Accordion.Group */ }
-            <Element fitted grouped stretch { ...rest }>
-                { /* Accordion */ }
-                <Element fitted grouped stretch={ active === 1 }>
-                    { /* Accordion.Title */ }
-                    <AccordionTitle active={ active === 1 } onClick={ () => setActive(1) } additional='Button 1'>
-                            Accordion title 1
-                    </AccordionTitle>
-                    { /* Accordion.Content */ }
-                    <AccordionContent active={ active === 1 }>
-                            Accordion content 1
-                    </AccordionContent>
-                </Element>
-                { /* Accordion */ }
-                <Element fitted grouped stretch={ active === 2 }>
-                    { /* Accordion.Title */ }
-                    <AccordionTitle active={ active === 2 } onClick={ () => setActive(2) } additional='Button 2'>
-                            Accordion title 2
-                    </AccordionTitle>
-                    { /* Accordion.Content */ }
-                    <AccordionContent active={ active === 2 }>
-                        Accordion content 2
-                    </AccordionContent>
-                </Element>
-                { /* Accordion */ }
-                <Element fitted grouped stretch={ active === 3 }>
-                    { /* Accordion.Title */ }
-                    <AccordionTitle active={ active === 3 } onClick={ () => setActive(3) } additional='Button 3'>
-                            Accordion title 3
-                    </AccordionTitle>
-                    { /* Accordion.Content */ }
-                    <AccordionContent active={ active === 3 } fitted>
-                        <Layout />
-                    </AccordionContent>
-                </Element>
-            </Element>
-        </React.Fragment>
+        <Element fitted grouped stretch={ active } className={ cx } { ...rest }>
+            { children }
+        </Element>
     )
 };
 
-Accordion.Title    = AccordionTitle;
-Accordion.Content = AccordionContent;
+Accordion.Title     = AccordionTitle;
+Accordion.Content   = AccordionContent;
+Accordion.Group     = AccordionGroup;
 
 export default Accordion;
