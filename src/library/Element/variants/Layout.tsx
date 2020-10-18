@@ -1,25 +1,25 @@
 import * as React from 'react';
 import { RouteComponentProps } from '@reach/router';
 
-import { Element } from '@library/Element/Element.styles';
+import { Element } from '@library/Element';
 
 const Layout: React.FC<RouteComponentProps> = () => {
     return (
         <React.Fragment>
             { /* Layout */ }
-            <Element $fitted $grouped $color $stretch $spaced> 
+            <Element fitted grouped color='primary' stretch spaced> 
                 { /* Layout.Header */ }
                 <Element>Layout header</Element>
                 { /* Layout.Content */ }
                 <Element>Layout content</Element>
                 { /* Layout.Group */ }
-                <Element $grouped $fitted $row $stretch>
+                <Element grouped fitted row stretch>
                     { /* Layout.Aside */ }
-                    <Element $aside>Aside</Element>
+                    <Element aside>Aside</Element>
                     { /* Layout.Content */ }
-                    <Element $fitted>
+                    <Element fitted>
                         { /* Layout */ }
-                        <Element $fitted $grouped $stretch> 
+                        <Element fitted grouped stretch> 
                             { /* Layout.Header */ }
                             <Element>Layout header</Element>
                             { /* Layout.Content */ }
@@ -27,9 +27,9 @@ const Layout: React.FC<RouteComponentProps> = () => {
                             { /* Layout.Content */ }
                             <Element>Layout content</Element>
                             { /* Layout.Group */ }
-                            <Element $grouped $fitted $row $stretch>
+                            <Element grouped fitted row stretch>
                                 { /* Layout.Aside */ }
-                                <Element $aside $accent>Aside</Element>
+                                <Element aside accent>Aside</Element>
                                 { /* Layout.Content */ }
                                 <Element>Content</Element>
                             </Element>

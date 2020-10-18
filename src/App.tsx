@@ -15,7 +15,7 @@ const App: React.FC = () => {
     const vm = useTheme();
 
     return (
-        <Element $main>
+        <Element main>
             <ClientContext.Provider value={ client }>
                 <ThemeContextProvider { ...vm }>
                     <Router>

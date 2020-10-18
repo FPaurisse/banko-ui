@@ -1,14 +1,32 @@
 import styled from 'styled-components';
 
-const ElementStyle = styled.div<{ $borderless?: boolean, $additional?: string, $hidden?: boolean, $transparent?: boolean, $scrollable?: boolean, $accent?: boolean, $spaced?: boolean, $main?: boolean, $stretch?: boolean, $aside?: boolean, $fitted?: boolean, $row?: boolean, $recessed?: boolean, $grouped?: boolean, $color?: boolean }>``;
+const StaticElement = styled.div``;
 
-const Element = styled(ElementStyle)`
+const DynamicElement = styled(StaticElement)`
 
     /* COMMON */
+
+    width: auto;
+    min-width: auto;
+    max-width: 100%;
+    margin: 0px;
+    padding: 1rem;
+    height: auto;
+    display: flex;
     transition: .2s;
+    overflow: hidden;
     position: relative;
+    border-radius: .3rem;
+    flex-direction: column;
     box-sizing: border-box;
+    background-color: #FFFFFF;
+    justify-content: flex-start;
     cursor: ${(props) => props.onClick && 'pointer'};
+    box-shadow: 1px 0 0 0 #E1E1E1, // left
+                0 1px 0 0 #E1E1E1, // bottom
+                1px 1px 0 0 #E1E1E1, // bottom left corner
+                1px 0 0 0 #E1E1E1 inset, // right
+                0 1px 0 0 #E1E1E1 inset; // top
 
     &:hover {
         transition: .2s;
@@ -17,61 +35,124 @@ const Element = styled(ElementStyle)`
 
     &:after {
         content: '';
+        box-shadow: 0 1px 0 0 #E1E1E1 inset; // top
         position: absolute;
         width: 100%;
+        height: 1px;
         left: 0;
         top: 0;
     }
 
     /* VARIANTS */
-    display: ${({ $hidden }) => $hidden ? 'none' : 'flex'};
-    justify-content: ${({ $additional }) => $additional ? 'space-between' : 'flex-start'};
-    margin: ${({ $spaced }) => $spaced ? '1rem' : '0px'};
-    overflow: ${({ $scrollable }) => $scrollable ? 'auto' : 'hidden'};;
-    padding: ${({ $fitted, $main }) => ($fitted || $main) ? '0px' : '1rem'};
-    width: ${({ $aside }) => $aside ? '320px' : 'auto'};
-    min-width: ${({ $aside }) => $aside ? '320px' : 'auto'};
-    max-width: ${({ $aside }) => $aside ? '320px' : '100%'};
-    height: ${({ $main }) => $main ? '100vh' : 'auto'};
-    flex-direction: ${({ $row, $additional }) => ($row || $additional) ? 'row' : 'column'};
-    flex: ${({ $stretch }) => $stretch && '1 1 100%'};
-    border-radius: ${({ $recessed, $main }) => ($recessed || $main) ? '0' : '.3rem'};
-    background-color: ${({ $accent }) => $accent ? '#F9F9F9' : '#FFFFFF'};
-    background: ${({ $transparent, $borderless }) => ($transparent || $borderless) && 'none'};
-    box-shadow: 1px 0 0 0 ${({ $borderless }) => $borderless ? 'transparent' : '#E1E1E1'}, // left
-                0 1px 0 0 ${({ $borderless }) => $borderless ? 'transparent' : '#E1E1E1'}, // bottom
-                1px 1px 0 0 ${({ $borderless }) => $borderless ? 'transparent' : '#E1E1E1'}, // bottom left corner
-                1px 0 0 0 ${({ $borderless }) => $borderless ? 'transparent' : '#E1E1E1'} inset, // right
-                0 ${({ $color }) => $color ? '3px' : '1px'} 0 0 ${({ $color }) => $color ? '#27ABDC' : '#E1E1E1'} inset; // top
-    box-shadow: ${({ $borderless, $main }) => ($borderless || $main) && '0 0 0 0 transparent'};
 
-    & > ${ElementStyle} {
-        background: ${({ $transparent }) => $transparent && 'transparent'};
-        border-radius: ${({ $grouped }) => $grouped && '0'};
-        width: ${({ $row }) => $row && '100%'};
-        box-shadow: ${({ $borderless }) => $borderless && '0 0 0 0 transparent'};
-        border-radius: ${({ $fitted }) => $fitted && '0' };
-        margin: ${({ $fitted }) => $fitted && '0px'};
-        &:hover {
-            background: ${({ $transparent }) => $transparent && 'transparent'};
+    &.invisible {
+        display: none;
+    }
+
+    &.additional {
+        justify-content: space-between;
+        flex-direction: row;
+    }
+
+    &.spaced {
+        margin: 1rem;
+    }
+
+    &.scrollable {
+        overflow: auto;
+    }
+
+    &.fitted {
+        padding: 0px;
+        & > ${StaticElement}{
+            border-radius: 0px;
+            margin: 0px;
         }
+    }
+
+    &.aside {
+        width: 320px;
+        min-width: 320px;
+        max-width: 320px;
+    }
+
+    &.row {
+        flex-direction: row;
+        & > ${StaticElement}{
+            width: 100%;
+        }
+    }
+
+    &.stretch {
+        flex: 1 1 100%;
+    }
+
+    &.recessed {
+        border-radius: 0px;
+    }
+
+    &.accent {
+        background-color: #F9F9F9;
+    }
+
+    &.transparent {
+        background: transparent;
+        &:hover{
+            background: transparent;
+        }
+        & > ${StaticElement}{
+            background: transparent;
+            &:hover{
+                background: transparent;
+            }
+        }
+    }
+
+    &.grouped {
+        & > ${StaticElement}{
+            border-radius: 0px;
+        }
+    }
+
+    &.color {
+        box-shadow: 1px 0 0 0 #E1E1E1, // left
+                    0 1px 0 0 #E1E1E1, // bottom
+                    1px 1px 0 0 #E1E1E1, // bottom left corner
+                    1px 0 0 0 #E1E1E1 inset, // right
+                    0 3px 0 0 #27ABDC inset; // top
         &:after {
-            height: ${({ $borderless }) => $borderless && '0px'};
-            box-shadow: ${({ $borderless }) => $borderless && '0 0 0 0 transparent'};
+            height: 3px;
+            box-shadow: 0 3px 0 0 #27ABDC inset; // top
         }
     }
-    
-    &:hover {
-        background: ${({ $transparent }) => $transparent && 'transparent'};
+
+    &.borderless {
+        background: transparent;
+        box-shadow: 0 0 0 0 transparent;
+        &:after {
+            height: 0px;
+            box-shadow: 0 0 0 0 transparent;
+        }
+        & > ${StaticElement}{
+            box-shadow: 0 0 0 0 transparent;
+            &:after {
+                height: 0px;
+                box-shadow: 0 0 0 0 transparent;
+            }
+        }
     }
 
-    &:after {
-        height: ${({ $color }) => $color ? '3px' : '1px'};
-        height: ${({ $borderless, $main }) => ($borderless || $main) && '0px'};
-        box-shadow: 0 ${({ $color }) => $color ? '3px' : '1px'} 0 0 ${({ $color }) => $color ? '#27ABDC' : '#E1E1E1'} inset; // top
-        box-shadow: ${({ $borderless, $main }) => ($borderless || $main) && '0 0 0 0 transparent'};
+    &.main {
+        padding: 0px;
+        height: 100vh;
+        border-radius: 0px;
+        box-shadow: 0 0 0 0 transparent;
+        &:after{
+            height: 0px;
+            box-shadow: 0 0 0 0 transparent;
+        }
     }
 
 `;
 
-export { Element };
+export { DynamicElement };
