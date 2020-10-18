@@ -12,8 +12,8 @@ const AccordionTitle: React.FC<ElementProps> = (props) => {
 
     return (
         <Element action fitted accent={ active } className={ cx } { ...rest }>
-            <Element action stretch borderless onClick={ onClick }>{ children }</Element>
-            { additional && <Element borderless>{ additional }</Element> }
+            <Element stretch borderless transparent onClick={ onClick }>{ children }</Element>
+            { additional && <Element borderless transparent>{ additional }</Element> }
         </Element>
     )
 }

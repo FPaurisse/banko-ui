@@ -118,7 +118,6 @@ const DynamicElement = styled(StaticElement)`
     }
 
     &.borderless {
-        background: transparent;
         box-shadow: 0 0 0 0 transparent;
         &:after {
             height: 0px;
@@ -150,6 +149,7 @@ const DynamicElement = styled(StaticElement)`
         cursor: pointer;
         &:hover {
             transition: .2s;
+            background-color: #F9F9F9;
         }
     }
 
