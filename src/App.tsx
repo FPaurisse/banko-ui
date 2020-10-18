@@ -22,7 +22,7 @@ const App: React.FC = () => {
                         <Redirect noThrow from='/' to='/operations' />
                         <Operations path="/operations" />
                         <Operations path="/operations/:id" />
-                        <Layout color='primary' spaced path='/layout' />
+                        <Layout path='/layout' />
                         <Accordion path='/accordion' />
                     </Router>
                 </ThemeContextProvider>
