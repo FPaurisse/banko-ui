@@ -1,9 +1,17 @@
-import * as React from 'react';
-import { ElementProps, Element } from '@library/Element';
+import * as React                   from 'react';
+import classnames                   from 'clsx';
 
-const AccordionContent: React.FC<ElementProps> = () => {
+import { ElementProps, Element }    from '@library/Element';
+
+const AccordionContent: React.FC<ElementProps> = (props) => {
+    const { active, children, className, ...rest } = props;
+
+    const cx = classnames(className, 'accordion-content', {})
+
     return (
-        <Element />
+        <Element stretch={ active } invisible={ !active } className={ cx } { ...rest }>
+            { children }
+        </Element>
     )
 }
 

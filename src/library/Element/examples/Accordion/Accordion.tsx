@@ -3,7 +3,7 @@ import { RouteComponentProps }              from '@reach/router';
 
 import { ElementProps, Element, Layout }    from '@library/Element';
 import AccordionTitle                       from '@library/Element/examples/Accordion/AccordionTitle';
-import AccordionContent                     from '@library/Element/examples/Accordion/AccordionTitle';
+import AccordionContent                     from '@library/Element/examples/Accordion/AccordionContent';
 
 interface AccordionStaticComponents {
     Title?: typeof AccordionTitle;
@@ -25,9 +25,9 @@ const Accordion: React.FC<RouteComponentProps & ElementProps> & AccordionStaticC
                             Accordion title 1
                     </AccordionTitle>
                     { /* Accordion.Content */ }
-                    <Element stretch={ active === 1 } invisible={ active !== 1 }>
+                    <AccordionContent active={ active === 1 }>
                             Accordion content 1
-                    </Element>
+                    </AccordionContent>
                 </Element>
                 { /* Accordion */ }
                 <Element fitted grouped stretch={ active === 2 }>
@@ -36,9 +36,9 @@ const Accordion: React.FC<RouteComponentProps & ElementProps> & AccordionStaticC
                             Accordion title 2
                     </AccordionTitle>
                     { /* Accordion.Content */ }
-                    <Element stretch={ active === 2 } invisible={ active !== 2 }>
+                    <AccordionContent active={ active === 2 }>
                         Accordion content 2
-                    </Element>
+                    </AccordionContent>
                 </Element>
                 { /* Accordion */ }
                 <Element fitted grouped stretch={ active === 3 }>
@@ -47,9 +47,9 @@ const Accordion: React.FC<RouteComponentProps & ElementProps> & AccordionStaticC
                             Accordion title 3
                     </AccordionTitle>
                     { /* Accordion.Content */ }
-                    <Element stretch={ active === 2 } fitted invisible={ active !== 3 }>
+                    <AccordionContent active={ active === 3 } fitted>
                         <Layout />
-                    </Element>
+                    </AccordionContent>
                 </Element>
             </Element>
         </React.Fragment>
