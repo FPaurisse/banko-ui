@@ -7,6 +7,7 @@ import { ThemeContextProvider }         from '@providers/theme/useThemeContext';
 import { useTheme }                     from '@providers/theme/useTheme';
 
 import Operations                       from '@components/Operations';
+import { Layout, Accordion, Element }   from '@library/Element';
 
 const client = new GraphQLClient({ url: process.env.API_URL, cache: memCache() })
 
@@ -14,15 +15,19 @@ const App: React.FC = () => {
     const vm = useTheme();
 
     return (
-        <ClientContext.Provider value={ client }>
-            <ThemeContextProvider { ...vm }>
-                <Router>
-                    <Redirect noThrow from='/' to='/operations' />
-                    <Operations path="/operations" />
-                    <Operations path="/operations/:id" />
-                </Router>
-            </ThemeContextProvider>
-        </ClientContext.Provider>
+        <Element $main>
+            <ClientContext.Provider value={ client }>
+                <ThemeContextProvider { ...vm }>
+                    <Router>
+                        <Redirect noThrow from='/' to='/operations' />
+                        <Operations path="/operations" />
+                        <Operations path="/operations/:id" />
+                        <Layout path='/layout' />
+                        <Accordion path='/accordion' />
+                    </Router>
+                </ThemeContextProvider>
+            </ClientContext.Provider>
+        </Element>
     );
 };
 

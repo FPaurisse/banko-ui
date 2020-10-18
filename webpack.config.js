@@ -37,11 +37,11 @@ module.exports = {
                 use: [{ loader: 'ts-loader' }, { loader: 'eslint-loader' }],
             },
             {
-                test: /\.css$/,
+                test: /\.css|.less$/,
                 use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
             },
             {
-                test: /\.(png|svg|jpg|gif)$/i,
+                test: /\.(jpeg|png|svg|jpg|gif)$/i,
                 use: ['file-loader'],
             },
             {

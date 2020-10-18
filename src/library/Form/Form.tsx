@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { OperationModel } from '@models/OperationModel';
 import { useFormContext } from './provider/useFormContext';
-import { useParams } from '@reach/router';
+import { navigate, useParams } from '@reach/router';
 
 const Form: React.FC = ({ children }) => {
     const { id } = useParams();
@@ -12,11 +12,11 @@ const Form: React.FC = ({ children }) => {
         if (!data.isCredit) {
             data.amount = `-${data.amount}`;
         }
-        actions[id ? 'update' : 'create']({ variables: data });
+        await actions[id ? 'update' : 'create']({ variables: data });
     };
 
     const handleUndo = (): void => {
-        form.reset();
+        navigate('/operations')
     }
  
     return (

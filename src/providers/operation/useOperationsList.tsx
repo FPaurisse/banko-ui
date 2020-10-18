@@ -29,13 +29,15 @@ const useOperationsList = (period: PeriodContextValues): OperationListProvider =
     const list = useList<OperationModel>({ listing: operations, actions: { remove: useOperationRemove() } });
 
     React.useEffect(() => {
-        form.form.reset(operation);
+        if (id) {
+            form.form.reset(operation);
+        }
     }, [id, operation])
+
 
     React.useEffect(() => {
         if (form.loading && !form.serverError) {
             listReload();
-            form.form.reset();
         }
     }, [form])
 

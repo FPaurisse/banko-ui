@@ -29,8 +29,9 @@ export type UseFormContextValues<T> = {
 const useForm = <T extends unknown> (options: UseFormOptions<T>): UseFormContextValues<T> => {
     const [entity, setEntity]   = React.useState<T>(null);
     const form = { ...useHookForm<T>() };
+    const { errors } = form;
+
     const { id } = useParams();
-    const { errors }            = form;
 
     const { create, creating, createError } = options.actions.create();
     const { update, updating, updateError } = options.actions.update(id);

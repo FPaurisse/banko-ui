@@ -21,7 +21,6 @@ const List: React.FC = () => {
                     {
                         vm.list
                             .map((operation: OperationModel) => {
-                                operation.amount = operation.amount.replace('-', '')
                                 const { _id, title, amount, date, isCredit, isPassed } = operation;
                                 return (   
                                     <li key={ _id } style={ { color: isCredit ? 'green' : 'red' } }>
