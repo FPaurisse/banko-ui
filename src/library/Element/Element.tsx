@@ -2,7 +2,7 @@ import * as React           from 'react';
 import classnames           from 'clsx';
 
 import { DynamicElement }   from '@library/Element/Element.styles';
-import ElementProps         from '@library/Element/Element.types';
+import { ElementProps }     from '@library/Element';
 
 const Element: React.FC<ElementProps> = (props) => {
 

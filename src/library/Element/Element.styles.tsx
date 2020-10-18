@@ -24,7 +24,7 @@ const DynamicElement = styled(StaticElement)`
     cursor: ${(props) => props.onClick && 'pointer'};
     box-shadow: 1px 0 0 0 #E1E1E1, // left
                 0 1px 0 0 #E1E1E1, // bottom
-                1px 1px 0 0 #E1E1E1, // bottom left corner
+                1px 1px 0 0 #E1E1E1, // bottom-left corner
                 1px 0 0 0 #E1E1E1 inset, // right
                 0 1px 0 0 #E1E1E1 inset; // top
 
@@ -117,7 +117,7 @@ const DynamicElement = styled(StaticElement)`
     &.color {
         box-shadow: 1px 0 0 0 #E1E1E1, // left
                     0 1px 0 0 #E1E1E1, // bottom
-                    1px 1px 0 0 #E1E1E1, // bottom left corner
+                    1px 1px 0 0 #E1E1E1, // bottom-left corner
                     1px 0 0 0 #E1E1E1 inset, // right
                     0 3px 0 0 #27ABDC inset; // top
         &:after {

@@ -1,13 +1,14 @@
-import * as React from 'react';
-import { RouteComponentProps } from '@reach/router';
+import * as React                   from 'react';
+import { RouteComponentProps }      from '@reach/router';
 
-import { Element } from '@library/Element';
+import { ElementProps, Element }    from '@library/Element';
 
-const Layout: React.FC<RouteComponentProps> = () => {
+const Layout: React.FC<RouteComponentProps & ElementProps> = (props) => {
+    const { ...rest } = props;
     return (
         <React.Fragment>
             { /* Layout */ }
-            <Element fitted grouped color='primary' stretch spaced> 
+            <Element fitted grouped stretch spaced { ...rest }> 
                 { /* Layout.Header */ }
                 <Element>Layout header</Element>
                 { /* Layout.Content */ }

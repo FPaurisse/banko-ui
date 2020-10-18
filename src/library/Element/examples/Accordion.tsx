@@ -1,15 +1,16 @@
-import * as React               from 'react';
-import { RouteComponentProps }  from '@reach/router';
+import * as React                           from 'react';
+import { RouteComponentProps }              from '@reach/router';
 
-import { Element, Layout }      from '@library/Element';
+import { ElementProps, Element, Layout }    from '@library/Element';
 
-const Accordion: React.FC<RouteComponentProps> = () => {
+const Accordion: React.FC<RouteComponentProps & ElementProps> = (props) => {
+    const { ...rest } = props;
     const [active, setActive] = React.useState<number>(0);
 
     return (
         <React.Fragment>
             { /* Accordion.Group */ }
-            <Element fitted grouped color='primary' stretch spaced>
+            <Element fitted grouped stretch spaced { ...rest }>
                 { /* Accordion */ }
                 <Element fitted grouped stretch={ active === 1 }>
                     { /* Accordion.Title */ }
@@ -39,8 +40,8 @@ const Accordion: React.FC<RouteComponentProps> = () => {
                             Accordion title 3
                     </Element>
                     { /* Accordion.Content */ }
-                    <Element stretch={ active === 2 } invisible={ active !== 3 }>
-                        <Layout />
+                    <Element stretch={ active === 2 } fitted invisible={ active !== 3 }>
+                        <Layout color='primary' />
                     </Element>
                 </Element>
             </Element>

@@ -1,5 +1,6 @@
-import Layout from '@library/Element/variants/Layout';
-import Accordion from '@library/Element/variants/Accordion';
+import Layout from '@library/Element/examples/Layout';
+import Accordion from '@library/Element/examples/Accordion';
 import Element from '@library/Element/Element';
+import ElementProps from '@library/Element/Element.types';
 
-export { Element, Layout, Accordion };
+export { ElementProps, Element, Layout, Accordion };
