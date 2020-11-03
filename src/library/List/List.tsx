@@ -10,11 +10,14 @@ import { usePeriodContext } from '@providers/period/usePeriodContext';
 const List: React.FC = () => {
     const { list, actions } = useListContext();
     const { setEntity }     = useFormContext();
-    
-    const period        = usePeriodContext();
+    const period            = usePeriodContext();
 
     const handleDelete = (_id: string): void => {
         actions.remove({ variables: { _id } });
+    }
+
+    const handleUpdate = (operation: OperationModel): void => {
+        setEntity(operation);
     }
 
     return (
@@ -31,7 +34,7 @@ const List: React.FC = () => {
                                         <li key={ _id } style={ { color: isCredit ? 'green' : 'red' } }>
                                         Le { date } - { title } : { amount }€ - { isPassed && '(Passée)' }
                                             <button onClick={ () => handleDelete(_id) }>Supprimer</button>
-                                            <button onClick={ () => setEntity(operation) }>Modifier</button>
+                                            <button onClick={ () => handleUpdate(operation) }>Modifier</button>
                                         </li>
                                     )
                                 })

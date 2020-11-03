@@ -1,9 +1,12 @@
-import * as React from 'react';
-import { sum, toNumber, round } from 'lodash';
-import { PeriodContextValues } from '@providers/period/usePeriod';
-import { useOperationsToCalculate } from '@service/useOperations';
-import { OperationModel } from '@models/OperationModel';
-import { UseClientRequestResult, UseQueryOptions } from 'graphql-hooks';
+import * as React                                   from 'react';
+import { sum, toNumber, round }                     from 'lodash';
+import { UseClientRequestResult, UseQueryOptions }  from 'graphql-hooks';
+
+import { OperationModel }                           from '@models/OperationModel';
+
+import { PeriodContextValues }                      from '@providers/period/usePeriod';
+
+import { useOperationsToCalculate }                 from '@service/useOperations';
 
 export type TotalContextValues = {
     real: number;
@@ -12,10 +15,12 @@ export type TotalContextValues = {
     refetch: (options?: UseQueryOptions) => Promise<UseClientRequestResult<UseQueryOptions>>;
 }
 
-export const useTotal = (period?: PeriodContextValues): TotalContextValues => {
-    const [real, setReal] = React.useState<number>(0.00);
-    const [actual, setActual] = React.useState<number>(0.00);
+export const useTotal = (period?: PeriodContextValues, formLoading?: boolean): TotalContextValues => {
+    const [real, setReal]       = React.useState<number>(0.00);
+    const [actual, setActual]   = React.useState<number>(0.00);
+        
     const { month, year } = period;
+
     const { data: operations, loading, refetch } = useOperationsToCalculate(['amount', 'isPassed'], { month, year });
 
     React.useEffect(() => {
@@ -38,6 +43,10 @@ export const useTotal = (period?: PeriodContextValues): TotalContextValues => {
             )
         }
     }, [period])
+
+    React.useEffect(() => {
+        refetch();
+    }, [formLoading])
 
     return ({
         real,

@@ -12,13 +12,13 @@ import { FormContextProvider }      from '@library/Form/provider/useFormContext'
 import { usePeriod }                from '@providers/period/usePeriod';
 import { PeriodContextProvider }    from '@providers/period/usePeriodContext';
 import useOperationsList            from '@providers/operation/useOperationsList';
-import { TotalContextProvider } from '@providers/total/useTotalContext';
-import { useTotal } from '@providers/total/useTotal';
+import { TotalContextProvider }     from '@providers/total/useTotalContext';
+import { useTotal }                 from '@providers/total/useTotal';
 
 const Operations: React.FC<RouteComponentProps> = () => {
     const period                        = usePeriod();
-    const total                         = useTotal(period);
-    const { form, definition, list }    = useOperationsList(period, total);
+    const { form, definition, list }    = useOperationsList(period);
+    const total                         = useTotal(period, form.loading);
 
     return (
         <React.Fragment>
@@ -32,13 +32,13 @@ const Operations: React.FC<RouteComponentProps> = () => {
                         <Input { ...definition.find((field) => field.name === 'isPassed') } />
                     </Form>
                     <Navigation />
-                    <TotalContextProvider { ...total }>
-                        <ListContextProvider { ...list }>
-                            <List />
-                            <Total />
-                        </ListContextProvider>
-                    </TotalContextProvider>
+                    <ListContextProvider { ...list }>
+                        <List />
+                    </ListContextProvider>
                 </FormContextProvider>
+                <TotalContextProvider { ...total }>
+                    <Total />
+                </TotalContextProvider>
             </PeriodContextProvider>
         </React.Fragment>
     )

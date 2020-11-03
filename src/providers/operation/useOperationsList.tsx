@@ -8,7 +8,6 @@ import { useList, useListContextValues }                from '@library/List/prov
 
 import useOperationForm                                 from '@providers/operation/useOperationForm';
 import { PeriodContextValues }                          from '@providers/period/usePeriod';
-import { TotalContextValues }                           from '@providers/total/useTotal';
 
 import { useOperationsByPeriod, useOperationRemove }    from '@service/useOperations';
 
@@ -18,18 +17,22 @@ type OperationListProvider = {
     list: useListContextValues<OperationModel>;
 };
 
-const useOperationsList = (period?: PeriodContextValues, total?: TotalContextValues): OperationListProvider => {
+const useOperationsList = (period?: PeriodContextValues): OperationListProvider => {
     const [operations, setOperations]   = React.useState<OperationModel[]>(null);
 
     const { definition, form }           = useOperationForm();
     
     const { loading: formLoading, entity }                  = form;
-    const { refetch: totalReload }                          = total;
     const { month, year, setPeriod, loading: periodLoading } = period;
     
     const operationsByPeriod = useOperationsByPeriod(['_id', 'title', 'amount', 'date', 'isCredit', 'isPassed'], { month, year });
     
-    const list = useList<OperationModel>({ listing: operations, actions: { remove: useOperationRemove() }, loading: formLoading || periodLoading, listReload: operationsByPeriod.refetch, totalReload });
+    const list = useList<OperationModel>({
+        listing: operations,
+        actions: { remove: useOperationRemove() },
+        loading: formLoading || periodLoading,
+        listReload: operationsByPeriod.refetch
+    });
 
     React.useEffect(() => {
         const { data } = operationsByPeriod;

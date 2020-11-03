@@ -10,8 +10,8 @@ const Form: React.FC = ({ children }) => {
     const { form, actions, entity, setEntity }  = useFormContext();
     const { setPeriod }                         = usePeriodContext();
     
-    const { handleSubmit, formState } = form;
-    const { isDirty } = formState;
+    const { handleSubmit, formState }   = form;
+    const { isDirty }                   = formState;
 
     const onSubmit = async (data: OperationModel): Promise<void> => {
         if (!data.isCredit) {
@@ -35,9 +35,7 @@ const Form: React.FC = ({ children }) => {
         <form onSubmit={ handleSubmit(onSubmit) }>
             { children }
             <button type='submit'>{ entity ? 'Modifier' : 'Ajouter' }</button>
-            {
-                (isDirty || entity) && <button onClick={ handleUndo }>Annuler</button>
-            }
+            <button disabled={ (isDirty || entity) ? false : true } onClick={ handleUndo }>Annuler</button>
         </form>
     )
 }

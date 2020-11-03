@@ -21,10 +21,9 @@ interface useListProps<T> {
     actions: ActionsModel;
     loading: boolean;
     listReload: (options?: UseQueryOptions) => Promise<UseClientRequestResult<UseQueryOptions>>;
-    totalReload: (options?: UseQueryOptions) => Promise<UseClientRequestResult<UseQueryOptions>>;
 }
 
-export const useList = <T extends unknown>({ listing, actions, loading, listReload, totalReload }: useListProps<T>): useListContextValues<T> => {
+export const useList = <T extends unknown>({ listing, actions, loading, listReload }: useListProps<T>): useListContextValues<T> => {
     const [list, setList] = React.useState<T[]>([])
     const { remove, removing, removeError } = actions.remove;
 
@@ -37,7 +36,6 @@ export const useList = <T extends unknown>({ listing, actions, loading, listRelo
     React.useEffect(() => {
         if (loading || removing) {
             listReload();
-            totalReload();
         }
     }, [loading, removing])
 
