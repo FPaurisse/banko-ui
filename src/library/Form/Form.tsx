@@ -10,7 +10,8 @@ const Form: React.FC = ({ children }) => {
     const { form, actions, entity, setEntity }  = useFormContext();
     const { setPeriod }                         = usePeriodContext();
     
-    const { handleSubmit }                      = form;
+    const { handleSubmit, formState } = form;
+    const { isDirty } = formState;
 
     const onSubmit = async (data: OperationModel): Promise<void> => {
         if (!data.isCredit) {
@@ -23,14 +24,20 @@ const Form: React.FC = ({ children }) => {
 
     const handleUndo = (e: React.SyntheticEvent): void => {
         e.preventDefault();
-        setEntity(null);
+        if (entity) {
+            setEntity(null)
+        } else {
+            form.reset();
+        }
     }
  
     return (
         <form onSubmit={ handleSubmit(onSubmit) }>
             { children }
             <button type='submit'>{ entity ? 'Modifier' : 'Ajouter' }</button>
-            <button onClick={ handleUndo }>Annuler</button>
+            {
+                (isDirty || entity) && <button onClick={ handleUndo }>Annuler</button>
+            }
         </form>
     )
 }
