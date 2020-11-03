@@ -15,7 +15,7 @@ export type TotalContextValues = {
     refetch: (options?: UseQueryOptions) => Promise<UseClientRequestResult<UseQueryOptions>>;
 }
 
-export const useTotal = (period?: PeriodContextValues, formLoading?: boolean): TotalContextValues => {
+export const useTotal = (period?: PeriodContextValues, formLoading?: boolean, listLoading?: boolean): TotalContextValues => {
     const [real, setReal]       = React.useState<number>(0.00);
     const [actual, setActual]   = React.useState<number>(0.00);
         
@@ -45,8 +45,10 @@ export const useTotal = (period?: PeriodContextValues, formLoading?: boolean): T
     }, [period])
 
     React.useEffect(() => {
-        refetch();
-    }, [formLoading])
+        if (formLoading || listLoading) {
+            refetch();
+        }
+    }, [formLoading, listLoading])
 
     return ({
         real,

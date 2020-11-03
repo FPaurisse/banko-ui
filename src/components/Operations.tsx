@@ -18,7 +18,7 @@ import { useTotal }                 from '@providers/total/useTotal';
 const Operations: React.FC<RouteComponentProps> = () => {
     const period                        = usePeriod();
     const { form, definition, list }    = useOperationsList(period);
-    const total                         = useTotal(period, form.loading);
+    const total                         = useTotal(period, form.loading, list.loading);
 
     return (
         <React.Fragment>
