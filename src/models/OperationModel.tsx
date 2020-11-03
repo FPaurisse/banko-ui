@@ -9,9 +9,9 @@ export class OperationModel {
     static Empty(): OperationModel {
         return new OperationModel({
             _id: null,
-            title: '',
-            amount: '0',
-            date: '',
+            title: null,
+            amount: null,
+            date: null,
             isPassed: false
         });
     }

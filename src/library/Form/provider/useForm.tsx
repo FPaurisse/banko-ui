@@ -2,12 +2,11 @@ import * as React from 'react';
 import { CreateReturn, UpdateReturn } from '@service/useOperations';
 import { APIError, FetchData, Result } from 'graphql-hooks';
 import { DeepMap, FieldError, useForm as useHookForm } from 'react-hook-form';
-import { useParams } from '@reach/router';
 
 export type UseFormOptions<T> = {
     actions: {
         create: () => CreateReturn<T>;
-        update: (id: string) => UpdateReturn<T>;
+        update: (entity: T) => UpdateReturn<T>;
     };
 }
 
@@ -31,14 +30,12 @@ const useForm = <T extends unknown> (options: UseFormOptions<T>): UseFormContext
     const form = { ...useHookForm<T>() };
     const { errors } = form;
 
-    const { id } = useParams();
-
     const { create, creating, createError } = options.actions.create();
-    const { update, updating, updateError } = options.actions.update(id);
+    const { update, updating, updateError } = options.actions.update(entity);
 
     React.useEffect(() => {
         if (creating || updating) {
-            form.reset()
+            form.reset();
         }
     }, [creating, updating])
 

@@ -1,5 +1,4 @@
 import * as React from 'react';
-import { UseClientRequestResult, UseQueryOptions } from 'graphql-hooks';
 
 import { FormModel }                        from '@library/Form/models/FormModel';
 import { UseFormContextValues }             from '@library/Form/provider/useForm';
@@ -8,53 +7,50 @@ import { useList, useListContextValues }    from '@library/List/provider/useList
 import { OperationModel }                   from '@models/OperationModel';
 
 import useOperationForm                     from '@providers/operation/useOperationForm';
+import { PeriodContextValues }              from '@providers/period/usePeriod';
 
-import { useOperationsByPeriod, useOperationRemove, useOperationById } from '@service/useOperations';
-import { PeriodContextValues } from '@providers/period/usePeriod';
-import { useParams } from '@reach/router';
+import { useOperationsByPeriod, useOperationRemove } from '@service/useOperations';
+import { TotalContextValues } from '@providers/total/useTotal';
 
 type OperationListProvider = {
     definition: FormModel<OperationModel>;
     form: UseFormContextValues<OperationModel>;
     list: useListContextValues<OperationModel>;
-    reload: (options?: UseQueryOptions) => Promise<UseClientRequestResult<UseQueryOptions>>;
 };
 
-const useOperationsList = (period: PeriodContextValues): OperationListProvider => {
-    const { definition, form } = useOperationForm();
-    const { id } = useParams();
-    const { month, year } = period;
-    const { data: operations, refetch: listReload } = useOperationsByPeriod(['_id', 'title', 'amount', 'date', 'isCredit', 'isPassed'], { month, year });
-    const { data: operation, refetch: reload } = useOperationById(['_id', 'title', 'amount', 'date', 'isCredit', 'isPassed'], id);
-    const list = useList<OperationModel>({ listing: operations, actions: { remove: useOperationRemove() } });
+const useOperationsList = (period?: PeriodContextValues, total?: TotalContextValues): OperationListProvider => {
+    const [operations, setOperations]   = React.useState<OperationModel[]>(null);
+
+    const { definition, form }           = useOperationForm();
+    
+    const { loading: formLoading, entity }                  = form;
+    const { refetch: totalReload }                          = total;
+    const { month, year, setPeriod, loading: periodLoading } = period;
+    
+    const operationsByPeriod = useOperationsByPeriod(['_id', 'title', 'amount', 'date', 'isCredit', 'isPassed'], { month, year });
+    
+    const list = useList<OperationModel>({ listing: operations, actions: { remove: useOperationRemove() }, loading: formLoading || periodLoading, listReload: operationsByPeriod.refetch, totalReload });
 
     React.useEffect(() => {
-        if (id) {
-            form.form.reset(operation);
-        }
-    }, [id, operation])
-
+        const { data } = operationsByPeriod;
+        setOperations(data);
+    }, [operationsByPeriod])
 
     React.useEffect(() => {
-        if (form.loading && !form.serverError) {
-            listReload();
+        if (entity) {
+            form.form.reset(entity);
+            setPeriod(entity.date);
+        } else {
+            const model = OperationModel.Empty();
+            form.form.reset(model);
         }
-    }, [form])
+    }, [entity])
 
-    React.useEffect(() => {
-        if(list.loading && !list.serverError){
-            listReload();
-        }
-    }, [list])
-
-    return (
-        {
-            definition,
-            form,
-            list,
-            reload
-        }
-    )
+    return ({
+        definition,
+        form,
+        list
+    })
 };
 
 export default useOperationsList;

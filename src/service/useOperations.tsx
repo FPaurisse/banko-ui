@@ -43,13 +43,6 @@ query QueryRootType {
     }
 }`
 
-const OPERATION_BY_ID = (fields: Array<keyof OperationModel>, id: string): string => `
-query QueryRootType {
-    operationById(_id: "${id}") {
-        ${fields}
-    }
-}`
-
 const OPERATIONS_TO_CALCULATE_QUERY = (fields: Array<keyof OperationModel>, period: Record<string, unknown>): string => `
 query QueryRootType {
     operationsToCalculate(month: "${period.month}", year: "${period.year}") {
@@ -78,17 +71,12 @@ mutation Mutation($_id: String!) {
     }
 }`
 
-const useOperationsByPeriod = (fields: Array<keyof OperationModel>, period: Record<string, unknown>): ListReturn<OperationModel[]> => {
+const useOperationsByPeriod = (fields?: Array<keyof OperationModel>, period?: Record<string, unknown>): ListReturn<OperationModel[]> => {
     const { cacheHit, data = { operationsByPeriod: [] }, loading, error, refetch } = useQuery(OPERATIONS_BY_PERIOD_QUERY(fields, period));
     return { cacheHit, loading, error, data: data.operationsByPeriod, refetch };
 }
 
-const useOperationById = (fields: Array<keyof OperationModel>, id: string): ListReturn<OperationModel> => {
-    const { cacheHit, data = { operationById: null }, loading, error, refetch } = useQuery(OPERATION_BY_ID(fields, id));
-    return { cacheHit, loading, error, data: data.operationById, refetch };
-}
-
-const useOperationsToCalculate = (fields: Array<keyof OperationModel>, period: Record<string, unknown>): ListReturn<OperationModel[]> => {
+const useOperationsToCalculate = (fields?: Array<keyof OperationModel>, period?: Record<string, unknown>): ListReturn<OperationModel[]> => {
     const { cacheHit, data = { operationsToCalculate: [] }, loading, error, refetch } = useQuery(OPERATIONS_TO_CALCULATE_QUERY(fields, period));
     return { cacheHit, loading, error, data: data.operationsToCalculate, refetch };
 }
@@ -98,8 +86,8 @@ const useOperationCreate = (): CreateReturn<OperationModel> => {
     return { create: addOperation, creating, createError };
 }
 
-const useOperationUpdate = (id: string): UpdateReturn<OperationModel> => {
-    const [updateOperation, { loading: updating, error: updateError }] = useMutation(UPDATE_OPERATION_MUTATION(id));
+const useOperationUpdate = (entity: OperationModel): UpdateReturn<OperationModel> => {
+    const [updateOperation, { loading: updating, error: updateError }] = useMutation(entity ? UPDATE_OPERATION_MUTATION(entity._id) : '');
     return { update: updateOperation, updating, updateError };
 }
 
@@ -108,4 +96,4 @@ const useOperationRemove = (): RemoveReturn => {
     return { remove: removeOperation, removing, removeError };
 }
 
-export { useOperationById, useOperationsByPeriod, useOperationsToCalculate, useOperationCreate, useOperationUpdate, useOperationRemove };
+export { useOperationsByPeriod, useOperationsToCalculate, useOperationCreate, useOperationUpdate, useOperationRemove };

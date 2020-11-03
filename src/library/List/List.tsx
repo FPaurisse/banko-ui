@@ -3,14 +3,16 @@ import * as React                               from 'react';
 import { usePeriodContext }                     from '@providers/period/usePeriodContext';
 import { useListContext } from './provider/useListContext';
 import { OperationModel } from '@models/OperationModel';
-import { Link } from '@reach/router';
+import { useFormContext } from '@library/Form/provider/useFormContext';
 
 const List: React.FC = () => {
-    const period = usePeriodContext();
-    const vm = useListContext();
+    const { list, actions } = useListContext();
+    const { setEntity }     = useFormContext();
+    
+    const period        = usePeriodContext();
 
     const handleDelete = (_id: string): void => {
-        vm.actions.remove({ variables: { _id } });
+        actions.remove({ variables: { _id } });
     }
 
     return (
@@ -19,17 +21,19 @@ const List: React.FC = () => {
             {
                 <ul>
                     {
-                        vm.list
-                            .map((operation: OperationModel) => {
-                                const { _id, title, amount, date, isCredit, isPassed } = operation;
-                                return (   
-                                    <li key={ _id } style={ { color: isCredit ? 'green' : 'red' } }>
+                        list.length > 0 ?
+                            list
+                                .map((operation: OperationModel) => {
+                                    const { _id, title, amount, date, isCredit, isPassed } = operation;
+                                    return (   
+                                        <li key={ _id } style={ { color: isCredit ? 'green' : 'red' } }>
                                         Le { date } - { title } : { amount }€ - { isPassed && '(Passée)' }
-                                        <button onClick={ () => handleDelete(_id) }>Supprimer</button>
-                                        <Link to={ `/operations/${_id}` }>Modifier</Link>
-                                    </li>
-                                )
-                            })
+                                            <button onClick={ () => handleDelete(_id) }>Supprimer</button>
+                                            <button onClick={ () => setEntity(operation) }>Modifier</button>
+                                        </li>
+                                    )
+                                })
+                            : 'Aucune opération'
                     }
                 </ul>
 

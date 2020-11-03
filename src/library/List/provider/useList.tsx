@@ -1,4 +1,5 @@
-import { APIError, FetchData, Result } from 'graphql-hooks'
+import * as React from 'react';
+import { APIError, FetchData, Result, UseClientRequestResult, UseQueryOptions } from 'graphql-hooks'
 import { RemoveReturn } from '@service/useOperations';
 
 export type useListContextValues<T> = {
@@ -17,17 +18,34 @@ interface ActionsModel {
 interface useListProps<T> {
     listing: T[];
     actions: ActionsModel;
+    loading: boolean;
+    listReload: (options?: UseQueryOptions) => Promise<UseClientRequestResult<UseQueryOptions>>;
+    totalReload: (options?: UseQueryOptions) => Promise<UseClientRequestResult<UseQueryOptions>>;
 }
 
-export const useList = <T extends unknown>({ listing, actions }: useListProps<T>): useListContextValues<T> => {
+export const useList = <T extends unknown>({ listing, actions, loading, listReload, totalReload }: useListProps<T>): useListContextValues<T> => {
+    const [list, setList] = React.useState<T[]>([])
     const { remove, removing, removeError } = actions.remove;
 
+    React.useEffect(() => {
+        if (listing) {
+            setList(listing);
+        }
+    }, [listing])
+
+    React.useEffect(() => {
+        if (loading || removing) {
+            listReload();
+            totalReload();
+        }
+    }, [loading, removing])
+
     return ({
-        list: listing,
+        list,
         actions: {
             remove
         },
         serverError: removeError,
-        loading: removing
+        loading: removing || loading
     })
 };
