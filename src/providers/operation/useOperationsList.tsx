@@ -1,16 +1,16 @@
-import * as React from 'react';
+import * as React                                       from 'react';
 
-import { FormModel }                        from '@library/Form/models/FormModel';
-import { UseFormContextValues }             from '@library/Form/provider/useForm';
-import { useList, useListContextValues }    from '@library/List/provider/useList';
+import { OperationModel }                               from '@models/OperationModel';
 
-import { OperationModel }                   from '@models/OperationModel';
+import { FormModel }                                    from '@library/Form/models/FormModel';
+import { UseFormContextValues }                         from '@library/Form/provider/useForm';
+import { useList, useListContextValues }                from '@library/List/provider/useList';
 
-import useOperationForm                     from '@providers/operation/useOperationForm';
-import { PeriodContextValues }              from '@providers/period/usePeriod';
+import useOperationForm                                 from '@providers/operation/useOperationForm';
+import { PeriodContextValues }                          from '@providers/period/usePeriod';
+import { TotalContextValues }                           from '@providers/total/useTotal';
 
-import { useOperationsByPeriod, useOperationRemove } from '@service/useOperations';
-import { TotalContextValues } from '@providers/total/useTotal';
+import { useOperationsByPeriod, useOperationRemove }    from '@service/useOperations';
 
 type OperationListProvider = {
     definition: FormModel<OperationModel>;

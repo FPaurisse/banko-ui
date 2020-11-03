@@ -1,9 +1,11 @@
-import * as React                               from 'react';
+import * as React           from 'react';
 
-import { usePeriodContext }                     from '@providers/period/usePeriodContext';
-import { useListContext } from './provider/useListContext';
-import { OperationModel } from '@models/OperationModel';
-import { useFormContext } from '@library/Form/provider/useFormContext';
+import { OperationModel }   from '@models/OperationModel';
+
+import { useListContext }   from '@library/List/provider/useListContext';
+import { useFormContext }   from '@library/Form/provider/useFormContext';
+
+import { usePeriodContext } from '@providers/period/usePeriodContext';
 
 const List: React.FC = () => {
     const { list, actions } = useListContext();

@@ -1,6 +1,7 @@
-import * as React from 'react';
-import { APIError, FetchData, Result, UseClientRequestResult, UseQueryOptions } from 'graphql-hooks'
-import { RemoveReturn } from '@service/useOperations';
+import * as React                                                               from 'react';
+import { APIError, FetchData, Result, UseClientRequestResult, UseQueryOptions } from 'graphql-hooks';
+
+import { RemoveReturn }                                                         from '@service/useOperations';
 
 export type useListContextValues<T> = {
     list: T[];

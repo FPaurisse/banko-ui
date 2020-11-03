@@ -1,7 +1,10 @@
-import * as React from 'react';
+import * as React               from 'react';
+
 import { OperationModel }       from '@models/OperationModel';
-import { useFormContext }       from './provider/useFormContext';
-import { usePeriodContext } from '@providers/period/usePeriodContext';
+
+import { useFormContext }       from '@library/Form/provider/useFormContext';
+
+import { usePeriodContext }     from '@providers/period/usePeriodContext';
 
 const Form: React.FC = ({ children }) => {
     const { form, actions, entity, setEntity }  = useFormContext();
