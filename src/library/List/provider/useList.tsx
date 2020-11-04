@@ -3,14 +3,13 @@ import { intersection, isEqual, without }                                       
 import { APIError, FetchData, Result, UseClientRequestResult, UseQueryOptions } from 'graphql-hooks';
 
 import { RemoveReturn }                                                         from '@service/useOperations';
-import { OperationModel } from '@models/OperationModel';
 
 export type useListContextValues<T> = {
-    list: T[];
-    checklist: string[];
+    items: T[];
+    selected: string[];
     selectOne: (id: string) => void;
-    selectList: () => void;
-    unselectList: () => void;
+    selectItems: () => void;
+    unselectItems: () => void;
     unselectAll: () => void;
     allIsChecked: boolean;
     actions: {
@@ -32,35 +31,35 @@ interface useListProps<T> {
     listReload: (options?: UseQueryOptions) => Promise<UseClientRequestResult<UseQueryOptions>>;
 }
 
-export const useList = <T extends OperationModel>({ listing, indexes, actions, loading, listReload }: useListProps<T>): useListContextValues<T> => {
-    const [list, setList] = React.useState<T[]>([]);
-    const [checklist, setChecklist] = React.useState<string[]>([]);
+export const useList = <T extends unknown>({ listing, indexes, actions, loading, listReload }: useListProps<T>): useListContextValues<T> => {
+    const [items, setItems] = React.useState<T[]>([]);
+    const [selected, setSelected] = React.useState<string[]>([]);
     const [allIsChecked, setAllIsChecked] = React.useState<boolean>(false);
     const { remove, removing, removeError } = actions.remove;
 
-    const selectList = (): void => {
-        setChecklist([...checklist, ...indexes]);
+    const selectItems = (): void => {
+        setSelected([...selected, ...indexes]);
     }
 
-    const unselectList = (): void => {
-        setChecklist(without(checklist, ...indexes));
+    const unselectItems = (): void => {
+        setSelected(without(selected, ...indexes));
     }
 
     const unselectAll = (): void => {
-        setChecklist([]);
+        setSelected([]);
     }
     
     const selectOne = (id: string): void => {
-        if (checklist.includes(id)) {
-            setChecklist(without(checklist, id));
+        if (selected.includes(id)) {
+            setSelected(without(selected, id));
         } else {
-            setChecklist([id, ...checklist]);
+            setSelected([id, ...selected]);
         }
     }
 
     React.useEffect(() => {
         if (listing) {
-            setList(listing);
+            setItems(listing);
         }
     }, [listing])
 
@@ -71,19 +70,19 @@ export const useList = <T extends OperationModel>({ listing, indexes, actions, l
     }, [loading, removing])
 
     React.useEffect(() => {
-        if (indexes.length > 0 && isEqual(intersection(checklist, indexes), indexes)) {
+        if (indexes.length > 0 && isEqual(intersection(selected, indexes), indexes)) {
             setAllIsChecked(true);
         } else {
             setAllIsChecked(false);
         }
-    }, [indexes, checklist])
+    }, [indexes, selected])
 
     return ({
-        list,
-        checklist,
+        items,
+        selected,
         selectOne,
-        selectList,
-        unselectList,
+        selectItems,
+        unselectItems,
         unselectAll,
         allIsChecked,
         actions: {
