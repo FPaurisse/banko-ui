@@ -1,7 +1,8 @@
-import * as React from 'react';
-import { CreateReturn, UpdateReturn } from '@service/useOperations';
-import { APIError, FetchData, Result } from 'graphql-hooks';
-import { DeepMap, FieldError, useForm as useHookForm } from 'react-hook-form';
+import * as React                                       from 'react';
+import { APIError, FetchData, Result }                  from 'graphql-hooks';
+import { DeepMap, FieldError, useForm as useHookForm }  from 'react-hook-form';
+
+import { CreateReturn, UpdateReturn }                   from '@service/useOperations';
 
 export type UseFormOptions<T> = {
     actions: {
@@ -36,6 +37,7 @@ const useForm = <T extends unknown> (options: UseFormOptions<T>): UseFormContext
     React.useEffect(() => {
         if (creating || updating) {
             form.reset();
+            setEntity(null);
         }
     }, [creating, updating])
 

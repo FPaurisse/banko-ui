@@ -1,9 +1,7 @@
 import * as React               from 'react';
 
 import { OperationModel }       from '@models/OperationModel';
-
 import { useFormContext }       from '@library/Form/provider/useFormContext';
-
 import { usePeriodContext }     from '@providers/period/usePeriodContext';
 
 const Form: React.FC = ({ children }) => {
@@ -19,7 +17,6 @@ const Form: React.FC = ({ children }) => {
         }
         await actions[entity ? 'update' : 'create']({ variables: data });
         setPeriod(data.date);
-        setEntity(null);
     };
 
     const handleUndo = (e: React.SyntheticEvent): void => {

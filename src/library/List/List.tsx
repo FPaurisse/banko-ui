@@ -1,7 +1,6 @@
 import * as React           from 'react';
 
 import { OperationModel }   from '@models/OperationModel';
-
 import { useListContext }   from '@library/List/provider/useListContext';
 import { useFormContext }   from '@library/Form/provider/useFormContext';
 
@@ -17,6 +16,12 @@ const List: React.FC = () => {
     const handleUpdate = (operation: OperationModel): void => {
         setEntity(operation);
     }
+
+    React.useEffect(() => {
+        if (selected.length > 0) {
+            setEntity(null);
+        }
+    }, [selected])
 
     return (
         <React.Fragment>
