@@ -5,12 +5,10 @@ import { OperationModel }   from '@models/OperationModel';
 import { useListContext }   from '@library/List/provider/useListContext';
 import { useFormContext }   from '@library/Form/provider/useFormContext';
 
-import { usePeriodContext } from '@providers/period/usePeriodContext';
-
 const List: React.FC = () => {
-    const { list, actions } = useListContext();
-    const { setEntity }     = useFormContext();
-    const period            = usePeriodContext();
+
+    const { list, actions, checklist, checkOne }  = useListContext();
+    const { setEntity }                         = useFormContext();
 
     const handleDelete = (_id: string): void => {
         actions.remove({ variables: { _id } });
@@ -22,25 +20,25 @@ const List: React.FC = () => {
 
     return (
         <React.Fragment>
-            <p>{ period.month } / { period.year }</p>
             {
-                <ul>
-                    {
-                        list.length > 0 ?
-                            list
-                                .map((operation: OperationModel) => {
-                                    const { _id, title, amount, date, isCredit, isPassed } = operation;
-                                    return (   
-                                        <li key={ _id } style={ { color: isCredit ? 'green' : 'red' } }>
-                                        Le { date } - { title } : { amount }€ - { isPassed && '(Passée)' }
-                                            <button onClick={ () => handleDelete(_id) }>Supprimer</button>
-                                            <button onClick={ () => handleUpdate(operation) }>Modifier</button>
-                                        </li>
-                                    )
-                                })
-                            : 'Aucune opération'
-                    }
-                </ul>
+                list.length > 0 ?
+                    list
+                        .map((operation: OperationModel) => {
+                            const { _id, title, amount, date, isCredit, isPassed } = operation;
+                            return (   
+                                <label htmlFor={ _id } key={ _id } style={ { display: 'flex', color: isCredit ? 'green' : 'red' } }>
+                                            
+                                    <input type='checkbox' id={ _id } onChange={ () => checkOne(_id) } checked={ checklist.includes(_id) } />
+                                            
+                                            Le { date } - { title } : { amount }€ { isPassed && '- (Passée)' }
+
+                                    <button disabled={ checklist.length > 0 } onClick={ () => handleDelete(_id) }>Supprimer</button>
+                                    <button disabled={ checklist.length > 0 } onClick={ () => handleUpdate(operation) }>Modifier</button>
+                                                    
+                                </label>
+                            )
+                        })
+                    : <p>Aucune opération</p>
 
             }
         </React.Fragment>

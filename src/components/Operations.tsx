@@ -5,7 +5,7 @@ import Form                         from '@library/Form/Form';
 import List                         from '@library/List/List';
 import Input                        from '@library/Form/Input';
 import Total                        from '@library/Total/Total';
-import Navigation                   from '@library/Navigation/Navigation';
+import Actions                      from '@library/Actions/Actions';
 import { ListContextProvider }      from '@library/List/provider/useListContext';
 import { FormContextProvider }      from '@library/Form/provider/useFormContext';
 
@@ -31,8 +31,8 @@ const Operations: React.FC<RouteComponentProps> = () => {
                         <Input { ...definition.find((field) => field.name === 'date') } />
                         <Input { ...definition.find((field) => field.name === 'isPassed') } />
                     </Form>
-                    <Navigation />
                     <ListContextProvider { ...list }>
+                        <Actions />
                         <List />
                     </ListContextProvider>
                 </FormContextProvider>

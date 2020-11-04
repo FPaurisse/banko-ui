@@ -18,7 +18,7 @@ type OperationListProvider = {
 };
 
 const useOperationsList = (period?: PeriodContextValues): OperationListProvider => {
-    const [operations, setOperations]   = React.useState<OperationModel[]>(null);
+    const [operations, setOperations]   = React.useState<OperationModel[]>([]);
 
     const { definition, form }           = useOperationForm();
     
@@ -29,6 +29,7 @@ const useOperationsList = (period?: PeriodContextValues): OperationListProvider 
     
     const list = useList<OperationModel>({
         listing: operations,
+        indexes: operations.map((x) => x._id),
         actions: { remove: useOperationRemove() },
         loading: formLoading || periodLoading,
         listReload: operationsByPeriod.refetch

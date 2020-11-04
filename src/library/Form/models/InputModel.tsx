@@ -1,8 +1,8 @@
 export interface InputProps {
-    name: string;
-    error: boolean;
-    operator: string;
-    innerRef: React.LegacyRef<HTMLInputElement>;
+    name?: string;
+    error?: boolean;
+    operator?: string;
+    innerRef?: React.LegacyRef<HTMLInputElement>;
 }
 
 export type InputType = 'text' | 'number' | 'date' | 'checkbox';

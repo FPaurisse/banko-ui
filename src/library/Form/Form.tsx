@@ -34,7 +34,7 @@ const Form: React.FC = ({ children }) => {
     return (
         <form onSubmit={ handleSubmit(onSubmit) }>
             { children }
-            <button type='submit'>{ entity ? 'Modifier' : 'Ajouter' }</button>
+            <button disabled={ !isDirty } type='submit'>{ entity ? 'Modifier' : 'Ajouter' }</button>
             <button disabled={ (isDirty || entity) ? false : true } onClick={ handleUndo }>Annuler</button>
         </form>
     )
