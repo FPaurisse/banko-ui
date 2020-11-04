@@ -8,9 +8,10 @@ import { OperationModel } from '@models/OperationModel';
 export type useListContextValues<T> = {
     list: T[];
     checklist: string[];
-    checkOne: (id: string) => void;
-    checkAll: () => void;
-    uncheck: () => void;
+    selectOne: (id: string) => void;
+    selectList: () => void;
+    unselectList: () => void;
+    unselectAll: () => void;
     allIsChecked: boolean;
     actions: {
         remove: FetchData<Result, Record<string, unknown>>,
@@ -37,19 +38,23 @@ export const useList = <T extends OperationModel>({ listing, indexes, actions, l
     const [allIsChecked, setAllIsChecked] = React.useState<boolean>(false);
     const { remove, removing, removeError } = actions.remove;
 
-    const checkAll = (): void => {
-        setChecklist([...checklist, ...indexes])
+    const selectList = (): void => {
+        setChecklist([...checklist, ...indexes]);
     }
 
-    const uncheck = (): void => {
-        setChecklist(without(checklist, ...indexes))
+    const unselectList = (): void => {
+        setChecklist(without(checklist, ...indexes));
+    }
+
+    const unselectAll = (): void => {
+        setChecklist([]);
     }
     
-    const checkOne = (id: string): void => {
+    const selectOne = (id: string): void => {
         if (checklist.includes(id)) {
-            setChecklist(without(checklist, id))
+            setChecklist(without(checklist, id));
         } else {
-            setChecklist([id, ...checklist])
+            setChecklist([id, ...checklist]);
         }
     }
 
@@ -67,18 +72,19 @@ export const useList = <T extends OperationModel>({ listing, indexes, actions, l
 
     React.useEffect(() => {
         if (indexes.length > 0 && isEqual(intersection(checklist, indexes), indexes)) {
-            setAllIsChecked(true)
+            setAllIsChecked(true);
         } else {
-            setAllIsChecked(false)
+            setAllIsChecked(false);
         }
     }, [indexes, checklist])
 
     return ({
         list,
         checklist,
-        checkOne,
-        checkAll,
-        uncheck,
+        selectOne,
+        selectList,
+        unselectList,
+        unselectAll,
         allIsChecked,
         actions: {
             remove

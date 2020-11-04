@@ -4,13 +4,13 @@ import { useListContext }           from '@library/List/provider/useListContext'
 import Navigation                   from '@library/Navigation/Navigation';
 
 const Actions: React.FC = () => {
-    const { list, checklist, checkAll, uncheck, allIsChecked } = useListContext();
+    const { list, checklist, selectList, unselectList, unselectAll, allIsChecked } = useListContext();
 
     const handleCheck = (): void => {
         if (allIsChecked) {
-            uncheck();
+            unselectList();
         } else {
-            checkAll();
+            selectList();
         }
     }
 
@@ -24,7 +24,7 @@ const Actions: React.FC = () => {
                     <button disabled={ checklist.length < 1 }>En attente</button>
                     <button disabled={ checklist.length < 1 }>Passées</button>
                     <span>|</span>
-                    <button disabled={ checklist.length < 1 } onClick={ uncheck }>Annuler</button>
+                    <button disabled={ checklist.length < 1 } onClick={ unselectAll }>Annuler</button>
                 </React.Fragment>
             </p>
         </React.Fragment>
