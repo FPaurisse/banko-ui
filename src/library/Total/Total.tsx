@@ -7,9 +7,12 @@ const Total: React.FC = () => {
 
     return (
         <TotalStyle>
-            Actuel : { total.actual }€
-            <br />
-            Réel : { total.real }€
+            <span>
+                Actuel : { total.actual }€ |
+            </span>
+            <span>
+                | Réel : { total.real }€
+            </span>
         </TotalStyle>
     );
 };

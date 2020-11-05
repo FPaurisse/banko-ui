@@ -31,9 +31,14 @@ const Form: React.FC = ({ children }) => {
  
     return (
         <FormStyle onSubmit={ handleSubmit(onSubmit) }>
-            { children }
-            <button disabled={ !isDirty } type='submit'>{ entity ? 'Modifier' : 'Ajouter' }</button>
-            <button disabled={ (isDirty || entity) ? false : true } onClick={ handleUndo }>Annuler</button>
+            <span>
+                <h2>{ entity ? 'Modifier l\'opération' : 'Ajouter une opération' }</h2>
+                { children }
+            </span>
+            <span>
+                <button disabled={ !isDirty } type='submit'>{ entity ? 'Modifier' : 'Ajouter' }</button>
+                <button disabled={ (isDirty || entity) ? false : true } onClick={ handleUndo }>Annuler</button>
+            </span>
         </FormStyle>
     )
 }

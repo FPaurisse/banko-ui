@@ -13,7 +13,9 @@ import { PeriodContextProvider }    from '@providers/period/usePeriodContext';
 import useOperationsList            from '@providers/operation/useOperationsList';
 import { TotalContextProvider }     from '@providers/total/useTotalContext';
 import { useTotal }                 from '@providers/total/useTotal';
-import { Container } from './Operations.style';
+import { Content, Footer, Container, OperationsStyle } from './Operations.style';
+import Actions from '@library/Actions/Actions';
+import Navigation from '@library/Navigation/Navigation';
 
 const Operations: React.FC<RouteComponentProps> = () => {
     const period                        = usePeriod();
@@ -21,27 +23,33 @@ const Operations: React.FC<RouteComponentProps> = () => {
     const total                         = useTotal(period, form.loading, list.loading);
 
     return (
-        <React.Fragment>
+        <OperationsStyle>
             <PeriodContextProvider { ...period }>
-                <Container>
-                    <FormContextProvider { ...form }>
-                        <Form>
-                            <Input { ...definition.find((field) => field.name === 'title') } />
-                            <Input { ...definition.find((field) => field.name === 'isCredit') } />
-                            <Input { ...definition.find((field) => field.name === 'amount') } />
-                            <Input { ...definition.find((field) => field.name === 'date') } />
-                            <Input { ...definition.find((field) => field.name === 'isPassed') } />
-                        </Form>
-                        <ListContextProvider { ...list }>
-                            <List />
-                        </ListContextProvider>
-                    </FormContextProvider>
-                </Container>
-                <TotalContextProvider { ...total }>
-                    <Total />
-                </TotalContextProvider>
+                <FormContextProvider { ...form }>
+                    <ListContextProvider { ...list }>
+                        <Container>
+                            <Form>
+                                <Input { ...definition.find((field) => field.name === 'title') } />
+                                <Input { ...definition.find((field) => field.name === 'isCredit') } />
+                                <Input { ...definition.find((field) => field.name === 'amount') } />
+                                <Input { ...definition.find((field) => field.name === 'date') } />
+                                <Input { ...definition.find((field) => field.name === 'isPassed') } />
+                            </Form>
+                            <Content>
+                                <Navigation />
+                                <List />
+                            </Content>
+                        </Container>
+                        <Footer>
+                            <TotalContextProvider { ...total }>
+                                <Total />
+                            </TotalContextProvider>
+                            <Actions />
+                        </Footer>
+                    </ListContextProvider>
+                </FormContextProvider>
             </PeriodContextProvider>
-        </React.Fragment>
+        </OperationsStyle>
     )
 };
 

@@ -1,10 +1,10 @@
-import * as React           from 'react';
+import * as React from 'react';
+import moment from 'moment';
 
 import { OperationModel }   from '@models/OperationModel';
 import { useListContext }   from '@library/List/provider/useListContext';
 import { useFormContext }   from '@library/Form/provider/useFormContext';
-import Actions from '@library/Actions/Actions';
-import { ListStyle } from './List.style';
+import { ListStyle, Item } from './List.style';
 
 const List: React.FC = () => {
 
@@ -27,26 +27,26 @@ const List: React.FC = () => {
 
     return (
         <ListStyle>
-            <Actions />
             {
                 items.length > 0 ?
                     items
                         .map((operation: OperationModel) => {
                             const { _id, title, amount, date, isCredit, isPassed } = operation;
                             return (   
-                                <label htmlFor={ _id } key={ _id } style={ { display: 'flex', color: isCredit ? 'green' : 'red' } }>
-                                            
-                                    <input type='checkbox' id={ _id } onChange={ () => selectOne(_id) } checked={ selected.includes(_id) } />
-                                            
-                                            Le { date } - { title } : { amount }€ { isPassed && '- (Passée)' }
-
-                                    <button disabled={ selected.length > 0 } onClick={ () => handleDelete(_id) }>Supprimer</button>
-                                    <button disabled={ selected.length > 0 } onClick={ () => handleUpdate(operation) }>Modifier</button>
+                                <Item key={ _id } htmlFor={ _id } style={ { display: 'flex', color: isCredit ? 'green' : 'red' } }>
+                                    <span>
+                                        <input type='checkbox' id={ _id } onChange={ () => selectOne(_id) } checked={ selected.includes(_id) } />
+                                        { moment(date).format('DD') } - { title } : { amount }€ { isPassed && '- (Passée)' }
+                                    </span>
+                                    <span>
+                                        <button disabled={ selected.length > 0 } onClick={ () => handleUpdate(operation) }>Modifier</button>
+                                        <button disabled={ selected.length > 0 } onClick={ () => handleDelete(_id) }>Supprimer</button>
+                                    </span>
                                                     
-                                </label>
+                                </Item>
                             )
                         })
-                    : <p>Aucune opération</p>
+                    : <Item>Aucune opération</Item>
 
             }
         </ListStyle>

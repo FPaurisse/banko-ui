@@ -7,6 +7,7 @@ import CheckboxInput                                    from '@library/Form/inpu
 import NumberInput                                      from '@library/Form/inputs/NumberInput';
 import TextInput                                        from '@library/Form/inputs/TextInput';
 import DateInput                                        from '@library/Form/inputs/DateInput';
+import { InputStyle } from './Input.style';
 
 const Inputs: Record<InputType, React.FC> = {
     text: TextInput,
@@ -25,7 +26,7 @@ const Input: React.FC<InputDefinitionModel> = (props) => {
     const Component: React.FC<InputProps> = Inputs[type];
 
     return (
-        <React.Fragment>
+        <InputStyle>
             <Component
                 innerRef={
                     register({
@@ -42,7 +43,7 @@ const Input: React.FC<InputDefinitionModel> = (props) => {
             {
                 inputError && inputError.message
             }
-        </React.Fragment>
+        </InputStyle>
     )
 };
 

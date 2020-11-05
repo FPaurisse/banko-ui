@@ -9,11 +9,13 @@ const Navigation: React.FC = () => {
     return (
         <NavigationStyle>
             <p>{ period.month } / { period.year }</p>
-            <button onClick={ period.previousYear }>--</button>
-            <button onClick={ period.previousMonth }>-</button>
-            <button onClick={ period.nextMonth }>+</button>
-            <button onClick={ period.nextYear }>++</button>
-            <button onClick={ period.now }>now</button>
+            <span>
+                <button onClick={ period.previousYear }>--</button>
+                <button onClick={ period.previousMonth }>-</button>
+                <button onClick={ period.nextMonth }>+</button>
+                <button onClick={ period.nextYear }>++</button>
+                <button onClick={ period.now }>Mois actuel</button>
+            </span>
         </NavigationStyle>
     );
 };

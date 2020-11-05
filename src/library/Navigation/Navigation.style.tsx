@@ -2,7 +2,10 @@ import styled from 'styled-components';
 
 const NavigationStyle = styled.div`
     display: flex;
-    align-items: flex-start;
+    justify-content: space-between;
+    align-items: center;
+    box-sizing: border-box;
+    margin: 0 .5rem;
 `;
 
 export { NavigationStyle };
