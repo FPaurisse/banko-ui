@@ -3,6 +3,8 @@ import * as React           from 'react';
 import { OperationModel }   from '@models/OperationModel';
 import { useListContext }   from '@library/List/provider/useListContext';
 import { useFormContext }   from '@library/Form/provider/useFormContext';
+import Actions from '@library/Actions/Actions';
+import { ListStyle } from './List.style';
 
 const List: React.FC = () => {
 
@@ -24,7 +26,8 @@ const List: React.FC = () => {
     }, [selected])
 
     return (
-        <React.Fragment>
+        <ListStyle>
+            <Actions />
             {
                 items.length > 0 ?
                     items
@@ -46,7 +49,7 @@ const List: React.FC = () => {
                     : <p>Aucune opération</p>
 
             }
-        </React.Fragment>
+        </ListStyle>
     )
 };
 

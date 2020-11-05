@@ -3,6 +3,7 @@ import * as React               from 'react';
 import { OperationModel }       from '@models/OperationModel';
 import { useFormContext }       from '@library/Form/provider/useFormContext';
 import { usePeriodContext }     from '@providers/period/usePeriodContext';
+import { FormStyle } from './Form.style';
 
 const Form: React.FC = ({ children }) => {
     const { form, actions, entity, setEntity }  = useFormContext();
@@ -29,11 +30,11 @@ const Form: React.FC = ({ children }) => {
     }
  
     return (
-        <form onSubmit={ handleSubmit(onSubmit) }>
+        <FormStyle onSubmit={ handleSubmit(onSubmit) }>
             { children }
             <button disabled={ !isDirty } type='submit'>{ entity ? 'Modifier' : 'Ajouter' }</button>
             <button disabled={ (isDirty || entity) ? false : true } onClick={ handleUndo }>Annuler</button>
-        </form>
+        </FormStyle>
     )
 }
 

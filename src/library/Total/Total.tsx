@@ -1,15 +1,16 @@
 import * as React from 'react';
 import { useTotalContext } from '@providers/total/useTotalContext';
+import { TotalStyle } from './Total.style';
 
 const Total: React.FC = () => {
     const total = useTotalContext();
 
     return (
-        <React.Fragment>
+        <TotalStyle>
             Actuel : { total.actual }€
             <br />
             Réel : { total.real }€
-        </React.Fragment>
+        </TotalStyle>
     );
 };
 

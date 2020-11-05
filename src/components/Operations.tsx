@@ -5,7 +5,6 @@ import Form                         from '@library/Form/Form';
 import List                         from '@library/List/List';
 import Input                        from '@library/Form/Input';
 import Total                        from '@library/Total/Total';
-import Actions                      from '@library/Actions/Actions';
 import { ListContextProvider }      from '@library/List/provider/useListContext';
 import { FormContextProvider }      from '@library/Form/provider/useFormContext';
 
@@ -14,6 +13,7 @@ import { PeriodContextProvider }    from '@providers/period/usePeriodContext';
 import useOperationsList            from '@providers/operation/useOperationsList';
 import { TotalContextProvider }     from '@providers/total/useTotalContext';
 import { useTotal }                 from '@providers/total/useTotal';
+import { Container } from './Operations.style';
 
 const Operations: React.FC<RouteComponentProps> = () => {
     const period                        = usePeriod();
@@ -23,19 +23,20 @@ const Operations: React.FC<RouteComponentProps> = () => {
     return (
         <React.Fragment>
             <PeriodContextProvider { ...period }>
-                <FormContextProvider { ...form }>
-                    <Form>
-                        <Input { ...definition.find((field) => field.name === 'title') } />
-                        <Input { ...definition.find((field) => field.name === 'isCredit') } />
-                        <Input { ...definition.find((field) => field.name === 'amount') } />
-                        <Input { ...definition.find((field) => field.name === 'date') } />
-                        <Input { ...definition.find((field) => field.name === 'isPassed') } />
-                    </Form>
-                    <ListContextProvider { ...list }>
-                        <Actions />
-                        <List />
-                    </ListContextProvider>
-                </FormContextProvider>
+                <Container>
+                    <FormContextProvider { ...form }>
+                        <Form>
+                            <Input { ...definition.find((field) => field.name === 'title') } />
+                            <Input { ...definition.find((field) => field.name === 'isCredit') } />
+                            <Input { ...definition.find((field) => field.name === 'amount') } />
+                            <Input { ...definition.find((field) => field.name === 'date') } />
+                            <Input { ...definition.find((field) => field.name === 'isPassed') } />
+                        </Form>
+                        <ListContextProvider { ...list }>
+                            <List />
+                        </ListContextProvider>
+                    </FormContextProvider>
+                </Container>
                 <TotalContextProvider { ...total }>
                     <Total />
                 </TotalContextProvider>
