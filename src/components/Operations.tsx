@@ -4,7 +4,7 @@ import { RouteComponentProps }      from '@reach/router';
 import Form                         from '@library/Form/Form';
 import List                         from '@library/List/List';
 import Input                        from '@library/Form/Input';
-import Total                        from '@library/Total/Total';
+import Total                        from '@components/Total/Total';
 import { ListContextProvider }      from '@library/List/provider/useListContext';
 import { FormContextProvider }      from '@library/Form/provider/useFormContext';
 
@@ -14,8 +14,8 @@ import useOperationsList            from '@providers/operation/useOperationsList
 import { TotalContextProvider }     from '@providers/total/useTotalContext';
 import { useTotal }                 from '@providers/total/useTotal';
 import { Content, Footer, Container, OperationsStyle } from './Operations.style';
-import Actions from '@library/Actions/Actions';
-import Navigation from '@library/Navigation/Navigation';
+import Actions from '@components/Actions/Actions';
+import Navigation from '@components/Navigation/Navigation';
 
 const Operations: React.FC<RouteComponentProps> = () => {
     const period                        = usePeriod();
