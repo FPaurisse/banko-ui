@@ -8,22 +8,49 @@ const ListStyle = styled.div`
     height: 100%;
 `;
 
-const Item = styled.label`
+const Item = styled.div<{ $isPassed?: boolean, $isSelected?: boolean }>`
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    background-color: #FFFFFF;
-    border: 1px solid #DFEEF3;
+    background-color: ${({ $isSelected }) => $isSelected ? '#FBFBFB': '#FFFFFF'};
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
     margin: .2rem 0;
-    padding: .2rem;
+    padding: 0 .2rem;
     border-radius: .3rem;
     cursor: pointer;
+    border-style: solid;
+    border-width: 1px 1px 1px 5px;
+    border-color: #DFEEF3 #DFEEF3 #DFEEF3 ${({ $isPassed }) => $isPassed ? '#7BC0A3': '#E8ECF1'};
     &:hover{
+        background-color: #FBFBFB;
         box-shadow: 0px 0px 5px #EBEBEB;
     }
 `;
 
-export { ListStyle, Item };
+const ItemCheck = styled.span<{ $isSelected?: boolean }>`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+    border: 1px solid #E8ECF1;
+    background-color: ${({ $isSelected }) => $isSelected ? '#6C737E': '#FFFFFF'};
+    border-radius: 100%;
+    font-size: .6rem;
+    color: #E8ECF1;
+`;
+
+const ItemDetail = styled.span`
+    display: flex;
+    padding: .5rem 0;
+    flex: 1;
+`;
+
+const ItemActions = styled.span`
+    display: flex;
+`;
+
+export { ListStyle, Item, ItemCheck, ItemDetail, ItemActions };

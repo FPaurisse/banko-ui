@@ -7,7 +7,8 @@ import { RemoveReturn }                                                         
 export type useListContextValues<T> = {
     items: T[];
     selected: string[];
-    selectOne: (id: string) => void;
+    selectItem: (id: string) => void;
+    unselectItem: (id: string) => void;
     selectItems: () => void;
     unselectItems: () => void;
     unselectAll: () => void;
@@ -49,12 +50,12 @@ export const useList = <T extends unknown>({ listing, indexes, actions, loading,
         setSelected([]);
     }
     
-    const selectOne = (id: string): void => {
-        if (selected.includes(id)) {
-            setSelected(without(selected, id));
-        } else {
-            setSelected([id, ...selected]);
-        }
+    const selectItem = (id: string): void => {
+        setSelected([id, ...selected]);
+    }
+
+    const unselectItem = (id: string): void => {
+        setSelected(without(selected, id));
     }
 
     React.useEffect(() => {
@@ -80,7 +81,8 @@ export const useList = <T extends unknown>({ listing, indexes, actions, loading,
     return ({
         items,
         selected,
-        selectOne,
+        selectItem,
+        unselectItem,
         selectItems,
         unselectItems,
         unselectAll,

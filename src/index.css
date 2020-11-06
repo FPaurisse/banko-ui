@@ -1,0 +1,15 @@
+:root {
+    color: #6C737E;
+}
+
+body {
+    font-family: 'Work Sans', sans-serif;
+    color: var(color);
+}
+
+button {
+    background-color: transparent;
+    cursor: pointer;
+    outline: none;
+    border: 0px;
+}

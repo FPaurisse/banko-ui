@@ -42,7 +42,6 @@ const useOperationsList = (period?: PeriodContextValues): OperationListProvider 
 
     React.useEffect(() => {
         if (entity) {
-            entity.amount = entity.amount.replace('-', '')
             form.form.reset(entity);
             setPeriod(entity.date);
         } else {

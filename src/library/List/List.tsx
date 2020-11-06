@@ -4,11 +4,11 @@ import moment from 'moment';
 import { OperationModel }   from '@models/OperationModel';
 import { useListContext }   from '@library/List/provider/useListContext';
 import { useFormContext }   from '@library/Form/provider/useFormContext';
-import { ListStyle, Item } from './List.style';
+import { ListStyle, Item, ItemCheck, ItemDetail, ItemActions } from './List.style';
 
 const List: React.FC = () => {
 
-    const { items, actions, selected, selectOne }   = useListContext();
+    const { items, actions, selected, selectItem, unselectItem }   = useListContext();
     const { setEntity }                             = useFormContext();
 
     const handleDelete = (_id: string): void => {
@@ -19,11 +19,13 @@ const List: React.FC = () => {
         setEntity(operation);
     }
 
-    React.useEffect(() => {
-        if (selected.length > 0) {
-            setEntity(null);
+    const handleCheck = (_id: string): void => {
+        if (selected.includes(_id)) {
+            unselectItem(_id);
+        } else {
+            selectItem(_id);
         }
-    }, [selected])
+    }
 
     return (
         <ListStyle>
@@ -33,16 +35,19 @@ const List: React.FC = () => {
                         .map((operation: OperationModel) => {
                             const { _id, title, amount, date, isCredit, isPassed } = operation;
                             return (   
-                                <Item key={ _id } htmlFor={ _id } style={ { display: 'flex', color: isCredit ? 'green' : 'red' } }>
-                                    <span>
-                                        <input type='checkbox' id={ _id } onChange={ () => selectOne(_id) } checked={ selected.includes(_id) } />
-                                        { moment(date).format('DD') } - { title } : { amount }€ { isPassed && '- (Passée)' }
-                                    </span>
-                                    <span>
+                                <Item key={ _id } $isPassed={ isPassed } $isSelected={ selected.includes(_id) }>
+                                    <ItemCheck onClick={ () => handleCheck(_id) } $isSelected={ selected.includes(_id) }>
+                                        { selected.includes(_id) ? '✓' : '' }
+                                    </ItemCheck>
+                                    <ItemDetail onClick={ () => handleCheck(_id) }>
+                                        { moment(date).format('DD') }
+                                        <span style={ { color: isCredit ? '#7BC0A3' : '#E97A7A' } }>{ amount }€</span>
+                                        { title }
+                                    </ItemDetail>
+                                    <ItemActions>
                                         <button disabled={ selected.length > 0 } onClick={ () => handleUpdate(operation) }>Modifier</button>
                                         <button disabled={ selected.length > 0 } onClick={ () => handleDelete(_id) }>Supprimer</button>
-                                    </span>
-                                                    
+                                    </ItemActions>
                                 </Item>
                             )
                         })
