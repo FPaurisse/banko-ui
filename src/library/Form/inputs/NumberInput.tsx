@@ -15,11 +15,13 @@ const NumberInput: React.FC<InputProps> = (props) => {
         }
     }, [value])
 
+    const additionnal = form.watch('isCredit')
+
     return (
         <NumberInputStyle>
             {
                 before && (
-                    <span>{ before }</span>
+                    <span onClick={ () => form.setValue('isCredit', !additionnal) }>{ before }</span>
                 )
             }
             <input

@@ -48,7 +48,8 @@ const useOperationForm = (): OperationReturn => {
         {
             name: 'isCredit', 
             type: 'checkbox',
-            label: 'Crédit'
+            label: 'Crédit',
+            hidden: true
         },
     ];
 

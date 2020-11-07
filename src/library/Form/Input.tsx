@@ -16,8 +16,8 @@ const Inputs: Record<InputType, React.FC> = {
     checkbox: CheckboxInput
 };
 
-const Input: React.FC<InputDefinitionModel & InputProps> = (props) => {
-    const { type, name, required, before, after, label, ...rest }   = props;
+const Input: React.FC<InputDefinitionModel> = (props) => {
+    const { type, name, required, before, after, label, hidden, ...rest }   = props;
     const { form, inputsError }     = useFormContext();
 
     const { register }  = form;
@@ -26,7 +26,7 @@ const Input: React.FC<InputDefinitionModel & InputProps> = (props) => {
     const Component: React.FC<InputProps> = Inputs[type];
 
     return (
-        <InputStyle>
+        <InputStyle $hidden={ hidden }>
             <Component
                 innerRef={
                     register({

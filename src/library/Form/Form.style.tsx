@@ -18,8 +18,13 @@ const FormStyle = styled.form`
         width: 100%;
     }
 
-    & > span > h3 {
+    & > span:first-child > h3 {
         margin: .5rem 0 1rem 0;
+    }
+
+    & > span:last-child {
+        display: flex;
+        justify-content: space-between;
     }
 `;
 

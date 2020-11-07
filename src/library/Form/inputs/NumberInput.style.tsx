@@ -20,13 +20,15 @@ const NumberInputStyle = styled.div`
         align-items: center;
         justify-content: center;
         padding: .5rem 0;
-        width: 2.5rem;
+        min-width: 2rem;
+        max-width: 2rem;
         border-style: solid;
         border-width: 1px 1px 1px 1px;
         border-color: #DFEEF3 #DFEEF3 #DFEEF3 #DFEEF3;
     }
     & > span:first-child {
         border-radius: .3rem 0 0 .3rem;
+        cursor: pointer;
     }
     & > span:last-child {
         border-radius: 0 .3rem .3rem 0;

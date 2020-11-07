@@ -13,8 +13,10 @@ export class InputDefinitionModel<T = never> {
     name: Extract<keyof T, string>;
     required?: boolean;
     before?: string;
+    after?: string;
     type: InputType;
     label?: string;
+    hidden?: boolean;
     
     public constructor(init?: Partial<InputDefinitionModel>) {
         Object.assign(this, init);
