@@ -4,7 +4,6 @@ const TotalStyle = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 1rem 1.5rem 1rem 1rem;
 `;
 
 export { TotalStyle };

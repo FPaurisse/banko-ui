@@ -19,6 +19,7 @@ import Navigation from '@components/Navigation/Navigation';
 import SelectInput from '@library/Form/inputs/SelectInput';
 
 const Operations: React.FC<RouteComponentProps> = () => {
+    const [expand, setExpand] = React.useState<boolean>(false);
     const period                        = usePeriod();
     const { form, definition, list }    = useOperationsList(period);
     const total                         = useTotal(period, form.loading, list.loading);
@@ -29,7 +30,7 @@ const Operations: React.FC<RouteComponentProps> = () => {
                 <FormContextProvider { ...form }>
                     <ListContextProvider { ...list }>
                         <Container>
-                            <Form>
+                            <Form hidden={ expand }>
                                 <Input { ...definition.find((field) => field.name === 'title') } />
                                 <SelectInput />
                                 <Input { ...definition.find((field) => field.name === 'isCredit') } />
@@ -44,6 +45,7 @@ const Operations: React.FC<RouteComponentProps> = () => {
                             </Content>
                         </Container>
                         <Footer>
+                            <button onClick={ () => setExpand(!expand) }>Plein écran</button>
                             <TotalContextProvider { ...total }>
                                 <Total />
                             </TotalContextProvider>

@@ -23,11 +23,12 @@ const Content = styled.div`
 
 const Footer = styled.div`
     display: flex;
-    justify-content: flex-end;
+    justify-content: space-between;
+    padding: 1rem;
+    margin: 0.5rem;
     background-color: #FFFFFF;
     border: 1px solid #DFEEF3;
     box-shadow: 0px 0px 5px #EBEBEB;
-    margin: 0.5rem;
     border-radius: .3rem;
     box-sizing: border-box;
 `;
