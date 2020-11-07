@@ -19,7 +19,9 @@ const FormStyle = styled.form`
     }
 
     & > span > h3 {
-        margin: 0 0 1rem 0;
+        margin: .5rem 0 1rem 0;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid #6C737E;
     }
 `;
 

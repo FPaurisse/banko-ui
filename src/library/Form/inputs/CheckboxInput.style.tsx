@@ -9,6 +9,7 @@ const CheckboxInputStyle = styled.div<{ $isChecked?: boolean }>`
         & > label {
             display: flex;
             width: 100%;
+            cursor: pointer;
         }
         & > label > span {
             display: flex;
