@@ -3,6 +3,7 @@ import { APIError, FetchData, Result }                  from 'graphql-hooks';
 import { DeepMap, FieldError, useForm as useHookForm }  from 'react-hook-form';
 
 import { CreateReturn, UpdateReturn }                   from '@service/useOperations';
+import { debounce } from 'lodash';
 
 export type UseFormOptions<T> = {
     actions: {
@@ -36,17 +37,13 @@ const useForm = <T extends unknown> (options: UseFormOptions<T>): UseFormContext
     const { update, updating, updateError } = options.actions.update(entity);
 
     React.useEffect(() => {
+        const debounced = debounce(() => setLoading(false), 500);
         if (creating || updating) {
             form.reset();
             setEntity(null);
-        }
-    }, [])
-
-    React.useEffect(() => {
-        if (creating || updating) {
             setLoading(true)
         } else (
-            setLoading(false)
+            debounced()
         )
     }, [creating, updating])
 
