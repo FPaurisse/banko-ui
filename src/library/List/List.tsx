@@ -53,7 +53,7 @@ const List: React.FC = () => {
                                     </Item>
                                 )
                             })
-                        : <Item>Aucune opération</Item>
+                        : <Loading>Aucune opération</Loading>
             
             }
             

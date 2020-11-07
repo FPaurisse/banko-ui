@@ -16,6 +16,7 @@ import { useTotal }                 from '@providers/total/useTotal';
 import { Content, Footer, Container, OperationsStyle } from './Operations.style';
 import Actions from '@components/Actions/Actions';
 import Navigation from '@components/Navigation/Navigation';
+import SelectInput from '@library/Form/inputs/SelectInput';
 
 const Operations: React.FC<RouteComponentProps> = () => {
     const period                        = usePeriod();
@@ -29,14 +30,16 @@ const Operations: React.FC<RouteComponentProps> = () => {
                     <ListContextProvider { ...list }>
                         <Container>
                             <Form>
-                                <Input { ...definition.find((field) => field.name === 'isPassed') } />
                                 <Input { ...definition.find((field) => field.name === 'title') } />
+                                <SelectInput />
                                 <Input { ...definition.find((field) => field.name === 'isCredit') } />
                                 <Input { ...definition.find((field) => field.name === 'amount') } />
+                                <Input { ...definition.find((field) => field.name === 'isPassed') } />
                                 <Input { ...definition.find((field) => field.name === 'date') } />
                             </Form>
                             <Content>
                                 <Navigation />
+                                <Actions />
                                 <List />
                             </Content>
                         </Container>
@@ -44,7 +47,6 @@ const Operations: React.FC<RouteComponentProps> = () => {
                             <TotalContextProvider { ...total }>
                                 <Total />
                             </TotalContextProvider>
-                            <Actions />
                         </Footer>
                     </ListContextProvider>
                 </FormContextProvider>

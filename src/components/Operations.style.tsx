@@ -23,7 +23,7 @@ const Content = styled.div`
 
 const Footer = styled.div`
     display: flex;
-    justify-content: space-between;
+    justify-content: flex-end;
     background-color: #FFFFFF;
     border: 1px solid #DFEEF3;
     box-shadow: 0px 0px 5px #EBEBEB;

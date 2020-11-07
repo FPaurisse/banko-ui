@@ -5,7 +5,11 @@ import { useFormContext }       from '@library/Form/provider/useFormContext';
 import { usePeriodContext }     from '@providers/period/usePeriodContext';
 import { FormStyle } from './Form.style';
 
-const Form: React.FC = ({ children }) => {
+interface FormProps {
+    hidden?: boolean;
+}
+
+const Form: React.FC<FormProps> = ({ children, hidden }) => {
     const { form, actions, entity, setEntity }  = useFormContext();
     const { setPeriod }                         = usePeriodContext();
     
@@ -30,7 +34,7 @@ const Form: React.FC = ({ children }) => {
     }
  
     return (
-        <FormStyle onSubmit={ handleSubmit(onSubmit) }>
+        <FormStyle $hidden={ hidden } onSubmit={ handleSubmit(onSubmit) }>
             <span>
                 <h3>{ entity ? 'Modifier l\'opération' : 'Ajouter une opération' }</h3>
                 { children }

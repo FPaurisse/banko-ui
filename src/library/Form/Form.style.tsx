@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
-const FormStyle = styled.form`
-    display: flex;
+const FormStyle = styled.form<{ $hidden?: boolean }>`
+    display: ${({ $hidden }) => $hidden ? 'none' : 'flex'};
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
