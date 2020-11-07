@@ -43,13 +43,14 @@ const useOperationForm = (): OperationReturn => {
         {
             name: 'isPassed', 
             type: 'checkbox',
-            label: 'Opération passée',
+            label: 'Approuver',
+            inverse: 'À venir'
         },
         {
             name: 'isCredit', 
             type: 'checkbox',
             label: 'Crédit',
-            hidden: true
+            inverse: 'Débit'
         },
     ];
 

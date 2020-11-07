@@ -29,11 +29,11 @@ const Operations: React.FC<RouteComponentProps> = () => {
                     <ListContextProvider { ...list }>
                         <Container>
                             <Form>
+                                <Input { ...definition.find((field) => field.name === 'isPassed') } />
                                 <Input { ...definition.find((field) => field.name === 'title') } />
                                 <Input { ...definition.find((field) => field.name === 'isCredit') } />
                                 <Input { ...definition.find((field) => field.name === 'amount') } />
                                 <Input { ...definition.find((field) => field.name === 'date') } />
-                                <Input { ...definition.find((field) => field.name === 'isPassed') } />
                             </Form>
                             <Content>
                                 <Navigation />

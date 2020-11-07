@@ -17,7 +17,7 @@ const Inputs: Record<InputType, React.FC> = {
 };
 
 const Input: React.FC<InputDefinitionModel> = (props) => {
-    const { type, name, required, before, after, label, hidden, ...rest }   = props;
+    const { type, name, required, hidden, ...rest }   = props;
     const { form, inputsError }     = useFormContext();
 
     const { register }  = form;
@@ -36,9 +36,6 @@ const Input: React.FC<InputDefinitionModel> = (props) => {
                         }
                     }) }
                 name={ name }
-                label={ label }
-                before={ before }
-                after={ after }
                 error={ inputError ? true : false }
                 { ...rest }
             />

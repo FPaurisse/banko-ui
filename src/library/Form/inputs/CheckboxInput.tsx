@@ -5,7 +5,7 @@ import { CheckboxInputStyle } from './CheckboxInput.style';
 import { useFormContext } from '../provider/useFormContext';
 
 const CheckboxInput: React.FC<InputProps> = (props) => {
-    const { name, innerRef, label } = props;
+    const { name, innerRef, label, inverse } = props;
     const { form } = useFormContext();
     const value = form.watch(name);
 
@@ -17,10 +17,14 @@ const CheckboxInput: React.FC<InputProps> = (props) => {
                 name={ name }
                 id={ name }
             />
-            <label htmlFor={ name }>
-                <span>{ value ? '✓' : '' }</span>
-                { label }
-            </label>
+            <div>
+                <label htmlFor={ name }>
+                    { value ? inverse : label }
+                </label>
+                <span>
+                    { !value ? inverse : label }
+                </span>
+            </div>
         </CheckboxInputStyle>
     )
 };

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const NumberInputStyle = styled.div`
     display: flex;
-    margin: .5rem 0;
+    margin: .3rem 0;
     & > input {
         display: flex;
         width: 100%;
@@ -23,12 +23,11 @@ const NumberInputStyle = styled.div`
         min-width: 2rem;
         max-width: 2rem;
         border-style: solid;
-        border-width: 1px 1px 1px 1px;
-        border-color: #DFEEF3 #DFEEF3 #DFEEF3 #DFEEF3;
+        border-width: 1px;
+        border-color: #DFEEF3;
     }
     & > span:first-child {
         border-radius: .3rem 0 0 .3rem;
-        cursor: pointer;
     }
     & > span:last-child {
         border-radius: 0 .3rem .3rem 0;
