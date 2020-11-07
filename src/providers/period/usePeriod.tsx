@@ -16,19 +16,22 @@ export type PeriodContextValues = {
 
 export const usePeriod = (): PeriodContextValues => {
     const [period, setPeriod] = React.useState<string>(moment().format());
-    const [loading, setLoading] = React.useState<boolean>(false);
+    const [loading, setLoading] = React.useState<boolean>(true);
 
     const nextMonth = (): void => {
+        setLoading(true)
         const debounced = debounce(() => setPeriod(moment(period).add(1, 'months').format()), 150);
         debounced();        
     }
 
     const previousMonth = (): void => {
+        setLoading(true)
         const debounced = debounce(() => setPeriod(moment(period).add( -1, 'months').format()), 150);
         debounced();       
     }
 
     const nextYear = (): void => {
+        setLoading(true)
         const debounced = debounce(() => setPeriod(moment(period).add( 1, 'years').format()), 150);
         debounced();    
     }
@@ -39,17 +42,19 @@ export const usePeriod = (): PeriodContextValues => {
     }
 
     const now = (): void => {
+        setLoading(true)
         const debounced = debounce(() => setPeriod(moment().format()), 150);
         debounced();
     }
 
     React.useEffect(() => {
         setLoading(true)
-    }, [period])
+    }, [])
 
     React.useEffect(() => {
         if (loading) {
-            setLoading(false)
+            const debounced = debounce(() => setLoading(false), 500);
+            debounced();
         }
     }, [loading])
 

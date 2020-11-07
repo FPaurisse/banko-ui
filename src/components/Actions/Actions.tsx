@@ -21,9 +21,9 @@ const Actions: React.FC = () => {
                 <button disabled={ selected.length < 1 } onClick={ unselectAll }>Annuler</button>
             </span>
             <span>
+                <button disabled={ selected.length < 1 }>Approuver</button>
+                <button disabled={ selected.length < 1 }>À venir</button>
                 <button disabled={ selected.length < 1 }>Supprimer</button>
-                <button disabled={ selected.length < 1 }>En attente</button>
-                <button disabled={ selected.length < 1 }>Passées</button>
             </span>
         </ActionsStyle>
     )

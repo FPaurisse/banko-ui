@@ -91,6 +91,6 @@ export const useList = <T extends unknown>({ listing, indexes, actions, loading,
             remove
         },
         serverError: removeError,
-        loading: removing || loading
+        loading: loading
     })
 };

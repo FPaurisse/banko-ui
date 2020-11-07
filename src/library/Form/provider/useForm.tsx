@@ -28,6 +28,7 @@ export type UseFormContextValues<T> = {
 
 const useForm = <T extends unknown> (options: UseFormOptions<T>): UseFormContextValues<T> => {
     const [entity, setEntity]   = React.useState<T>(null);
+    const [loading, setLoading] = React.useState<boolean>(false);
     const form = { ...useHookForm<T>() };
     const { errors } = form;
 
@@ -39,19 +40,27 @@ const useForm = <T extends unknown> (options: UseFormOptions<T>): UseFormContext
             form.reset();
             setEntity(null);
         }
+    }, [])
+
+    React.useEffect(() => {
+        if (creating || updating) {
+            setLoading(true)
+        } else (
+            setLoading(false)
+        )
     }, [creating, updating])
 
     return ({
         form,
-        entity: entity,
-        setEntity: setEntity,
+        entity,
+        setEntity,
         actions: {
             create,
             update
         },
         inputsError: errors,
         serverError: createError || updateError,
-        loading: creating || updating
+        loading
     })
 
 };
