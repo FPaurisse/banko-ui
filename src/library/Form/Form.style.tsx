@@ -17,6 +17,10 @@ const FormStyle = styled.form`
     & > * {
         width: 100%;
     }
+
+    & > span > h3 {
+        margin: 0 0 1rem 0;
+    }
 `;
 
 export { FormStyle };

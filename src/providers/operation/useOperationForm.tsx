@@ -31,7 +31,8 @@ const useOperationForm = (): OperationReturn => {
             type: 'number',
             label: 'Montant',
             required: true,
-            operator: form.form.watch('isCredit') === true ? '+' : '-'
+            before: form.form.watch('isCredit') === true ? '+' : '-',
+            after: '€'
         },
         {
             name: 'date', 

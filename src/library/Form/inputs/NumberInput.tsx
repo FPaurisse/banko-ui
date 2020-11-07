@@ -2,10 +2,11 @@ import * as React       from 'react';
 
 import { InputProps }   from '@library/Form/models/InputModel';
 import { useFormContext } from '../provider/useFormContext';
+import { NumberInputStyle } from './NumberInput.style';
 
 const NumberInput: React.FC<InputProps> = (props) => {
     const { form } = useFormContext();
-    const { name, operator, innerRef } = props;
+    const { name, before, after, innerRef, label } = props;
     const value = form.watch(name);
 
     React.useEffect(() => {
@@ -15,16 +16,27 @@ const NumberInput: React.FC<InputProps> = (props) => {
     }, [value])
 
     return (
-        <React.Fragment>
-            <span>{ operator }</span>
+        <NumberInputStyle>
+            {
+                before && (
+                    <span>{ before }</span>
+                )
+            }
             <input
                 type='number'
                 ref={ innerRef }
                 name={ name }
+                id={ name }
+                placeholder={ label }
                 min='0'
                 autoComplete='off'
             />
-        </React.Fragment>
+            {
+                after && (
+                    <span>{ after }</span>
+                )
+            }
+        </NumberInputStyle>
     )
 };
 

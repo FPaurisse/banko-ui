@@ -4,7 +4,7 @@ import moment from 'moment';
 import { OperationModel }   from '@models/OperationModel';
 import { useListContext }   from '@library/List/provider/useListContext';
 import { useFormContext }   from '@library/Form/provider/useFormContext';
-import { ListStyle, Item, ItemCheck, ItemDetail, ItemActions } from './List.style';
+import { ListStyle, Item, ItemCheck, ItemDetail, ItemActions, Loading } from './List.style';
 
 const List: React.FC = () => {
 
@@ -31,14 +31,14 @@ const List: React.FC = () => {
         <ListStyle>
             {
                 loading
-                    ? 'Loading'
+                    ? <Loading>Chargement...</Loading>
                     : items.length > 0 ?
                         items
                             .map((operation: OperationModel) => {
                                 const { _id, title, amount, date, isCredit, isPassed } = operation;
                                 return (   
-                                    <Item key={ _id } $isPassed={ isPassed } $isSelected={ selected.includes(_id) }>
-                                        <ItemCheck onClick={ () => handleCheck(_id) } $isSelected={ selected.includes(_id) }>
+                                    <Item key={ _id } $isPassed={ isPassed } $isChecked={ selected.includes(_id) }>
+                                        <ItemCheck onClick={ () => handleCheck(_id) } $isChecked={ selected.includes(_id) }>
                                             { selected.includes(_id) ? '✓' : '' }
                                         </ItemCheck>
                                         <ItemDetail onClick={ () => handleCheck(_id) }>

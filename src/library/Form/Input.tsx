@@ -16,8 +16,8 @@ const Inputs: Record<InputType, React.FC> = {
     checkbox: CheckboxInput
 };
 
-const Input: React.FC<InputDefinitionModel> = (props) => {
-    const { type, name, required, operator, ...rest }   = props;
+const Input: React.FC<InputDefinitionModel & InputProps> = (props) => {
+    const { type, name, required, before, after, label, ...rest }   = props;
     const { form, inputsError }     = useFormContext();
 
     const { register }  = form;
@@ -36,7 +36,9 @@ const Input: React.FC<InputDefinitionModel> = (props) => {
                         }
                     }) }
                 name={ name }
-                operator={ operator }
+                label={ label }
+                before={ before }
+                after={ after }
                 error={ inputError ? true : false }
                 { ...rest }
             />

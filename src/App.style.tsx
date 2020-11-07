@@ -1,9 +1,12 @@
 import styled from 'styled-components';
 
 const AppStyle = styled.div`
+    background-color: #F1F5F8;
     display: flex;
     height: 100vh;
-    background-color: #F1F5F8;
+    width: 100%;
+    overflow: hidden;
+    position: fixed;
 `;
 
 const HeaderStyle = styled.div`

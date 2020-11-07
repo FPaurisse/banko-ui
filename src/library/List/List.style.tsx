@@ -8,10 +8,10 @@ const ListStyle = styled.div`
     height: 100%;
 `;
 
-const Item = styled.div<{ $isPassed?: boolean, $isSelected?: boolean }>`
+const Item = styled.div<{ $isPassed?: boolean, $isChecked?: boolean }>`
     display: flex;
     align-items: center;
-    background-color: ${({ $isSelected }) => $isSelected ? '#FBFBFB': '#FFFFFF'};
+    background-color: ${({ $isChecked }) => $isChecked ? '#FBFBFB': '#FFFFFF'};
     width: 100%;
     box-sizing: border-box;
     overflow: hidden;
@@ -28,7 +28,7 @@ const Item = styled.div<{ $isPassed?: boolean, $isSelected?: boolean }>`
     }
 `;
 
-const ItemCheck = styled.span<{ $isSelected?: boolean }>`
+const ItemCheck = styled.span<{ $isChecked?: boolean }>`
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -37,7 +37,7 @@ const ItemCheck = styled.span<{ $isSelected?: boolean }>`
     width: 1rem;
     height: 1rem;
     border: 1px solid #E8ECF1;
-    background-color: ${({ $isSelected }) => $isSelected ? '#6C737E': '#FFFFFF'};
+    background-color: ${({ $isChecked }) => $isChecked ? '#6C737E': '#FFFFFF'};
     border-radius: 100%;
     font-size: .6rem;
     color: #E8ECF1;
@@ -53,4 +53,12 @@ const ItemActions = styled.span`
     display: flex;
 `;
 
-export { ListStyle, Item, ItemCheck, ItemDetail, ItemActions };
+const Loading = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+`;
+
+export { ListStyle, Item, ItemCheck, ItemDetail, ItemActions, Loading };

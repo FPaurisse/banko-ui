@@ -32,7 +32,7 @@ const Form: React.FC = ({ children }) => {
     return (
         <FormStyle onSubmit={ handleSubmit(onSubmit) }>
             <span>
-                <h2>{ entity ? 'Modifier l\'opération' : 'Ajouter une opération' }</h2>
+                <h3>{ entity ? 'Modifier l\'opération' : 'Ajouter une opération' }</h3>
                 { children }
             </span>
             <span>
