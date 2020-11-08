@@ -4,9 +4,9 @@ import AsyncCreatableSelect from 'react-select/async-creatable';
 const SelectInput: React.FC = () => {
     
     const options = [
-        { value: 'chocolate', label: 'Chocolate' },
-        { value: 'strawberry', label: 'Strawberry' },
-        { value: 'vanilla', label: 'Vanilla' }
+        { value: 'Courses', label: 'Courses' },
+        { value: 'Logement', label: 'Logement' },
+        { value: 'Voiture', label: 'Voiture' }
     ]
     
     const filterColors = (inputValue: string): Record<string, unknown>[] => {
