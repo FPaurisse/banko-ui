@@ -24,6 +24,7 @@ const NumberInput: React.FC<InputProps> = (props) => {
             }
             <input
                 type='number'
+                step='any'
                 ref={ innerRef }
                 name={ name }
                 id={ name }

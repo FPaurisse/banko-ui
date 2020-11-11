@@ -25,7 +25,7 @@ export const useTotal = (period?: PeriodContextValues, formLoading?: boolean, li
 
     React.useEffect(() => {
         if (operations) {
-            setReal(
+            setActual(
                 toNumber(round(sum(operations
                     .filter((operation) => operation.isPassed)
                     .map((operation: OperationModel) => toNumber(operation.amount.replace(',', '.')))
@@ -36,7 +36,7 @@ export const useTotal = (period?: PeriodContextValues, formLoading?: boolean, li
 
     React.useEffect(() => {
         if (operations) {
-            setActual(
+            setReal(
                 toNumber(round(sum(operations
                     .map((operation: OperationModel) => toNumber(operation.amount.replace(',', '.')))
                 ), 2).toFixed(2))
