@@ -5,10 +5,11 @@ import { OperationModel }   from '@models/OperationModel';
 import { useListContext }   from '@library/List/provider/useListContext';
 import { useFormContext }   from '@library/Form/provider/useFormContext';
 import { ListStyle, Item, ItemCheck, ItemDetail, ItemActions, Loading } from './List.style';
+import { useKeyboardEvent } from '@library/utils';
 
 const List: React.FC = () => {
 
-    const { items, actions, selected, selectItem, unselectItem, loading }   = useListContext();
+    const { items, actions, selected, selectItem, unselectAll, unselectItem, loading }   = useListContext();
     const { setEntity } = useFormContext();
 
     const handleDelete = (_id: string): void => {
@@ -26,6 +27,10 @@ const List: React.FC = () => {
             selectItem(_id);
         }
     }
+
+    useKeyboardEvent('Escape', () => {
+        unselectAll();
+    })
 
     return (
         <ListStyle>

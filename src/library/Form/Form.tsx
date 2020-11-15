@@ -4,6 +4,7 @@ import { OperationModel }       from '@models/OperationModel';
 import { useFormContext }       from '@library/Form/provider/useFormContext';
 import { usePeriodContext }     from '@providers/period/usePeriodContext';
 import { FormStyle } from './Form.style';
+import { useKeyboardEvent } from '@library/utils';
 
 interface FormProps {
     hidden?: boolean;
@@ -38,6 +39,10 @@ const Form: React.FC<FormProps> = ({ children, hidden }) => {
             form.reset();
         }
     }
+
+    useKeyboardEvent('Escape', () => {
+        setEntity(null);
+    })
  
     return (
         <FormStyle $hidden={ hidden } onSubmit={ handleSubmit(onSubmit) }>
