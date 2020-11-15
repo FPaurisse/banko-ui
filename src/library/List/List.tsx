@@ -12,7 +12,7 @@ const List: React.FC = () => {
     const { setEntity } = useFormContext();
 
     const handleDelete = (_id: string): void => {
-        actions.remove({ variables: { _id } });
+        actions.remove({ _id });
     }
 
     const handleUpdate = (operation: OperationModel): void => {

@@ -1,99 +1,104 @@
-import {
-    Result,
-    APIError,
-    useQuery,
-    FetchData,
-    useMutation,
-    UseQueryOptions,
-    UseClientRequestResult
-}                           from 'graphql-hooks'
+import { useQuery, useMutation, UseQueryState, TypedDocumentNode, UseMutationState } from 'urql';
+import { DocumentNode } from 'graphql';
+import gql from 'graphql-tag';
 
 import { OperationModel }   from '@models/OperationModel';
 
-export interface ListReturn<T> {
-    data: T;
-    loading: boolean;
-    error: APIError;
-    cacheHit: boolean;
-    refetch: (options?: UseQueryOptions) => Promise<UseClientRequestResult<UseQueryOptions>>;
-}
-
-export interface CreateReturn<T> {
-    create: FetchData<Result, T>;
-    creating: boolean;
-    createError: APIError;
-}
-
-export interface UpdateReturn<T>  {
-    update: FetchData<Result, T>;
-    updating: boolean;
-    updateError: APIError;
-}
-
-export interface RemoveReturn {
-    remove: FetchData<Result, Record<string, unknown>>;
-    removing: boolean;
-    removeError: APIError;
-}
-
-const OPERATIONS_BY_PERIOD_QUERY = (fields: Array<keyof OperationModel>, period: Record<string, unknown>): string => `
-query QueryRootType {
-    operationsByPeriod(month: "${period.month}", year: "${period.year}") {
-        ${fields}
+const OPERATIONS_BY_PERIOD_QUERY: DocumentNode = gql`
+    query ($month: String!, $year: String!) {
+        getOperationsByPeriod(month: $month, year: $year){
+            _id, title, amount, date, isPassed, isCredit, user{
+                _id, name, email
+            }
+        }
     }
-}`
+`;
 
-const OPERATIONS_TO_CALCULATE_QUERY = (fields: Array<keyof OperationModel>, period: Record<string, unknown>): string => `
-query QueryRootType {
-    operationsToCalculate(month: "${period.month}", year: "${period.year}") {
-        ${fields}
+const OPERATIONS_TO_CALCULATE_QUERY: DocumentNode = gql`
+    query ($month: String!, $year: String!) {
+        getOperationsToCalculate(month: $month, year: $year){
+            _id, amount, isPassed, isCredit
+        }
     }
-}`
+`;
 
-const CREATE_OPERATION_MUTATION = (): string => `
-mutation Mutation($title: String!, $amount: String!, $date: String!, $isPassed: Boolean!, $isCredit: Boolean!) {
-  addOperation(title: $title, amount: $amount, date: $date, isPassed: $isPassed, isCredit: $isCredit) {
-    title, amount, date, isPassed, isCredit
-  }
-}`
-
-const UPDATE_OPERATION_MUTATION = (id: string): string => `
-mutation Mutation($title: String!, $amount: String!, $date: String!, $isPassed: Boolean!, $isCredit: Boolean!) {
-    updateOperation(_id: "${id}", title: $title, amount: $amount, date: $date, isPassed: $isPassed, isCredit: $isCredit) {
-      _id
+const CREATE_OPERATION_MUTATION: TypedDocumentNode = gql`
+    mutation CreateOperationMutation(
+        $title: String!,
+        $amount: String!,
+        $date: String!,
+        $isPassed: Boolean!,
+        $isCredit: Boolean!
+    ){
+        createOperation(
+            title: $title, 
+            amount: $amount,
+            date: $date,
+            isPassed: $isPassed,
+            isCredit: $isCredit
+        ){
+            _id, title, amount, date, isPassed, isCredit
+        }
     }
-}`
+`;
 
-const REMOVE_OPERATION_MUTATION = (): string => `
-mutation Mutation($_id: String!) {
-    removeOperation(_id: $_id) {
-      _id
+const UPDATE_OPERATION_MUTATION: TypedDocumentNode = gql`
+    mutation UpdateOperationMutation(
+        $_id: ID!,
+        $title: String,
+        $amount: String,
+        $date: String,
+        $isPassed: Boolean,
+        $isCredit: Boolean
+    ){
+        updateOperation(
+            _id: $_id,
+            title: $title, 
+            amount: $amount,
+            date: $date,
+            isPassed: $isPassed,
+            isCredit: $isCredit
+        ){
+            _id, title, amount, date, isPassed, isCredit
+        }
     }
-}`
+`;
 
-const useOperationsByPeriod = (fields?: Array<keyof OperationModel>, period?: Record<string, unknown>): ListReturn<OperationModel[]> => {
-    const { cacheHit, data = { operationsByPeriod: [] }, loading, error, refetch } = useQuery(OPERATIONS_BY_PERIOD_QUERY(fields, period));
-    return { cacheHit, loading, error, data: data.operationsByPeriod, refetch };
+const DELETE_OPERATION_MUTATION: TypedDocumentNode = gql`
+    mutation DeleteOperationMutation(
+        $_id: ID!
+    ){
+        deleteOperation(
+            _id: $_id
+        ){
+            _id
+        }
+    }
+`;
+
+const useOperationsByPeriod = (period: Record<string, unknown>): UseQueryState<OperationModel[]> => {
+    const [{ data = { getOperationsByPeriod: [] }, fetching, error, stale }] = useQuery({ query: OPERATIONS_BY_PERIOD_QUERY, variables: { month: period.month, year: period.year } })
+    return { data: data.getOperationsByPeriod, fetching, error, stale };
 }
 
-const useOperationsToCalculate = (fields?: Array<keyof OperationModel>, period?: Record<string, unknown>): ListReturn<OperationModel[]> => {
-    const { cacheHit, data = { operationsToCalculate: [] }, loading, error, refetch } = useQuery(OPERATIONS_TO_CALCULATE_QUERY(fields, period));
-    return { cacheHit, loading, error, data: data.operationsToCalculate, refetch };
+const useOperationsToCalculate = (period: Record<string, unknown>): UseQueryState<OperationModel[]> => {
+    const [ { data = { getOperationsToCalculate: [] }, fetching, error, stale } ] = useQuery({ query: OPERATIONS_TO_CALCULATE_QUERY, variables: { month: period.month, year: period.year } })
+    return { data: data.getOperationsToCalculate, fetching, error, stale };
 }
 
-const useOperationCreate = (): CreateReturn<OperationModel> => {
-    const [addOperation, { loading: creating, error: createError }] = useMutation(CREATE_OPERATION_MUTATION());
-    return { create: addOperation, creating, createError };
+const useOperationCreate = (): { state: UseMutationState, executeMutation: () => void } => {
+    const [state, executeMutation] = useMutation(CREATE_OPERATION_MUTATION);
+    return { state, executeMutation };
 }
 
-const useOperationUpdate = (entity: OperationModel): UpdateReturn<OperationModel> => {
-    const [updateOperation, { loading: updating, error: updateError }] = useMutation(entity ? UPDATE_OPERATION_MUTATION(entity._id) : '');
-    return { update: updateOperation, updating, updateError };
+const useOperationUpdate = (): { state: UseMutationState, executeMutation: () => void } => {
+    const [state, executeMutation] = useMutation(UPDATE_OPERATION_MUTATION);
+    return { state, executeMutation };
 }
 
-const useOperationRemove = (): RemoveReturn => {
-    const [removeOperation, { loading: removing, error: removeError }] = useMutation(REMOVE_OPERATION_MUTATION());
-    return { remove: removeOperation, removing, removeError };
+const useOperationDelete = (): { state: UseMutationState, executeMutation: () => void } => {
+    const [state, executeMutation] = useMutation(DELETE_OPERATION_MUTATION);
+    return { state, executeMutation };
 }
 
-export { useOperationsByPeriod, useOperationsToCalculate, useOperationCreate, useOperationUpdate, useOperationRemove };
+export { useOperationsByPeriod, useOperationsToCalculate, useOperationCreate, useOperationUpdate, useOperationDelete };

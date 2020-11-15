@@ -1,8 +1,6 @@
 import * as React                                                               from 'react';
-import { intersection, isEqual, without }                                       from 'lodash';
-import { APIError, FetchData, Result, UseClientRequestResult, UseQueryOptions } from 'graphql-hooks';
-
-import { RemoveReturn }                                                         from '@service/useOperations';
+import { debounce, intersection, isEqual, without }                                       from 'lodash';
+import { CombinedError } from 'urql';
 
 export type useListContextValues<T> = {
     items: T[];
@@ -14,30 +12,30 @@ export type useListContextValues<T> = {
     unselectAll: () => void;
     allIsChecked: boolean;
     actions: {
-        remove: FetchData<Result, Record<string, unknown>>,
+        remove: (variables: Record<string, unknown>) => void,
     };
-    serverError: APIError,
-    loading: boolean
+    serverError: CombinedError;
+    loading: boolean;
 }
 
 interface ActionsModel {
-    remove: RemoveReturn,
+    delete: () => void;
 }
 
 interface useListProps<T> {
     listing: T[];
     indexes: string[];
+    error: CombinedError;
     actions: ActionsModel;
-    loading: boolean;
-    listReload: (options?: UseQueryOptions) => Promise<UseClientRequestResult<UseQueryOptions>>;
+    reloading: boolean;
 }
 
-export const useList = <T extends unknown>({ listing, indexes, actions, loading, listReload }: useListProps<T>): useListContextValues<T> => {
+export const useList = <T extends unknown>({ listing, indexes, error, actions, reloading }: useListProps<T>): useListContextValues<T> => {
     const [items, setItems] = React.useState<T[]>([]);
     const [selected, setSelected] = React.useState<string[]>([]);
     const [allIsChecked, setAllIsChecked] = React.useState<boolean>(false);
-    const { remove, removing, removeError } = actions.remove;
-
+    const [loading, setLoading] = React.useState<boolean>(false);
+    
     const selectItems = (): void => {
         setSelected([...selected, ...indexes]);
     }
@@ -65,18 +63,21 @@ export const useList = <T extends unknown>({ listing, indexes, actions, loading,
     }, [listing])
 
     React.useEffect(() => {
-        if (loading || removing) {
-            listReload();
-        }
-    }, [loading, removing])
-
-    React.useEffect(() => {
         if (indexes.length > 0 && isEqual(intersection(selected, indexes), indexes)) {
             setAllIsChecked(true);
         } else {
             setAllIsChecked(false);
         }
     }, [indexes, selected])
+
+    React.useEffect(() => {
+        const debounced = debounce(() => setLoading(false), 500);
+        if (reloading) {
+            setLoading(true)
+        } else (
+            debounced()
+        )
+    }, [reloading])
 
     return ({
         items,
@@ -88,9 +89,9 @@ export const useList = <T extends unknown>({ listing, indexes, actions, loading,
         unselectAll,
         allIsChecked,
         actions: {
-            remove
+            remove: actions.delete
         },
-        serverError: removeError,
-        loading: loading || removing
+        serverError: error,
+        loading: loading
     })
 };

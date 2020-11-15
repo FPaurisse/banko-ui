@@ -9,36 +9,47 @@ import { useList, useListContextValues }                from '@library/List/prov
 import useOperationForm                                 from '@providers/operation/useOperationForm';
 import { PeriodContextValues }                          from '@providers/period/usePeriod';
 
-import { useOperationsByPeriod, useOperationRemove }    from '@service/useOperations';
+import { useOperationsByPeriod, useOperationDelete, useOperationsToCalculate }    from '@service/useOperations';
+import { TotalContextValues, useTotal } from '@providers/total/useTotal';
 
 type OperationListProvider = {
     definition: FormModel<OperationModel>;
     form: UseFormContextValues<OperationModel>;
     list: useListContextValues<OperationModel>;
+    total: TotalContextValues;
 };
 
 const useOperationsList = (period?: PeriodContextValues): OperationListProvider => {
-    const [operations, setOperations]   = React.useState<OperationModel[]>([]);
-
     const { definition, form }           = useOperationForm();
     
-    const { loading: formLoading, entity }                  = form;
-    const { month, year, setPeriod, loading: periodLoading } = period;
+    const { entity } = form;
+    const { month, year, setPeriod } = period;
     
-    const operationsByPeriod = useOperationsByPeriod(['_id', 'title', 'amount', 'date', 'isCredit', 'isPassed'], { month, year });
+    const {
+        data: operationsByPeriod,
+        fetching: listFetching,
+        error: listError
+    } = useOperationsByPeriod({ month, year });
     
+    const {
+        data: operationsToCalculate,
+        fetching: totalFetching
+    } = useOperationsToCalculate({ month, year });
+    
+    const {
+        state: { error: removeError },
+        executeMutation: remove
+    } = useOperationDelete();
+
     const list = useList<OperationModel>({
-        listing: operations,
-        indexes: operations.map((x) => x._id),
-        actions: { remove: useOperationRemove() },
-        loading: formLoading || periodLoading,
-        listReload: operationsByPeriod.refetch
+        listing: operationsByPeriod,
+        indexes: operationsByPeriod.map((x) => x._id),
+        actions: { delete: remove },
+        error: listError || removeError,
+        reloading: listFetching
     });
 
-    React.useEffect(() => {
-        const { data } = operationsByPeriod;
-        setOperations(data);
-    }, [operationsByPeriod])
+    const total = useTotal(operationsToCalculate, totalFetching);
 
     React.useEffect(() => {
         if (entity) {
@@ -53,7 +64,8 @@ const useOperationsList = (period?: PeriodContextValues): OperationListProvider 
     return ({
         definition,
         form,
-        list
+        list,
+        total
     })
 };
 

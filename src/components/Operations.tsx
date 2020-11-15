@@ -12,7 +12,7 @@ import { usePeriod }                from '@providers/period/usePeriod';
 import { PeriodContextProvider }    from '@providers/period/usePeriodContext';
 import useOperationsList            from '@providers/operation/useOperationsList';
 import { TotalContextProvider }     from '@providers/total/useTotalContext';
-import { useTotal }                 from '@providers/total/useTotal';
+
 import { Content, Footer, Container, OperationsStyle } from './Operations.style';
 import Actions from '@components/Actions/Actions';
 import Navigation from '@components/Navigation/Navigation';
@@ -20,9 +20,8 @@ import SelectInput from '@library/Form/inputs/SelectInput';
 
 const Operations: React.FC<RouteComponentProps> = () => {
     const [expand, setExpand] = React.useState<boolean>(false);
-    const period                        = usePeriod();
-    const { form, definition, list }    = useOperationsList(period);
-    const total                         = useTotal(period, form.loading, list.loading);
+    const period                            = usePeriod();
+    const { form, definition, list, total } = useOperationsList(period);
 
     return (
         <OperationsStyle>

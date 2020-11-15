@@ -3,7 +3,7 @@ const dotenv = require('dotenv-webpack');
 
 module.exports = {
     resolve: {
-        extensions: ['.tsx', '.ts', '.js'],
+        extensions: ['.wasm', '.mjs', '.tsx', '.ts', '.js'],
         alias: {
             '@components': path.resolve(__dirname, './src/components'),
             '@library': path.resolve(__dirname, './src/library'),

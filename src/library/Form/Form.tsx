@@ -13,6 +13,7 @@ const Form: React.FC<FormProps> = ({ children, hidden }) => {
     const { form, actions, entity, setEntity }  = useFormContext();
     const { setPeriod }                         = usePeriodContext();
     
+    const { update, create } = actions;
     const { handleSubmit, formState }   = form;
     const { isDirty }                   = formState;
 
@@ -20,7 +21,12 @@ const Form: React.FC<FormProps> = ({ children, hidden }) => {
         if (!data.isCredit) {
             data.amount = `-${data.amount}`;
         }
-        await actions[entity ? 'update' : 'create']({ variables: data });
+        if (entity) {
+            const { _id }: Partial<OperationModel> = entity;
+            update({ _id, ...data })
+        } else {
+            create(data)
+        }
         setPeriod(data.date);
     };
 
