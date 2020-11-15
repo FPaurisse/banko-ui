@@ -64,6 +64,20 @@ const UPDATE_OPERATION_MUTATION: TypedDocumentNode = gql`
     }
 `;
 
+const UPDATE_OPERATIONS_MUTATION: TypedDocumentNode = gql`
+    mutation UpdateOperationsMutation(
+        $selected: [ID!]!,
+        $isPassed: Boolean
+    ){
+        updateOperations(
+            selected: $selected,
+            isPassed: $isPassed
+        ){
+            selected, isPassed
+        }
+    }
+`;
+
 const DELETE_OPERATION_MUTATION: TypedDocumentNode = gql`
     mutation DeleteOperationMutation(
         $_id: ID!
@@ -72,6 +86,18 @@ const DELETE_OPERATION_MUTATION: TypedDocumentNode = gql`
             _id: $_id
         ){
             _id
+        }
+    }
+`;
+
+const DELETE_OPERATIONS_MUTATION: TypedDocumentNode = gql`
+    mutation DeleteOperationsMutation(
+        $selected: [ID!]!
+    ){
+        deleteOperations(
+            selected: $selected
+        ){
+            selected
         }
     }
 `;
@@ -96,9 +122,27 @@ const useOperationUpdate = (): { state: UseMutationState, executeMutation: () =>
     return { state, executeMutation };
 }
 
+const useOperationsUpdate = (): { state: UseMutationState, executeMutation: () => void } => {
+    const [state, executeMutation] = useMutation(UPDATE_OPERATIONS_MUTATION);
+    return { state, executeMutation };
+}
+
 const useOperationDelete = (): { state: UseMutationState, executeMutation: () => void } => {
     const [state, executeMutation] = useMutation(DELETE_OPERATION_MUTATION);
     return { state, executeMutation };
 }
 
-export { useOperationsByPeriod, useOperationsToCalculate, useOperationCreate, useOperationUpdate, useOperationDelete };
+const useOperationsDelete = (): { state: UseMutationState, executeMutation: () => void } => {
+    const [state, executeMutation] = useMutation(DELETE_OPERATIONS_MUTATION);
+    return { state, executeMutation };
+}
+
+export {
+    useOperationsByPeriod,
+    useOperationsToCalculate,
+    useOperationCreate, 
+    useOperationUpdate,
+    useOperationDelete,
+    useOperationsDelete,
+    useOperationsUpdate
+};

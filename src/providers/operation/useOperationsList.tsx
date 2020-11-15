@@ -9,7 +9,7 @@ import { useList, useListContextValues }                from '@library/List/prov
 import useOperationForm                                 from '@providers/operation/useOperationForm';
 import { PeriodContextValues }                          from '@providers/period/usePeriod';
 
-import { useOperationsByPeriod, useOperationDelete, useOperationsToCalculate }    from '@service/useOperations';
+import { useOperationsByPeriod, useOperationDelete, useOperationsToCalculate, useOperationsDelete, useOperationsUpdate }    from '@service/useOperations';
 import { TotalContextValues, useTotal } from '@providers/total/useTotal';
 
 type OperationListProvider = {
@@ -41,11 +41,21 @@ const useOperationsList = (period?: PeriodContextValues): OperationListProvider 
         executeMutation: remove
     } = useOperationDelete();
 
+    const {
+        state: { error: removeAllError },
+        executeMutation: removeAll
+    } = useOperationsDelete();
+
+    const {
+        state: { error: updateAllError },
+        executeMutation: updateAll
+    } = useOperationsUpdate();
+
     const list = useList<OperationModel>({
         listing: operationsByPeriod,
         indexes: operationsByPeriod.map((x) => x._id),
-        actions: { delete: remove },
-        error: listError || removeError,
+        actions: { delete: remove, deleteAll: removeAll, updateAll: updateAll },
+        error: listError || removeError || removeAllError || updateAllError,
         reloading: listFetching
     });
 

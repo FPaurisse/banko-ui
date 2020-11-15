@@ -17,9 +17,7 @@ const client = createClient({
         };
     },
     exchanges: [dedupExchange, cacheExchange, fetchExchange],
-})
-
-console.log(client)
+});
 
 render(
     <Provider value={ client }>

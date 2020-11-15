@@ -4,7 +4,9 @@ import { useListContext }   from '@library/List/provider/useListContext';
 import { ActionsStyle }     from './Actions.style';
 
 const Actions: React.FC = () => {
-    const { items, selected, selectItems, unselectItems, unselectAll, allIsChecked, loading } = useListContext();
+    const { items, selected, selectItems, unselectItems, unselectAll, allIsChecked, loading, actions } = useListContext();
+
+    const { removeAll, updateAll } = actions;
 
     const handleCheck = (): void => {
         if (allIsChecked) {
@@ -14,6 +16,21 @@ const Actions: React.FC = () => {
         }
     }
 
+    const handleDeleteAll = (): void => {
+        removeAll({ selected });
+        unselectAll();
+    }
+
+    const handleUpdateAllIsPassed = (): void => {
+        updateAll({ selected, isPassed: true });
+        unselectAll();
+    }
+
+    const handleUpdateAllIsNotPassed = (): void => {
+        updateAll({ selected, isPassed: false });
+        unselectAll();
+    }
+
     return (
         <ActionsStyle>
             <span>
@@ -21,9 +38,9 @@ const Actions: React.FC = () => {
                 <button disabled={ selected.length < 1 || loading } onClick={ unselectAll }>Annuler</button>
             </span>
             <span>
-                <button disabled={ selected.length < 1 || loading }>Approuver</button>
-                <button disabled={ selected.length < 1 || loading }>À venir</button>
-                <button disabled={ selected.length < 1 || loading }>Supprimer</button>
+                <button onClick={ handleUpdateAllIsPassed } disabled={ selected.length < 1 || loading }>Approuver</button>
+                <button onClick={ handleUpdateAllIsNotPassed } disabled={ selected.length < 1 || loading }>À venir</button>
+                <button onClick={ handleDeleteAll } disabled={ selected.length < 1 || loading }>Supprimer</button>
             </span>
         </ActionsStyle>
     )

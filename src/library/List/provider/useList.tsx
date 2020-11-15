@@ -13,6 +13,8 @@ export type useListContextValues<T> = {
     allIsChecked: boolean;
     actions: {
         remove: (variables: Record<string, unknown>) => void,
+        removeAll: (variables: Record<string, unknown>) => void,
+        updateAll: (variables: Record<string, unknown>) => void,
     };
     serverError: CombinedError;
     loading: boolean;
@@ -20,6 +22,8 @@ export type useListContextValues<T> = {
 
 interface ActionsModel {
     delete: () => void;
+    deleteAll: () => void;
+    updateAll: () => void;
 }
 
 interface useListProps<T> {
@@ -89,7 +93,9 @@ export const useList = <T extends unknown>({ listing, indexes, error, actions, r
         unselectAll,
         allIsChecked,
         actions: {
-            remove: actions.delete
+            remove: actions.delete,
+            removeAll: actions.deleteAll,
+            updateAll: actions.updateAll
         },
         serverError: error,
         loading: loading
