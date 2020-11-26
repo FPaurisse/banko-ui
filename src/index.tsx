@@ -1,27 +1,33 @@
-import * as React from 'react';
-import { render } from 'react-dom';
+import * as React   from 'react';
+import { render }   from 'react-dom';
+import { ReactKeycloakProvider } from '@react-keycloak/web'
+
 
 import { Provider, dedupExchange, fetchExchange, cacheExchange, createClient } from 'urql';
 
 import App from './App';
 
+import keycloak from './keycloak';
+
 import 'normalize.css';
 import './index.css';
+import Loading from '@library/Loading/Loading';
 
 const client = createClient({
     url: process.env.API_URL,
     fetchOptions: () => {
-        const token = process.env.TOKEN;
         return {
-            headers: { authorization: token ? `Bearer ${token}` : '' },
+            headers: { authorization: `Bearer ${keycloak.token}` },
         };
     },
     exchanges: [dedupExchange, cacheExchange, fetchExchange],
 });
 
 render(
-    <Provider value={ client }>
-        <App />
-    </Provider>,
+    <ReactKeycloakProvider LoadingComponent={ <Loading/> } authClient={ keycloak } initOptions={ { onLoad: 'login-required' } }>
+        <Provider value={ client }>
+            <App />
+        </Provider>
+    </ReactKeycloakProvider>,
     document.getElementById('root')
 );

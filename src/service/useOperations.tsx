@@ -7,9 +7,7 @@ import { OperationModel }   from '@models/OperationModel';
 const OPERATIONS_BY_PERIOD_QUERY: DocumentNode = gql`
     query ($month: String!, $year: String!) {
         getOperationsByPeriod(month: $month, year: $year){
-            _id, title, amount, date, isPassed, isCredit, user{
-                _id, name, email
-            }
+            _id, title, amount, date, isPassed, isCredit, userId
         }
     }
 `;
@@ -103,12 +101,12 @@ const DELETE_OPERATIONS_MUTATION: TypedDocumentNode = gql`
 `;
 
 const useOperationsByPeriod = (period: Record<string, unknown>): UseQueryState<OperationModel[]> => {
-    const [{ data = { getOperationsByPeriod: [] }, fetching, error, stale }] = useQuery({ query: OPERATIONS_BY_PERIOD_QUERY, variables: { month: period.month, year: period.year } })
+    const [{ data = { getOperationsByPeriod: [] }, fetching, error, stale }] = useQuery({ query: OPERATIONS_BY_PERIOD_QUERY, variables: { month: period.month, year: period.year } });
     return { data: data.getOperationsByPeriod, fetching, error, stale };
 }
 
 const useOperationsToCalculate = (period: Record<string, unknown>): UseQueryState<OperationModel[]> => {
-    const [ { data = { getOperationsToCalculate: [] }, fetching, error, stale } ] = useQuery({ query: OPERATIONS_TO_CALCULATE_QUERY, variables: { month: period.month, year: period.year } })
+    const [{ data = { getOperationsToCalculate: [] }, fetching, error, stale }] = useQuery({ query: OPERATIONS_TO_CALCULATE_QUERY, variables: { month: period.month, year: period.year } });
     return { data: data.getOperationsToCalculate, fetching, error, stale };
 }
 
