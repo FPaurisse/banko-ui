@@ -1,16 +1,16 @@
-import * as React   from 'react';
-import { render }   from 'react-dom';
-import { ReactKeycloakProvider } from '@react-keycloak/web'
+import * as React                   from 'react';
+import { render }                   from 'react-dom';
+import { ReactKeycloakProvider }    from '@react-keycloak/web'
 
 import { Provider, dedupExchange, fetchExchange, cacheExchange, createClient } from 'urql';
 
-import keycloak from './keycloak';
+import keycloak from './auth/keycloak';
+
+import App      from './App';
+import Loading from '@library/Loading/Loading';
 
 import 'normalize.css';
 import './index.css';
-
-import App      from './App';
-import Loading  from '@library/Loading/Loading';
 
 const client = createClient({
     url: process.env.API_URL,
