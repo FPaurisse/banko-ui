@@ -2,16 +2,15 @@ import * as React   from 'react';
 import { render }   from 'react-dom';
 import { ReactKeycloakProvider } from '@react-keycloak/web'
 
-
 import { Provider, dedupExchange, fetchExchange, cacheExchange, createClient } from 'urql';
-
-import App from './App';
 
 import keycloak from './keycloak';
 
 import 'normalize.css';
 import './index.css';
-import Loading from '@library/Loading/Loading';
+
+import App      from './App';
+import Loading  from '@library/Loading/Loading';
 
 const client = createClient({
     url: process.env.API_URL,

@@ -1,7 +1,7 @@
-const path = require('path');
-const dotenv = require('dotenv-webpack');
+import path from 'path';
+import dotenv from 'dotenv-webpack';
 
-module.exports = {
+export default {
     resolve: {
         extensions: ['.wasm', '.mjs', '.tsx', '.ts', '.js', 'json'],
         alias: {
@@ -24,17 +24,18 @@ module.exports = {
         path: path.resolve(__dirname, 'public'),
         filename: 'bundle.js',
     },
+    devtool: 'source-map',
     module: {
         rules: [
             {
                 test: /\.js$/,
-                exclude: /node_modules/,
                 loader: ['babel-loader', 'eslint-loader'],
+                exclude: /node_modules/
             },
             {
                 test: /\.ts(x?)$/,
-                exclude: /node_modules/,
                 use: [{ loader: 'ts-loader' }, { loader: 'eslint-loader' }],
+                exclude: /node_modules/
             },
             {
                 test: /\.css|.less$/,
@@ -48,7 +49,8 @@ module.exports = {
                 enforce: 'pre',
                 test: /\.js$/,
                 loader: 'source-map-loader',
-            },
+                exclude: /node_modules\/@react-keycloak/
+            }
         ],
     },
     plugins: [
