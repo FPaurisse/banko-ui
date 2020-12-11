@@ -1,34 +1,35 @@
-import * as React               from 'react';
+import * as React from 'react';
 
-import { OperationModel }       from '@models/OperationModel';
 import { useFormContext }       from '@library/Form/provider/useFormContext';
 import { usePeriodContext }     from '@providers/period/usePeriodContext';
 import { FormStyle } from './Form.style';
 import { useKeyboardEvent } from '@library/utils';
+import { useAccountsByUserContext } from '@providers/account/useAccountsByUserContext';
+import { useUserContext } from '@providers/user/useUserContext';
 
-interface FormProps {
-    hidden?: boolean;
-}
-
-const Form: React.FC<FormProps> = ({ children, hidden }) => {
+const Form: React.FC = ({ children }) => {
     const { form, actions, entity, setEntity }  = useFormContext();
-    const { setPeriod }                         = usePeriodContext();
+    const { setPeriod } = usePeriodContext();
+    const accounts = useAccountsByUserContext();
+    const { user } = useUserContext();
     
     const { update, create } = actions;
     const { handleSubmit, formState }   = form;
     const { isDirty }                   = formState;
 
-    const onSubmit = async (data: OperationModel): Promise<void> => {
+    const onSubmit = async (data: Record<string, unknown>): Promise<void> => {
         if (!data.isCredit) {
-            data.amount = `-${data.amount}`;
+            data.amount = `-${data.amount}`;   
         }
+        data.userId = user._id;
+        data.accountId = accounts.selected;
         if (entity) {
-            const { _id }: Partial<OperationModel> = entity;
+            const { _id } = entity as Record<string, unknown>;
             update({ _id, ...data })
         } else {
             create(data)
         }
-        setPeriod(data.date);
+        setPeriod(data.date as string);
     };
 
     const handleUndo = (e: React.SyntheticEvent): void => {
@@ -45,7 +46,7 @@ const Form: React.FC<FormProps> = ({ children, hidden }) => {
     })
  
     return (
-        <FormStyle $hidden={ hidden } onSubmit={ handleSubmit(onSubmit) }>
+        <FormStyle onSubmit={ handleSubmit(onSubmit) }>
             <span>
                 <h3>{ entity ? 'Modifier l\'opération' : 'Ajouter une opération' }</h3>
                 { children }

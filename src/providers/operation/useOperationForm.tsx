@@ -27,6 +27,12 @@ const useOperationForm = (): OperationReturn => {
             required: true
         },
         {
+            name: 'categories',
+            type: 'select',
+            label: 'Catégories',
+            required: true
+        },
+        {
             name: 'amount',
             type: 'number',
             label: 'Montant',

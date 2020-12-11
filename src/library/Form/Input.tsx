@@ -8,12 +8,14 @@ import NumberInput                                      from '@library/Form/inpu
 import TextInput                                        from '@library/Form/inputs/TextInput';
 import DateInput                                        from '@library/Form/inputs/DateInput';
 import { InputStyle } from './Input.style';
+import SelectInput from './inputs/SelectInput';
 
 const Inputs: Record<InputType, React.FC> = {
     text: TextInput,
     number: NumberInput,
     date: DateInput,
-    checkbox: CheckboxInput
+    checkbox: CheckboxInput,
+    select: SelectInput
 };
 
 const Input: React.FC<InputDefinitionModel> = (props) => {

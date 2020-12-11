@@ -4,7 +4,6 @@ import { RouteComponentProps }      from '@reach/router';
 import Form                         from '@library/Form/Form';
 import List                         from '@library/List/List';
 import Input                        from '@library/Form/Input';
-import Total                        from '@components/Total/Total';
 import { ListContextProvider }      from '@library/List/provider/useListContext';
 import { FormContextProvider }      from '@library/Form/provider/useFormContext';
 
@@ -13,15 +12,21 @@ import { PeriodContextProvider }    from '@providers/period/usePeriodContext';
 import useOperationsList            from '@providers/operation/useOperationsList';
 import { TotalContextProvider }     from '@providers/total/useTotalContext';
 
+import Total                        from '@components/Operations/Total';
+import Navigation                   from '@components/Operations/Navigation';   
+import Actions                      from '@components/Operations/Actions';
+
 import { Content, Footer, Container, OperationsStyle } from './Operations.style';
-import Actions from '@components/Actions/Actions';
-import Navigation from '@components/Navigation/Navigation';
-import SelectInput from '@library/Form/inputs/SelectInput';
+import { useAccountsByUserContext } from '@providers/account/useAccountsByUserContext';
 
 const Operations: React.FC<RouteComponentProps> = () => {
-    const [expand, setExpand] = React.useState<boolean>(false);
     const period                            = usePeriod();
-    const { form, definition, list, total } = useOperationsList(period);
+    const { selected: accountId }           = useAccountsByUserContext();
+    const { form, definition, list, total } = useOperationsList(period, accountId);
+
+    if (!accountId) {
+        return null;
+    }
 
     return (
         <OperationsStyle>
@@ -29,9 +34,9 @@ const Operations: React.FC<RouteComponentProps> = () => {
                 <FormContextProvider { ...form }>
                     <ListContextProvider { ...list }>
                         <Container>
-                            <Form hidden={ expand }>
+                            <Form>
                                 <Input { ...definition.find((field) => field.name === 'title') } />
-                                <SelectInput />
+                                <Input { ...definition.find((field) => field.name === 'categories') } />
                                 <Input { ...definition.find((field) => field.name === 'isCredit') } />
                                 <Input { ...definition.find((field) => field.name === 'amount') } />
                                 <Input { ...definition.find((field) => field.name === 'isPassed') } />
@@ -41,14 +46,13 @@ const Operations: React.FC<RouteComponentProps> = () => {
                                 <Navigation />
                                 <Actions />
                                 <List />
+                                <Footer>
+                                    <TotalContextProvider { ...total }>
+                                        <Total />
+                                    </TotalContextProvider>
+                                </Footer>
                             </Content>
                         </Container>
-                        <Footer>
-                            <button onClick={ () => setExpand(!expand) }>Plein écran</button>
-                            <TotalContextProvider { ...total }>
-                                <Total />
-                            </TotalContextProvider>
-                        </Footer>
                     </ListContextProvider>
                 </FormContextProvider>
             </PeriodContextProvider>

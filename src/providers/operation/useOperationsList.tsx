@@ -19,22 +19,22 @@ type OperationListProvider = {
     total: TotalContextValues;
 };
 
-const useOperationsList = (period?: PeriodContextValues): OperationListProvider => {
-    const { definition, form }           = useOperationForm();
+const useOperationsList = (period: PeriodContextValues, accountId: string): OperationListProvider => {
+    const { definition, form }  = useOperationForm();
     
     const { entity } = form;
     const { month, year, setPeriod } = period;
-    
+
     const {
         data: operationsByPeriod,
         fetching: listFetching,
         error: listError
-    } = useOperationsByPeriod({ month, year });
+    } = useOperationsByPeriod(month, year, accountId);
     
     const {
         data: operationsToCalculate,
         fetching: totalFetching
-    } = useOperationsToCalculate({ month, year });
+    } = useOperationsToCalculate(month, year, accountId);
     
     const {
         state: { error: removeError },

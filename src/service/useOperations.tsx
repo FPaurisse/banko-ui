@@ -5,16 +5,16 @@ import gql from 'graphql-tag';
 import { OperationModel }   from '@models/OperationModel';
 
 const OPERATIONS_BY_PERIOD_QUERY: DocumentNode = gql`
-    query ($month: String!, $year: String!) {
-        getOperationsByPeriod(month: $month, year: $year){
-            _id, title, amount, date, isPassed, isCredit, userId
+    query ($month: String!, $year: String!, $accountId: String!) {
+        getOperationsByPeriod(month: $month, year: $year, accountId: $accountId){
+            _id, title, categories, amount, date, isPassed, isCredit, userId, accountId
         }
     }
 `;
 
 const OPERATIONS_TO_CALCULATE_QUERY: DocumentNode = gql`
-    query ($month: String!, $year: String!) {
-        getOperationsToCalculate(month: $month, year: $year){
+    query ($month: String!, $year: String!, $accountId: String!) {
+        getOperationsToCalculate(month: $month, year: $year, accountId: $accountId){
             _id, amount, isPassed, isCredit
         }
     }
@@ -23,19 +23,25 @@ const OPERATIONS_TO_CALCULATE_QUERY: DocumentNode = gql`
 const CREATE_OPERATION_MUTATION: TypedDocumentNode = gql`
     mutation CreateOperationMutation(
         $title: String!,
+        $categories: [String!]!,
         $amount: String!,
         $date: String!,
         $isPassed: Boolean!,
-        $isCredit: Boolean!
+        $isCredit: Boolean!,
+        $userId: String!
+        $accountId: String!
     ){
         createOperation(
             title: $title, 
+            categories: $categories, 
             amount: $amount,
             date: $date,
             isPassed: $isPassed,
-            isCredit: $isCredit
+            isCredit: $isCredit, 
+            userId: $userId, 
+            accountId: $accountId
         ){
-            _id, title, amount, date, isPassed, isCredit
+            _id, title, categories, amount, date, isPassed, isCredit, userId, accountId
         }
     }
 `;
@@ -44,6 +50,7 @@ const UPDATE_OPERATION_MUTATION: TypedDocumentNode = gql`
     mutation UpdateOperationMutation(
         $_id: ID!,
         $title: String,
+        $categories: [String!],
         $amount: String,
         $date: String,
         $isPassed: Boolean,
@@ -52,12 +59,13 @@ const UPDATE_OPERATION_MUTATION: TypedDocumentNode = gql`
         updateOperation(
             _id: $_id,
             title: $title, 
+            categories: $categories, 
             amount: $amount,
             date: $date,
             isPassed: $isPassed,
             isCredit: $isCredit
         ){
-            _id, title, amount, date, isPassed, isCredit
+            _id, title, categories, amount, date, isPassed, isCredit
         }
     }
 `;
@@ -100,13 +108,13 @@ const DELETE_OPERATIONS_MUTATION: TypedDocumentNode = gql`
     }
 `;
 
-const useOperationsByPeriod = (period: Record<string, unknown>): UseQueryState<OperationModel[]> => {
-    const [{ data = { getOperationsByPeriod: [] }, fetching, error, stale }] = useQuery({ query: OPERATIONS_BY_PERIOD_QUERY, variables: { month: period.month, year: period.year } });
+const useOperationsByPeriod = (month: string, year: string, accountId: string): UseQueryState<OperationModel[]> => {
+    const [{ data = { getOperationsByPeriod: [] }, fetching, error, stale }] = useQuery({ query: OPERATIONS_BY_PERIOD_QUERY, variables: { month, year, accountId } });
     return { data: data.getOperationsByPeriod, fetching, error, stale };
 }
 
-const useOperationsToCalculate = (period: Record<string, unknown>): UseQueryState<OperationModel[]> => {
-    const [{ data = { getOperationsToCalculate: [] }, fetching, error, stale }] = useQuery({ query: OPERATIONS_TO_CALCULATE_QUERY, variables: { month: period.month, year: period.year } });
+const useOperationsToCalculate = (month: string, year: string, accountId: string): UseQueryState<OperationModel[]> => {
+    const [{ data = { getOperationsToCalculate: [] }, fetching, error, stale }] = useQuery({ query: OPERATIONS_TO_CALCULATE_QUERY, variables: { month, year, accountId } });
     return { data: data.getOperationsToCalculate, fetching, error, stale };
 }
 

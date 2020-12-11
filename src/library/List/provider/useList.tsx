@@ -22,15 +22,15 @@ export type useListContextValues<T> = {
 
 interface ActionsModel {
     delete: () => void;
-    deleteAll: () => void;
-    updateAll: () => void;
+    deleteAll?: () => void;
+    updateAll?: () => void;
 }
 
 interface useListProps<T> {
     listing: T[];
     indexes: string[];
     error: CombinedError;
-    actions: ActionsModel;
+    actions?: ActionsModel;
     reloading: boolean;
 }
 

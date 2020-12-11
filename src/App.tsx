@@ -1,36 +1,30 @@
 import * as React                           from 'react';
-import { Router }                           from '@reach/router';
-import { useKeycloak }                      from '@react-keycloak/web'
 
 import { ThemeContextProvider }             from '@providers/theme/useThemeContext';
 import { useTheme }                         from '@providers/theme/useTheme';
 
-import Operations                           from '@components/Operations';
-import User                                 from '@components/User';
-
-import { AppStyle, MainStyle, HeaderStyle } from './App.style';
+import { AppStyle } from './App.style';
+import Main from '@components/Main';
+import useUser from '@providers/user/useUser';
+import { UserContextProvider } from '@providers/user/useUserContext';
 
 const App: React.FC = () => {
-    const { keycloak } = useKeycloak()
+    const vm = useUser();
 
-    const vm = useTheme();
+    const theme = useTheme();
+
+    if (!vm.user) {
+        return null;
+    }
 
     return (
-        <ThemeContextProvider { ...vm }>
-            {
-                keycloak &&
-                        keycloak.authenticated && (
-                    <AppStyle>
-                        <HeaderStyle>
-                            <User />
-                        </HeaderStyle>
-                        <Router component={ MainStyle }>
-                            <Operations path="/operations" />
-                        </Router>
-                    </AppStyle>
-                )
-            }
-        </ThemeContextProvider>
+        <UserContextProvider { ...vm }>
+            <ThemeContextProvider { ...theme }>
+                <AppStyle>
+                    <Main />
+                </AppStyle>
+            </ThemeContextProvider>
+        </UserContextProvider>
     );
 };
 

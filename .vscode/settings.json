@@ -3,6 +3,7 @@
         "source.fixAll.eslint": true
       },
       "files.exclude": {
-          "node_modules": false
-      }
+          "node_modules": true
+    },
+    "powershell.integratedConsole.suppressStartupBanner": true
 }
