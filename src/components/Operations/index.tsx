@@ -24,10 +24,6 @@ const Operations: React.FC<RouteComponentProps> = () => {
     const { selected: accountId }           = useAccountsByUserContext();
     const { form, definition, list, total } = useOperationsList(period, accountId);
 
-    if (!accountId) {
-        return null;
-    }
-
     return (
         <OperationsStyle>
             <PeriodContextProvider { ...period }>

@@ -1,33 +1,18 @@
+import { find } from 'lodash';
 import * as React from 'react';
-import AsyncCreatableSelect from 'react-select/async-creatable';
+import { Controller } from 'react-hook-form';
+import { OptionTypeBase } from 'react-select';
+import Select from 'react-select/creatable';
 import { InputProps } from '../models/InputModel';
 import { useFormContext } from '../provider/useFormContext';
 
 const SelectInput: React.FC<InputProps> = (props) => {
 
     const { form } = useFormContext();
-    const { name, innerRef, label } = props;
-
-    const value = form.watch(name);
+    const { name, label, options, isMulti } = props;
     
-    const options = [
-        { value: 'Courses', label: 'Courses' },
-        { value: 'Logement', label: 'Logement' },
-        { value: 'Voiture', label: 'Voiture' }
-    ]
-    
-    const filterCategories = (inputValue: string): Record<string, unknown>[] => {
-        return options.filter((i) =>
-            i.label.toLowerCase().includes(inputValue.toLowerCase())
-        );
-    };
-      
-    const promiseOptions = (inputValue: string): Promise<void> =>
-        new Promise((resolve) => {
-            setTimeout(() => {
-                resolve(filterCategories(inputValue) as never);
-            }, 1000);
-        });
+    // get array of values
+    const innerOptions = options ? options.map((option) => option.value) : [];
     
     const customStyles = {
         control: (provided: Record<string, unknown>) => ({
@@ -41,19 +26,29 @@ const SelectInput: React.FC<InputProps> = (props) => {
             outline: 'none',
         })
     }
-      
+
+    const mapper = (value: unknown, key: 'value' | 'label'): string => {
+        const option = find(options as OptionTypeBase[], { value });
+        if (option) {
+            return option[key]   
+        }
+    }
+
     return (
-        <AsyncCreatableSelect
-            value={ value }
-            isMulti
-            cacheOptions
-            defaultOptions
-            reference={ innerRef }
+        <Controller
             name={ name }
-            id={ name }
-            placeholder={ label }
-            loadOptions={ promiseOptions }
-            styles={ customStyles }
+            defaultValue={ name }
+            control={ form.control }
+            as={
+                <Select
+                    isMulti={ isMulti }
+                    options={ innerOptions }
+                    getOptionLabel={ (option) => mapper(option, 'label') }
+                    getOptionValue={ (option) => mapper(option, 'value') }
+                    styles={ customStyles }
+                    placeholder={ label }
+                />
+            }
         />
     )
 };

@@ -1,20 +1,27 @@
 import * as React                           from 'react';
-import { Redirect, Router }                           from '@reach/router';
+import { Redirect, Router }                 from '@reach/router';
 
 import Operations                           from '@components/Operations';
+import Categories                           from '@components/Categories';
 import Accounts                             from '@components/Accounts';
 import Sidenav                              from '@components/Sidenav';
 
-import { MainStyle } from './Main.style';
-import { AccountsByUserContextProvider } from '@providers/account/useAccountsByUserContext';
-import useAccountsByUser from '@providers/account/useAccountsByUser';
-import { useUserContext } from '@providers/user/useUserContext';
+import { AccountsByUserContextProvider }    from '@providers/account/useAccountsByUserContext';
+import useAccountsByUser                    from '@providers/account/useAccountsByUser';
 
-const Main: React.FC = () => {
+import { MainStyle }                        from './Main.style';
 
-    const { user } = useUserContext();
+interface MainProps {
+    userId: string;
+}
 
-    const accountsByUser = useAccountsByUser(user._id);
+const Main: React.FC<MainProps> = ({ userId }) => {
+
+    const accountsByUser = useAccountsByUser(userId);
+
+    if (!accountsByUser.selected) {
+        return null;
+    }
 
     return (
         <React.Fragment>
@@ -25,6 +32,7 @@ const Main: React.FC = () => {
                         accountsByUser.accounts && accountsByUser.accounts.length < 0 && <Redirect replace from='/' to='/create' />
                     }
                     <Operations path="/" />
+                    <Categories path="/categories" />
                     <Accounts path="/accounts" />
                 </Router>
             </AccountsByUserContextProvider>

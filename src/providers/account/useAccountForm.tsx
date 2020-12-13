@@ -35,7 +35,8 @@ const useAccountForm = (): AccountReturn => {
         {
             name: 'guests', 
             type: 'select',
-            label: 'Invités'
+            label: 'Invités',
+            options: []
         },
     ];
 

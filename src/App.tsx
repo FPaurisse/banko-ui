@@ -21,7 +21,7 @@ const App: React.FC = () => {
         <UserContextProvider { ...vm }>
             <ThemeContextProvider { ...theme }>
                 <AppStyle>
-                    <Main />
+                    <Main userId={ vm.user._id } />
                 </AppStyle>
             </ThemeContextProvider>
         </UserContextProvider>

@@ -11,6 +11,7 @@ import { PeriodContextValues }                          from '@providers/period/
 
 import { useOperationsByPeriod, useOperationDelete, useOperationsToCalculate, useOperationsDelete, useOperationsUpdate }    from '@service/useOperations';
 import { TotalContextValues, useTotal } from '@providers/total/useTotal';
+import { useCategoriesByAccount } from '@service/useCategory';
 
 type OperationListProvider = {
     definition: FormModel<OperationModel>;
@@ -20,7 +21,13 @@ type OperationListProvider = {
 };
 
 const useOperationsList = (period: PeriodContextValues, accountId: string): OperationListProvider => {
-    const { definition, form }  = useOperationForm();
+
+    const {
+        data: CategoriesByAccount,
+        error: categoriesError
+    } = useCategoriesByAccount(accountId);
+
+    const { definition, form }  = useOperationForm(CategoriesByAccount);
     
     const { entity } = form;
     const { month, year, setPeriod } = period;
@@ -55,7 +62,7 @@ const useOperationsList = (period: PeriodContextValues, accountId: string): Oper
         listing: operationsByPeriod,
         indexes: operationsByPeriod.map((x) => x._id),
         actions: { delete: remove, deleteAll: removeAll, updateAll: updateAll },
-        error: listError || removeError || removeAllError || updateAllError,
+        error: listError || removeError || removeAllError || updateAllError || categoriesError,
         reloading: listFetching
     });
 

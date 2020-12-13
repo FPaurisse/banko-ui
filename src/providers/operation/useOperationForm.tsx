@@ -1,5 +1,6 @@
 import { FormModel }                                from '@library/Form/models/FormModel';
 import useForm, { UseFormContextValues }            from '@library/Form/provider/useForm';
+import { CategoryModel } from '@models/CategoryModel';
 
 import { OperationModel }                           from '@models/OperationModel';
 
@@ -10,7 +11,7 @@ export type OperationReturn = {
     definition: FormModel<OperationModel>;
 }
 
-const useOperationForm = (): OperationReturn => {
+const useOperationForm = (categories: CategoryModel[]): OperationReturn => {
 
     const form = useForm<OperationModel>({
         actions: {
@@ -30,6 +31,10 @@ const useOperationForm = (): OperationReturn => {
             name: 'categories',
             type: 'select',
             label: 'Catégories',
+            options: categories.length > 0 ? 
+                categories.map((category) => ({ label: category.title, value: category._id }))
+                : [],
+            isMulti: true,
             required: true
         },
         {

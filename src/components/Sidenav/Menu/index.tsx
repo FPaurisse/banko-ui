@@ -15,7 +15,7 @@ const Menu: React.FC = () => {
         const value = e.target.value;
         if (value) {
             setSelected(e.target.value);
-            navigate('/operations');
+            navigate('/');
         }
     }
     
@@ -32,10 +32,15 @@ const Menu: React.FC = () => {
                 <select onChange={ handleChange } value={ selected || '' }>
                     <option disabled>Compte principal</option>
                     <option value={ currentAccount._id }>{ currentAccount.title }</option>
-                    <option disabled>Comptes secondaires</option>
-                    { accounts
-                        .filter((account) => !account.isDefault)
-                        .map((option, i) => <option key={ i } value={ option._id }>{ option.title }</option>) }
+                    {
+                        accounts.length > 1 && 
+                        <React.Fragment>
+                            <option disabled>Comptes secondaires</option>
+                            { accounts
+                                .filter((account) => !account.isDefault)
+                                .map((option, i) => <option key={ i } value={ option._id }>{ option.title }</option>) }
+                        </React.Fragment>
+                    }
                 </select>
             </p>
             <p>

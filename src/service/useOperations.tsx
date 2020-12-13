@@ -79,7 +79,7 @@ const UPDATE_OPERATIONS_MUTATION: TypedDocumentNode = gql`
             selected: $selected,
             isPassed: $isPassed
         ){
-            selected, isPassed
+            selected
         }
     }
 `;

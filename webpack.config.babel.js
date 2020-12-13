@@ -1,5 +1,6 @@
 import path from 'path';
 import dotenv from 'dotenv-webpack';
+import ReactRefreshWebpackPlugin from '@pmmmwh/react-refresh-webpack-plugin';
 
 export default {
     resolve: {
@@ -54,9 +55,10 @@ export default {
         ],
     },
     plugins: [
+        new ReactRefreshWebpackPlugin(),
         new dotenv({
             path: path.resolve(__dirname, './.env'),
             systemvars: true,
-        }),
-    ]
+        })
+    ].filter(Boolean)
 };

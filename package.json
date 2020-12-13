@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack --config webpack.config.babel.js --mode production",
-    "start": "webpack-dev-server --config webpack.config.babel.js --mode development"
+    "start": "webpack-dev-server --config webpack.config.babel.js --mode development --hot"
   },
   "license": "ISC",
   "devDependencies": {
@@ -14,6 +14,7 @@
     "@babel/preset-env": "^7.11.5",
     "@babel/preset-react": "^7.10.4",
     "@babel/register": "^7.12.1",
+    "@pmmmwh/react-refresh-webpack-plugin": "^0.4.3",
     "@types/styled-components": "^5.1.3",
     "@typescript-eslint/eslint-plugin": "^4.1.0",
     "@typescript-eslint/parser": "^4.1.0",
@@ -26,9 +27,11 @@
     "eslint-plugin-react": "^7.20.6",
     "eslint-plugin-react-hooks": "^4.1.2",
     "file-loader": "^6.1.0",
+    "react-refresh": "^0.9.0",
     "source-map-loader": "^1.1.0",
     "style-loader": "^1.2.1",
     "ts-loader": "^8.0.3",
+    "type-fest": "^0.8.1",
     "typescript": "^4.0.2",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
