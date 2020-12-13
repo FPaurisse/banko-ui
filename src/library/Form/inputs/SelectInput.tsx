@@ -1,3 +1,4 @@
+import { Link } from '@reach/router';
 import { find } from 'lodash';
 import * as React from 'react';
 import { Controller } from 'react-hook-form';
@@ -45,6 +46,7 @@ const SelectInput: React.FC<InputProps> = (props) => {
                     options={ innerOptions }
                     getOptionLabel={ (option) => mapper(option, 'label') }
                     getOptionValue={ (option) => mapper(option, 'value') }
+                    noOptionsMessage={ () => <Link to='/categories'>Ajouter une catégorie</Link> as never }
                     styles={ customStyles }
                     placeholder={ label }
                 />

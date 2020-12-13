@@ -9,7 +9,7 @@ const Menu: React.FC = () => {
     const { accounts, selected, setSelected } = useAccountsByUserContext();
     const { user } = useUserContext();
 
-    const currentAccount = find(accounts, ['isDefault', true])
+    const currentAccount = find(accounts, ['isDefault', true]) || accounts[0]
 
     const handleChange = (e: React.ChangeEvent<HTMLSelectElement>): void => {
         const value = e.target.value;

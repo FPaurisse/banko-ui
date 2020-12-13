@@ -21,8 +21,10 @@ const Form: React.FC = ({ children }) => {
         if (!data.isCredit) {
             data.amount = `-${data.amount}`;   
         }
+        if (accounts && accounts.selected) {
+            data.accountId = accounts.selected;
+        }
         data.userId = user._id;
-        data.accountId = accounts.selected;
         if (entity) {
             const { _id } = entity as Record<string, unknown>;
             update({ _id, ...data })

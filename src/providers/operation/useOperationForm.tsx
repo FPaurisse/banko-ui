@@ -34,8 +34,7 @@ const useOperationForm = (categories: CategoryModel[]): OperationReturn => {
             options: categories.length > 0 ? 
                 categories.map((category) => ({ label: category.title, value: category._id }))
                 : [],
-            isMulti: true,
-            required: true
+            isMulti: true
         },
         {
             name: 'amount',

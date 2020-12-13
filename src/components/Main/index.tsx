@@ -1,5 +1,5 @@
 import * as React                           from 'react';
-import { Redirect, Router }                 from '@reach/router';
+import { Router }                 from '@reach/router';
 
 import Operations                           from '@components/Operations';
 import Categories                           from '@components/Categories';
@@ -10,6 +10,7 @@ import { AccountsByUserContextProvider }    from '@providers/account/useAccounts
 import useAccountsByUser                    from '@providers/account/useAccountsByUser';
 
 import { MainStyle }                        from './Main.style';
+import OnBoarding from '@components/OnBoarding';
 
 interface MainProps {
     userId: string;
@@ -19,8 +20,8 @@ const Main: React.FC<MainProps> = ({ userId }) => {
 
     const accountsByUser = useAccountsByUser(userId);
 
-    if (!accountsByUser.selected) {
-        return null;
+    if (!accountsByUser || !accountsByUser.accounts || !accountsByUser.selected) {
+        return <OnBoarding />
     }
 
     return (
@@ -28,9 +29,6 @@ const Main: React.FC<MainProps> = ({ userId }) => {
             <AccountsByUserContextProvider { ...accountsByUser }>
                 <Sidenav />
                 <Router component={ MainStyle }>
-                    {
-                        accountsByUser.accounts && accountsByUser.accounts.length < 0 && <Redirect replace from='/' to='/create' />
-                    }
                     <Operations path="/" />
                     <Categories path="/categories" />
                     <Accounts path="/accounts" />

@@ -31,7 +31,7 @@ const useAccountsByUser = (userId: string): AccountsByUserContextValues => {
             setLoading(false);
             if (!selected && accounts.length > 0) {
                 const accountByDefault = find(accounts, ['isDefault', true]);
-                setSelected(accountByDefault._id || accounts[1]._id)
+                setSelected(accountByDefault?._id || accounts[0]._id)
             }
         }
     }, [accounts])
