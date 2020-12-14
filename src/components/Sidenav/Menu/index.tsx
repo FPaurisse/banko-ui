@@ -19,7 +19,7 @@ const Menu: React.FC = () => {
         }
     }
     
-    if (!selected) {
+    if (accounts.length === 0) {
         return null;
     }
      

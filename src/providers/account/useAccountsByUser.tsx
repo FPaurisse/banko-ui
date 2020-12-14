@@ -8,13 +8,15 @@ import { find } from 'lodash';
 export type AccountsByUserContextValues = {
     accounts: AccountModel[];
     selected: string;
+    onBoarding: boolean;
     loading: boolean;
     setSelected: React.Dispatch<React.SetStateAction<string>>;
 };
 
 const useAccountsByUser = (userId: string): AccountsByUserContextValues => {
     const [selected, setSelected] = React.useState<string>(null);
-    const [loading, setLoading] = React.useState<boolean>(false);
+    const [onBoarding, setOnboarding] = React.useState<boolean>(false);
+    const [loading, setLoading] = React.useState<boolean>(true);
     const [accounts, setAccounts] = React.useState<AccountModel[]>(null);
 
     const {
@@ -22,16 +24,23 @@ const useAccountsByUser = (userId: string): AccountsByUserContextValues => {
     } = Provider(userId);
     
     React.useEffect(() => {
-        setLoading(true);
-        setAccounts(accountsByUser);
+        if (accountsByUser) {
+            setAccounts(accountsByUser);
+        }
     }, [accountsByUser]);
 
     React.useEffect(() => {
         if (accounts) {
-            setLoading(false);
-            if (!selected && accounts.length > 0) {
-                const accountByDefault = find(accounts, ['isDefault', true]);
-                setSelected(accountByDefault?._id || accounts[0]._id)
+            setLoading(false)
+            if (accounts.length === 0) {
+                setOnboarding(true);
+            } 
+            if(accounts.length > 0){
+                setOnboarding(false);
+                if (!selected) {
+                    const accountByDefault = find(accounts, ['isDefault', true]);
+                    setSelected(accountByDefault?._id || accounts[0]._id)
+                }
             }
         }
     }, [accounts])
@@ -39,6 +48,7 @@ const useAccountsByUser = (userId: string): AccountsByUserContextValues => {
     return ({
         accounts,
         selected,
+        onBoarding,
         loading,
         setSelected
     })

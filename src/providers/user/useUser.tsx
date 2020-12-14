@@ -19,7 +19,7 @@ interface UserInfoModel {
 
 const useUser = (): UserContextValues => {
     const [loading, setLoading] = React.useState<boolean>(false);
-    const [ user, setUser ] = React.useState<UserModel>(null)
+    const [user, setUser]       = React.useState<UserModel>(null);
     
     const { keycloak } = useKeycloak();
 

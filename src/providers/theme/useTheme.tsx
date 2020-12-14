@@ -2,8 +2,10 @@ export type ThemeContextValues = {
     theme: 'dark' | 'light';
 };
 
-export const useTheme = (): ThemeContextValues => {
+const useTheme = (): ThemeContextValues => {
     return {
         theme: 'light'
     };
 };
+
+export default useTheme;

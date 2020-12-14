@@ -57,7 +57,7 @@ const DELETE_ACCOUNT_MUTATION: TypedDocumentNode = gql`
 `;
 
 const useAccountsByUser = (userId: string): UseQueryState<AccountModel[]> => {
-    const [{ data = { getAccountsByUser: [] }, fetching, error, stale }] = useQuery({ query: ACCOUNTS_BY_USER_QUERY, variables: { userId } });
+    const [{ data = { getAccountsByUser: null }, fetching, error, stale }] = useQuery({ query: ACCOUNTS_BY_USER_QUERY, variables: { userId } });
     return { data: data.getAccountsByUser, fetching, error, stale };
 }
 

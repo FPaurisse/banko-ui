@@ -1,17 +1,18 @@
-import * as React                           from 'react';
+import * as React               from 'react';
 
-import { ThemeContextProvider }             from '@providers/theme/useThemeContext';
-import { useTheme }                         from '@providers/theme/useTheme';
+import { ThemeContextProvider } from '@providers/theme/useThemeContext';
+import { UserContextProvider }  from '@providers/user/useUserContext';
+import useTheme                 from '@providers/theme/useTheme';
+import useUser                  from '@providers/user/useUser';
 
-import { AppStyle } from './App.style';
-import Main from '@components/Main';
-import useUser from '@providers/user/useUser';
-import { UserContextProvider } from '@providers/user/useUserContext';
+import Main                     from '@components/Main';
+
+import { AppStyle }             from './App.style';
 
 const App: React.FC = () => {
-    const vm = useUser();
-
+    
     const theme = useTheme();
+    const vm    = useUser();
 
     if (!vm.user) {
         return null;
@@ -21,7 +22,7 @@ const App: React.FC = () => {
         <UserContextProvider { ...vm }>
             <ThemeContextProvider { ...theme }>
                 <AppStyle>
-                    <Main userId={ vm.user._id } />
+                    <Main />
                 </AppStyle>
             </ThemeContextProvider>
         </UserContextProvider>
