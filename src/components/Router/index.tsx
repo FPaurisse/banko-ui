@@ -6,8 +6,6 @@ import Categories                           from '@components/Categories';
 import Accounts                             from '@components/Accounts';
 
 import { MainStyle }                        from './Main.style';
-import { useAccountsByUserContext } from '@providers/account/useAccountsByUserContext';
-import OnBoarding from '@components/OnBoarding';
 
 const AppRouter: React.FC = () => {
     

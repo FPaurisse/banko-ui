@@ -6,7 +6,7 @@ import { useUserContext }                   from '@providers/user/useUserContext
 
 import AppRouter                            from '@components/Router';
 import Sidenav                              from '@components/Sidenav';
-import OnBoarding from '@components/OnBoarding';
+import OnBoarding                           from '@components/OnBoarding';
 
 const Main: React.FC = () => {
 

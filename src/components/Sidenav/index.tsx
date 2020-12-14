@@ -1,9 +1,10 @@
-import * as React from 'react';
-import { RouteComponentProps } from '@reach/router';
+import * as React               from 'react';
+import { RouteComponentProps }  from '@reach/router';
 
-import { HeaderStyle } from './Sidenav.style';
-import Menu from '@components/Sidenav/Menu';
-import UserInfo from '@components/Sidenav/UserInfo';
+import Menu                     from '@components/Sidenav/Menu';
+import UserInfo                 from '@components/Sidenav/UserInfo';
+
+import { HeaderStyle }          from './Sidenav.style';
 
 const User: React.FC<RouteComponentProps> = () => {
     

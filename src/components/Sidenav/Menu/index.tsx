@@ -1,8 +1,9 @@
-import * as React from 'react';
-import { Link, navigate } from '@reach/router';
-import { find }  from 'lodash';
+import * as React                   from 'react';
+import { Link, navigate }           from '@reach/router';
+import { find }                     from 'lodash';
+
 import { useAccountsByUserContext } from '@providers/account/useAccountsByUserContext';
-import { useUserContext } from '@providers/user/useUserContext';
+import { useUserContext }           from '@providers/user/useUserContext';
 
 const Menu: React.FC = () => {
 
