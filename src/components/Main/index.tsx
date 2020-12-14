@@ -6,13 +6,14 @@ import { useUserContext }                   from '@providers/user/useUserContext
 
 import AppRouter                            from '@components/Router';
 import Sidenav                              from '@components/Sidenav';
+import OnBoarding from '@components/OnBoarding';
 
 const Main: React.FC = () => {
 
     const { user } = useUserContext();
 
     const accountsByUser = useAccountsByUser(user._id);
-    
+
     if (accountsByUser.loading) {
         return null;
     }
@@ -21,7 +22,9 @@ const Main: React.FC = () => {
         <React.Fragment>
             <AccountsByUserContextProvider { ...accountsByUser }>
                 <Sidenav />
-                <AppRouter />
+                {
+                    accountsByUser.onBoarding ? <OnBoarding /> : <AppRouter />
+                }
             </AccountsByUserContextProvider>
         </React.Fragment>
     )

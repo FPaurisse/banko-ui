@@ -10,11 +10,6 @@ import { useAccountsByUserContext } from '@providers/account/useAccountsByUserCo
 import OnBoarding from '@components/OnBoarding';
 
 const AppRouter: React.FC = () => {
-    const { onBoarding } = useAccountsByUserContext();
-
-    if (onBoarding) {
-        return <OnBoarding />
-    }
     
     return (
         <Router component={ MainStyle }>
