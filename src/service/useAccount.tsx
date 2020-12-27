@@ -7,7 +7,7 @@ import { AccountModel }   from '@models/AccountModel';
 const ACCOUNTS_BY_USER_QUERY: DocumentNode = gql`
     query ($userId: String!) {
         getAccountsByUser(userId: $userId){
-            _id, title, userId 
+            _id, title, userId, guests
         }
     }
 `;
@@ -15,13 +15,15 @@ const ACCOUNTS_BY_USER_QUERY: DocumentNode = gql`
 const CREATE_ACCOUNT_MUTATION: TypedDocumentNode = gql`
     mutation CreateAccountMutation(
         $title: String!,
-        $userId: String!
+        $userId: String!,
+        $guests: [String!]
     ){
         createAccount(
             title: $title,  
-            userId: $userId
+            userId: $userId,
+            guests: $guests
         ){
-            _id, title, userId
+            _id, title, userId, guests
         }
     }
 `;
@@ -29,13 +31,15 @@ const CREATE_ACCOUNT_MUTATION: TypedDocumentNode = gql`
 const UPDATE_ACCOUNT_MUTATION: TypedDocumentNode = gql`
     mutation updateAccountMutation(
         $_id: ID!,
-        $title: String!
+        $title: String!,
+        $guests: [String!]
     ){
         updateAccount(
             _id: $_id,  
-            title: $title
+            title: $title,
+            guests: $guests
         ){
-            _id, title, userId
+            _id, title, userId, guests
         }
     }
 `;
@@ -47,7 +51,7 @@ const DELETE_ACCOUNT_MUTATION: TypedDocumentNode = gql`
         deleteAccount(
             _id: $_id
         ){
-            _id, title, userId
+            _id, title, userId, guests
         }
     }
 `;

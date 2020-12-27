@@ -1,13 +1,15 @@
 export class AccountModel {
     _id: string;
-    title: string;
     userId: string;
+    title: string;
+    guests: string[];
     
     static Empty(): AccountModel {
         return new AccountModel({
             _id: '',
             title: '',
-            userId: ''
+            userId: '', 
+            guests: []
         });
     }
 

@@ -6,7 +6,7 @@ import { NumberInputStyle } from './NumberInput.style';
 
 const NumberInput: React.FC<InputProps> = (props) => {
     const { form } = useFormContext();
-    const { name, before, after, innerRef, label } = props;
+    const { name, before, after, innerRef, label, disabled } = props;
     const value = form.watch(name);
 
     React.useEffect(() => {
@@ -26,6 +26,7 @@ const NumberInput: React.FC<InputProps> = (props) => {
                 type='number'
                 step='any'
                 ref={ innerRef }
+                disabled={ disabled }
                 name={ name }
                 id={ name }
                 placeholder={ label }

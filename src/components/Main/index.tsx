@@ -3,8 +3,8 @@ import * as React                           from 'react';
 import { useUserContext }                   from '@providers/user/useUserContext';
 import useAccountsByUser                    from '@providers/account/useAccountsByUser';
 import { AccountsByUserContextProvider }    from '@providers/account/useAccountsByUserContext';
-import useSetting                           from '@providers/setting/useSetting';
-import { SettingContextProvider }           from '@providers/setting/useSettingContext';
+import useProfile                           from '@providers/profile/useProfile';
+import { ProfileContextProvider }           from '@providers/profile/useProfileContext';
 
 import AppRouter                            from '@components/Router';
 import Sidenav                              from '@components/Sidenav';
@@ -14,8 +14,8 @@ const Main: React.FC = () => {
 
     const { user } = useUserContext();
 
-    const accountsByUser = useAccountsByUser(user._id);
-    const settingByUser  = useSetting(user._id, accountsByUser.accounts);
+    const accountsByUser    = useAccountsByUser(user._id);
+    const profile           = useProfile(user._id, accountsByUser.accounts);
 
     if (accountsByUser.loading) {
         return null;
@@ -23,7 +23,7 @@ const Main: React.FC = () => {
 
     return (
         <React.Fragment>
-            <SettingContextProvider { ...settingByUser }>
+            <ProfileContextProvider { ...profile }>
                 <AccountsByUserContextProvider { ...accountsByUser }>
                     {
                         accountsByUser.onBoarding
@@ -34,7 +34,7 @@ const Main: React.FC = () => {
                             </React.Fragment>
                     }
                 </AccountsByUserContextProvider>
-            </SettingContextProvider>
+            </ProfileContextProvider>
         </React.Fragment>
     )
 };

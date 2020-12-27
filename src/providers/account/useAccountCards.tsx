@@ -9,6 +9,7 @@ import { useCard, useCardContextValues }        from '@library/Card/provider/use
 import useAccountForm                           from '@providers/Account/useAccountForm';
 
 import { useAccountDelete, useAccountsByUser }  from '@service/useAccount';
+import { useSharedProfiles } from '@service/useProfile';
 
 type AccountCardProvider = {
     definition: FormModel<AccountModel>;
@@ -17,7 +18,10 @@ type AccountCardProvider = {
 };
 
 const useAccountCards = (userId: string): AccountCardProvider => {
-    const { definition, form }  = useAccountForm();
+
+    const { data: sharedProfiles } = useSharedProfiles(userId);
+    
+    const { definition, form }  = useAccountForm(sharedProfiles);
     const { entity } = form;
 
     const {

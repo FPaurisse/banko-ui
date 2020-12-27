@@ -16,8 +16,8 @@ import { PeriodContextProvider }    from '@providers/period/usePeriodContext';
 import { AccountsStyle, Container, Content } from './Accounts.style';
 
 const Account: React.FC<RouteComponentProps> = () => {
-    const period                        = usePeriod();
-    const { user }                      = useUserContext();
+    const period = usePeriod();
+    const { user } = useUserContext();
     const { form, definition, cards }   = useAccountCards(user._id);
 
     return (
@@ -28,6 +28,7 @@ const Account: React.FC<RouteComponentProps> = () => {
                         <Modal>
                             <Form>
                                 <Input { ...definition.find((field) => field.name === 'title') } />
+                                <Input { ...definition.find((field) => field.name === 'guests') } />
                             </Form>
                         </Modal>
                         <Container>

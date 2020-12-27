@@ -7,7 +7,7 @@ import { SelectInputStyle } from './SelectInput.style';
 const SelectInput: React.FC<InputProps> = (props) => {
     
     const { form } = useFormContext();
-    const { name, label, innerRef, options } = props;
+    const { name, label, innerRef, options, disabled } = props;
 
     const handleChange = (e: React.BaseSyntheticEvent): void => {
         form.setValue(name, e.target.value)
@@ -18,6 +18,7 @@ const SelectInput: React.FC<InputProps> = (props) => {
             <label>{ label }</label>
             <select
                 name={ name } 
+                disabled={ disabled }
                 ref={ innerRef as React.LegacyRef<HTMLSelectElement> }
                 onChange={ handleChange }
             >

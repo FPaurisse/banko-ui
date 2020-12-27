@@ -6,14 +6,14 @@ import { AccountModel }             from '@models/AccountModel';
 
 import { useAccountsByUserContext } from '@providers/account/useAccountsByUserContext';
 import { useUserContext }           from '@providers/user/useUserContext';
-import { useSettingContext }        from '@providers/setting/useSettingContext';
+import { useProfileContext }        from '@providers/profile/useProfileContext';
 
 const Menu: React.FC = () => {
     const [primaryAccount, setPrimaryAccount] = React.useState<AccountModel>(null);
     const [secondaryAccount, setSecondaryAccount] = React.useState<AccountModel[]>([]);
 
     const { accounts, selected, setSelected } = useAccountsByUserContext();
-    const { setting } = useSettingContext();
+    const { profile } = useProfileContext();
 
     const { user } = useUserContext();
 
@@ -26,12 +26,12 @@ const Menu: React.FC = () => {
 
     React.useEffect(() => {
         if (accounts) {
-            if (setting?.accountIdByDefault) {
-                setPrimaryAccount(find(accounts, ['_id', setting.accountIdByDefault]));
-                setSelected(setting.accountIdByDefault);
+            if (profile?.accountIdByDefault) {
+                setPrimaryAccount(find(accounts, ['_id', profile.accountIdByDefault]));
+                setSelected(profile.accountIdByDefault);
             }
         }
-    }, [accounts, setting]);
+    }, [accounts, profile]);
 
     React.useEffect(() => {
         if (accounts) {

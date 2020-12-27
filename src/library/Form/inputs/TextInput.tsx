@@ -4,7 +4,7 @@ import { InputProps }   from '@library/Form/models/InputModel';
 import { TextInputStyle } from './TextInput.style';
 
 const TextInput: React.FC<InputProps> = (props) => {
-    const { name, innerRef, label } = props;
+    const { name, innerRef, label, disabled } = props;
     
     return (
         <TextInputStyle>
@@ -15,6 +15,7 @@ const TextInput: React.FC<InputProps> = (props) => {
                 id={ name }
                 placeholder={ label }
                 autoComplete='off'
+                disabled={ disabled }
             />
         </TextInputStyle>
     )

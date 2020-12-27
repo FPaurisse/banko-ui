@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-const SettingsStyle = styled.div`
+const ProfileStyle = styled.div`
     display: flex;
     flex: 0 0 100%;
     flex-direction: column;
@@ -21,4 +21,4 @@ const Content = styled.div`
     overflow: hidden;
 `;
 
-export { SettingsStyle, Container, Content };
+export { ProfileStyle, Container, Content };

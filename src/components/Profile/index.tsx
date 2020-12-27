@@ -5,22 +5,31 @@ import Form                         from '@library/Form/Form';
 import Input                        from '@library/Form/Input';
 import { FormContextProvider }      from '@library/Form/provider/useFormContext';
 
-import { SettingsStyle, Container, Content } from './Settings.style';
+import { ProfileStyle, Container, Content } from './Profile.style';
 import { usePeriod } from '@providers/period/usePeriod';
 import { PeriodContextProvider } from '@providers/period/usePeriodContext';
-import { useSettingContext } from '@providers/setting/useSettingContext';
+import { useProfileContext } from '@providers/profile/useProfileContext';
 
-const Settings: React.FC<RouteComponentProps> = () => {
-    const period               = usePeriod();
-    const { form, definition } = useSettingContext();
+const Profile: React.FC<RouteComponentProps> = () => {
+    const period                        = usePeriod();
+    const { form, definition, profile } = useProfileContext();
+
+    if (!profile) {
+        return null;
+    }
 
     return (
-        <SettingsStyle>
+        <ProfileStyle>
             <PeriodContextProvider { ...period }>
                 <FormContextProvider { ...form }>
                     <Container>
                         <Form>
                             <Input { ...definition.find((field) => field.name === 'accountIdByDefault') } />
+                            <Input { ...definition.find((field) => field.name === 'shareMyProfile') } />
+                            <Input { ...definition.find((field) => field.name === 'username') } />
+                            <Input { ...definition.find((field) => field.name === 'email') } />
+                            <Input { ...definition.find((field) => field.name === 'firstname') } />
+                            <Input { ...definition.find((field) => field.name === 'lastname') } />
                         </Form>
                         <Content>
 
@@ -28,8 +37,8 @@ const Settings: React.FC<RouteComponentProps> = () => {
                     </Container>
                 </FormContextProvider>
             </PeriodContextProvider>
-        </SettingsStyle>
+        </ProfileStyle>
     )
 };
 
-export default Settings;
+export default Profile;

@@ -10,7 +10,7 @@ import { useFormContext }   from '../provider/useFormContext';
 const MultiSelectInput: React.FC<InputProps> = (props) => {
 
     const { form } = useFormContext();
-    const { name, label, options, isMulti } = props;
+    const { name, label, options, isMulti, disabled } = props;
     
     // get array of values
     const innerOptions = options ? options.map((option) => option.value) : [];
@@ -44,6 +44,7 @@ const MultiSelectInput: React.FC<InputProps> = (props) => {
                 <Select
                     isMulti={ isMulti ? true : false }
                     options={ innerOptions }
+                    isDisabled={ disabled }
                     getOptionLabel={ (option) => mapper(option, 'label') }
                     getOptionValue={ (option) => mapper(option, 'value') }
                     noOptionsMessage={ () => 'Aucun résultat' }

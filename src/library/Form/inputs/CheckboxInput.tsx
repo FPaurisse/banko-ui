@@ -5,13 +5,14 @@ import { CheckboxInputStyle } from './CheckboxInput.style';
 import { useFormContext } from '../provider/useFormContext';
 
 const CheckboxInput: React.FC<InputProps> = (props) => {
-    const { name, innerRef, label, inverse } = props;
+    const { name, innerRef, label, inverse, disabled } = props;
     const { form } = useFormContext();
     const value = form.watch(name);
 
     return (
         <CheckboxInputStyle $isChecked={ value }>
             <input
+                disabled={ disabled }
                 type='checkbox'
                 ref={ innerRef }
                 name={ name }

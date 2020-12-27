@@ -12,7 +12,7 @@ const UserInfo: React.FC = () => {
                     <Link to='/accounts'>Mes comptes bancaires</Link>
                 </p>
                 <p>
-                    <Link to='/settings'>Paramètres</Link>
+                    <Link to='/profile'>Paramètres</Link>
                 </p>
                 <p>
                     <button onClick={ () => keycloak.logout() }>Logout</button>
