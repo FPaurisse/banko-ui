@@ -1,11 +1,12 @@
-import { Router } from '@reach/router';
 import * as React from 'react';
+import { Router }       from '@reach/router';
 
-import Operations                           from '@components/Operations';
-import Categories                           from '@components/Categories';
-import Accounts                             from '@components/Accounts';
+import Operations       from '@components/Operations';
+import Categories       from '@components/Categories';
+import Accounts         from '@components/Accounts';
+import  Settings        from '@components/Settings';
 
-import { MainStyle }                        from './Main.style';
+import { MainStyle }    from './Main.style';
 
 const AppRouter: React.FC = () => {
     
@@ -14,6 +15,7 @@ const AppRouter: React.FC = () => {
             <Operations path="/" />
             <Categories path="/categories" />
             <Accounts path="/accounts" />
+            <Settings path="/settings" />
         </Router>
     )
 };

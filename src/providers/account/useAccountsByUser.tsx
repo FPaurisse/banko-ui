@@ -1,9 +1,8 @@
-import * as React               from 'react';
+import * as React                           from 'react';
 
-import { AccountModel }         from '@models/AccountModel';
+import { AccountModel }                     from '@models/AccountModel';
 
 import { useAccountsByUser as Provider }    from '@service/useAccount';
-import { find } from 'lodash';
 
 export type AccountsByUserContextValues = {
     accounts: AccountModel[];
@@ -38,8 +37,7 @@ const useAccountsByUser = (userId: string): AccountsByUserContextValues => {
             if(accounts.length > 0){
                 setOnboarding(false);
                 if (!selected) {
-                    const accountByDefault = find(accounts, ['isDefault', true]);
-                    setSelected(accountByDefault?._id || accounts[0]._id)
+                    setSelected(accounts[0]._id)
                 }
             }
         }

@@ -30,21 +30,32 @@ export default {
         rules: [
             {
                 test: /\.js$/,
-                loader: ['babel-loader', 'eslint-loader'],
+                use: [
+                    { loader: 'babel-loader' },
+                    { loader: 'eslint-loader' }
+                ],
                 exclude: /node_modules/
             },
             {
                 test: /\.ts(x?)$/,
-                use: [{ loader: 'ts-loader' }, { loader: 'eslint-loader' }],
+                use: [
+                    { loader: 'ts-loader', options: { transpileOnly: true } },
+                    { loader: 'eslint-loader' }
+                ],
                 exclude: /node_modules/
             },
             {
                 test: /\.css|.less$/,
-                use: [{ loader: 'style-loader' }, { loader: 'css-loader' }],
+                use: [
+                    { loader: 'style-loader' },
+                    { loader: 'css-loader' }
+                ],
             },
             {
                 test: /\.(jpeg|png|svg|jpg|gif)$/i,
-                use: ['file-loader'],
+                use: [
+                    { loader: 'file-loader' }
+                ],
             },
             {
                 enforce: 'pre',
@@ -55,10 +66,10 @@ export default {
         ],
     },
     plugins: [
-        new ReactRefreshWebpackPlugin(),
         new dotenv({
             path: path.resolve(__dirname, './.env'),
             systemvars: true,
-        })
-    ].filter(Boolean)
+        }),
+        new ReactRefreshWebpackPlugin()
+    ]
 };

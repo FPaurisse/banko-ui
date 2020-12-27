@@ -10,7 +10,7 @@ export interface InputProps {
     options?: Record<string, unknown>[];
 }
 
-export type InputType = 'text' | 'number' | 'date' | 'checkbox' | 'select';
+export type InputType = 'text' | 'number' | 'date' | 'checkbox' | 'select' | 'multiselect';
 
 export class InputDefinitionModel<T = never> {
     name: Extract<keyof T, string>;

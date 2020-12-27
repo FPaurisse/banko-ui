@@ -1,8 +1,10 @@
 import * as React                           from 'react';
 
-import { AccountsByUserContextProvider }    from '@providers/account/useAccountsByUserContext';
-import useAccountsByUser                    from '@providers/account/useAccountsByUser';
 import { useUserContext }                   from '@providers/user/useUserContext';
+import useAccountsByUser                    from '@providers/account/useAccountsByUser';
+import { AccountsByUserContextProvider }    from '@providers/account/useAccountsByUserContext';
+import useSetting                           from '@providers/setting/useSetting';
+import { SettingContextProvider }           from '@providers/setting/useSettingContext';
 
 import AppRouter                            from '@components/Router';
 import Sidenav                              from '@components/Sidenav';
@@ -13,6 +15,7 @@ const Main: React.FC = () => {
     const { user } = useUserContext();
 
     const accountsByUser = useAccountsByUser(user._id);
+    const settingByUser  = useSetting(user._id, accountsByUser.accounts);
 
     if (accountsByUser.loading) {
         return null;
@@ -20,12 +23,18 @@ const Main: React.FC = () => {
 
     return (
         <React.Fragment>
-            <AccountsByUserContextProvider { ...accountsByUser }>
-                <Sidenav />
-                {
-                    accountsByUser.onBoarding ? <OnBoarding /> : <AppRouter />
-                }
-            </AccountsByUserContextProvider>
+            <SettingContextProvider { ...settingByUser }>
+                <AccountsByUserContextProvider { ...accountsByUser }>
+                    {
+                        accountsByUser.onBoarding
+                            ? <OnBoarding />
+                            : <React.Fragment>
+                                <Sidenav />
+                                <AppRouter />
+                            </React.Fragment>
+                    }
+                </AccountsByUserContextProvider>
+            </SettingContextProvider>
         </React.Fragment>
     )
 };

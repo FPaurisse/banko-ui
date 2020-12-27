@@ -17,6 +17,10 @@ const useAccountForm = (): AccountReturn => {
             create: useAccountCreate(),
             update: useAccountUpdate()
         },
+        headings: {
+            creation: 'Ajouter un compte',
+            edition: 'Modifier le compte'
+        }
     });
 
     const definition: FormModel<AccountModel> = [
@@ -25,19 +29,7 @@ const useAccountForm = (): AccountReturn => {
             type: 'text',
             label: 'Titre',
             required: true
-        },
-        {
-            name: 'isDefault', 
-            type: 'checkbox',
-            label: 'Compte principal',
-            inverse: 'Compte secondaire'
-        },
-        {
-            name: 'guests', 
-            type: 'select',
-            label: 'Invités',
-            options: []
-        },
+        }
     ];
 
     return { form, definition }

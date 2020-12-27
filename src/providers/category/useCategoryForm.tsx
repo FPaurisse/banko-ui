@@ -17,6 +17,10 @@ const useCategoryForm = (): CategoryReturn => {
             create: useCategoryCreate(),
             update: useCategoryUpdate()
         },
+        headings: {
+            creation: 'Ajouter une catégorie',
+            edition: 'Modifier la catégorie'
+        }
     });
 
     const definition: FormModel<CategoryModel> = [

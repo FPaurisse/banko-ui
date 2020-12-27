@@ -1,20 +1,24 @@
 import * as React from 'react';
 
-import { useFormContext }       from '@library/Form/provider/useFormContext';
-import { usePeriodContext }     from '@providers/period/usePeriodContext';
-import { FormStyle } from './Form.style';
-import { useKeyboardEvent } from '@library/utils';
+import { useFormContext }           from '@library/Form/provider/useFormContext';
+import { useKeyboardEvent }         from '@library/utils';
+import { useModalContext }          from '@library/Modal/provider/useModalContext';
+
+import { usePeriodContext }         from '@providers/period/usePeriodContext';
 import { useAccountsByUserContext } from '@providers/account/useAccountsByUserContext';
-import { useUserContext } from '@providers/user/useUserContext';
+import { useUserContext }           from '@providers/user/useUserContext';
+
+import { FormStyle } from './Form.style';
 
 const Form: React.FC = ({ children }) => {
-    const { form, actions, entity, setEntity }  = useFormContext();
-    const { setPeriod } = usePeriodContext();
-    const accounts = useAccountsByUserContext();
-    const { user } = useUserContext();
+    const { form, actions, headings, entity, setEntity } = useFormContext();
+    const accounts          = useAccountsByUserContext();
+    const { setOpen, open } = useModalContext();
+    const { setPeriod }     = usePeriodContext();
+    const { user }          = useUserContext();
     
-    const { update, create } = actions;
     const { handleSubmit, formState }   = form;
+    const { update, create }            = actions;
     const { isDirty }                   = formState;
 
     const onSubmit = async (data: Record<string, unknown>): Promise<void> => {
@@ -32,10 +36,12 @@ const Form: React.FC = ({ children }) => {
             create(data)
         }
         setPeriod(data.date as string);
+        setOpen(false);
     };
 
     const handleUndo = (e: React.SyntheticEvent): void => {
         e.preventDefault();
+        setOpen(false);
         if (entity) {
             setEntity(null)
         } else {
@@ -44,17 +50,22 @@ const Form: React.FC = ({ children }) => {
     }
 
     useKeyboardEvent('Escape', () => {
+        setOpen(false);
         setEntity(null);
-    })
- 
+    });
+
     return (
         <FormStyle onSubmit={ handleSubmit(onSubmit) }>
             <span>
-                <h3>{ entity ? 'Modifier l\'opération' : 'Ajouter une opération' }</h3>
+                {
+                    headings && (
+                        <h3>{ entity ? headings.edition : headings.creation }</h3>
+                    )
+                }
                 { children }
             </span>
             <span>
-                <button disabled={ (isDirty || entity) ? false : true } onClick={ handleUndo }>Annuler</button>
+                <button disabled={ (open || isDirty || entity) ? false : true } onClick={ handleUndo }>Annuler</button>
                 <button disabled={ !isDirty } type='submit'>{ entity ? 'Modifier' : 'Ajouter' }</button>
             </span>
         </FormStyle>

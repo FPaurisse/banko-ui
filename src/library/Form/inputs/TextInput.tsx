@@ -5,7 +5,7 @@ import { TextInputStyle } from './TextInput.style';
 
 const TextInput: React.FC<InputProps> = (props) => {
     const { name, innerRef, label } = props;
-
+    
     return (
         <TextInputStyle>
             <input
@@ -16,7 +16,6 @@ const TextInput: React.FC<InputProps> = (props) => {
                 placeholder={ label }
                 autoComplete='off'
             />
-
         </TextInputStyle>
     )
 };

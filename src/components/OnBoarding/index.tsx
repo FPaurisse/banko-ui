@@ -4,7 +4,7 @@ import { FormContextProvider } from '@library/Form/provider/useFormContext';
 import Form from '@library/Form/Form';
 import Input from '@library/Form/Input';
 import { useUserContext } from '@providers/user/useUserContext';
-import useAccountList from '@providers/account/useAccountList';
+import useAccountList from '@providers/account/useAccountCards';
 import { usePeriod } from '@providers/period/usePeriod';
 import { PeriodContextProvider } from '@providers/period/usePeriodContext';
 
@@ -19,8 +19,6 @@ const OnBoarding: React.FC<RouteComponentProps> = () => {
                 <FormContextProvider { ...form }>
                     <Form>
                         <Input { ...definition.find((field) => field.name === 'title') } />
-                        <Input { ...definition.find((field) => field.name === 'isDefault') } />
-                        <Input { ...definition.find((field) => field.name === 'guests') } />
                     </Form>
                 </FormContextProvider>
             </PeriodContextProvider>

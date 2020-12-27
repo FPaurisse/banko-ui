@@ -18,8 +18,8 @@
             "@providers/*": ["src/providers/*"],
             "@models/*": ["src/models/*"],
             "@service/*": ["src/service/*"]
-      },
+        }
     },
     "include": ["src"],
     "exclude": ["node_modules"]
-  }
+}

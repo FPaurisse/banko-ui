@@ -8,10 +8,13 @@ import useUser                  from '@providers/user/useUser';
 import Main                     from '@components/Main';
 
 import { AppStyle }             from './App.style';
+import { ModalContextProvider } from '@library/Modal/provider/useModalContext';
+import { useModal } from '@library/Modal/provider/useModal';
 
 const App: React.FC = () => {
     
     const theme = useTheme();
+    const modal = useModal();
     const vm    = useUser();
 
     if (!vm.user) {
@@ -21,9 +24,11 @@ const App: React.FC = () => {
     return (
         <UserContextProvider { ...vm }>
             <ThemeContextProvider { ...theme }>
-                <AppStyle>
-                    <Main />
-                </AppStyle>
+                <ModalContextProvider { ...modal }>
+                    <AppStyle>
+                        <Main />
+                    </AppStyle>
+                </ModalContextProvider>
             </ThemeContextProvider>
         </UserContextProvider>
     );

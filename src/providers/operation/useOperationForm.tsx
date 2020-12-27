@@ -18,6 +18,10 @@ const useOperationForm = (categories: CategoryModel[]): OperationReturn => {
             create: useOperationCreate(),
             update: useOperationUpdate()
         },
+        headings: {
+            creation: 'Ajouter une opération',
+            edition: 'Modifier l\'opération'
+        }
     });
 
     const definition: FormModel<OperationModel> = [
@@ -29,7 +33,7 @@ const useOperationForm = (categories: CategoryModel[]): OperationReturn => {
         },
         {
             name: 'categories',
-            type: 'select',
+            type: 'multiselect',
             label: 'Catégories',
             options: categories.length > 0 ? 
                 categories.map((category) => ({ label: category.title, value: category._id }))

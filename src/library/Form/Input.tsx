@@ -7,22 +7,25 @@ import CheckboxInput                                    from '@library/Form/inpu
 import NumberInput                                      from '@library/Form/inputs/NumberInput';
 import TextInput                                        from '@library/Form/inputs/TextInput';
 import DateInput                                        from '@library/Form/inputs/DateInput';
-import { InputStyle } from './Input.style';
-import SelectInput from './inputs/SelectInput';
+import MultiSelectInput                                 from '@library/Form/inputs/MultiSelectInput';
+import SelectInput                                      from '@library/Form/inputs/SelectInput';
+
+import { InputStyle }                                   from './Input.style';
 
 const Inputs: Record<InputType, React.FC> = {
     text: TextInput,
     number: NumberInput,
     date: DateInput,
     checkbox: CheckboxInput,
+    multiselect: MultiSelectInput,
     select: SelectInput
 };
 
 const Input: React.FC<InputDefinitionModel> = (props) => {
-    const { type, name, required, hidden, ...rest }   = props;
-    const { form, inputsError }     = useFormContext();
+    const { type, name, required, hidden, ...rest } = props;
+    const { form, inputsError } = useFormContext();
 
-    const { register }  = form;
+    const { register } = form;
     const inputError: FieldError = inputsError[name as never];
 
     const Component: React.FC<InputProps> = Inputs[type];

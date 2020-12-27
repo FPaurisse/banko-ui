@@ -4,16 +4,16 @@ import { CategoryModel }                                from '@models/CategoryMo
 
 import { FormModel }                                    from '@library/Form/models/FormModel';
 import { UseFormContextValues }                         from '@library/Form/provider/useForm';
-import { useList, useListContextValues }                from '@library/List/provider/useList';
 
 import useCategoryForm                                  from '@providers/Category/useCategoryForm';
 
 import { useCategoryDelete, useCategoriesByAccount }    from '@service/useCategory';
+import { useTag, useTagContextValues } from '@library/Tag/provider/useTag';
 
 type CategoryListProvider = {
     definition: FormModel<CategoryModel>;
     form: UseFormContextValues<CategoryModel>;
-    list: useListContextValues<CategoryModel>;
+    tags: useTagContextValues<CategoryModel>;
 };
 
 const useCategoryList = (accountId: string): CategoryListProvider => {
@@ -31,8 +31,8 @@ const useCategoryList = (accountId: string): CategoryListProvider => {
         executeMutation: remove
     } = useCategoryDelete();
 
-    const list = useList<CategoryModel>({
-        listing: CategoriesByAccount,
+    const tags = useTag<CategoryModel>({
+        tags: CategoriesByAccount,
         indexes: CategoriesByAccount.map((x) => x._id),
         actions: { delete: remove },
         error: listError || removeError,
@@ -51,7 +51,7 @@ const useCategoryList = (accountId: string): CategoryListProvider => {
     return ({
         definition,
         form,
-        list
+        tags
     })
 };
 

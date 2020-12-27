@@ -3,14 +3,20 @@ import { DeepMap, FieldError, useForm as useHookForm }  from 'react-hook-form';
 import { CombinedError, UseMutationState }              from 'urql';
 import { debounce }                                     from 'lodash';
 
+type HookFormType = ReturnType<typeof useHookForm>;
+
+interface HeadingsModel {
+    creation: string;
+    edition: string;
+}
+
 export type UseFormOptions<T> = {
+    headings: HeadingsModel;
     actions: {
         create: { state: UseMutationState, executeMutation: (variables: T) => void };
         update: { state: UseMutationState, executeMutation: (variables: T) => void };
     };
 }
-
-type HookFormType = ReturnType<typeof useHookForm>;
 
 export type UseFormContextValues<T> = {
     form: HookFormType;
@@ -22,6 +28,7 @@ export type UseFormContextValues<T> = {
     };
     inputsError: DeepMap<T, FieldError>;
     serverError: CombinedError,
+    headings: HeadingsModel;
     loading: boolean
 }
 
@@ -36,13 +43,15 @@ const useForm = <T extends unknown> (options: UseFormOptions<T>): UseFormContext
 
     React.useEffect(() => {
         const debounced = debounce(() => setLoading(false), 500);
+        
         if (creating || updating) {
             form.reset();
             setEntity(null);
-            setLoading(true)
-        } else (
-            debounced()
-        )
+            setLoading(true);
+        } else {
+            debounced();
+        }
+        
     }, [creating, updating])
 
     return ({
@@ -55,6 +64,7 @@ const useForm = <T extends unknown> (options: UseFormOptions<T>): UseFormContext
         },
         inputsError: errors,
         serverError: createError || updateError,
+        headings: options.headings,
         loading
     })
 
