@@ -3,13 +3,15 @@ export class AccountModel {
     userId: string;
     title: string;
     guests: string[];
+    guestAccount: boolean;
     
     static Empty(): AccountModel {
         return new AccountModel({
             _id: '',
             title: '',
             userId: '', 
-            guests: []
+            guests: [],
+            guestAccount: false
         });
     }
 

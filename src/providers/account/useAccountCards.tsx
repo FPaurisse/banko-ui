@@ -40,7 +40,7 @@ const useAccountCards = (userId: string): AccountCardProvider => {
         indexes: AccountsByUser.map((x) => x._id),
         actions: { delete: remove },
         error: CardError || removeError,
-        reloading: CardFetching
+        fetching: CardFetching
     });
 
     React.useEffect(() => {

@@ -1,5 +1,6 @@
 export class ProfileModel {
     _id?: string;
+    userId: string;
     accountIdByDefault: string;
     shareMyProfile: boolean;
     email: string;
@@ -10,6 +11,7 @@ export class ProfileModel {
     static Empty(): ProfileModel {
         return new ProfileModel({
             _id: '',
+            userId: '',
             accountIdByDefault: '',
             shareMyProfile: false,
             email: '',

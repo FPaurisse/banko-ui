@@ -57,10 +57,14 @@ const Cards: React.FC = () => {
                                         <CardDetail onClick={ () => handleClick(_id) }>
                                             { title }
                                         </CardDetail>
-                                        <CardActions>
-                                            <button disabled={ selected.length > 0 } onClick={ () => handleUpdate(account) }>Modifier</button>
-                                            <button disabled={ selected.length > 0 } onClick={ () => handleDelete(_id) }>Supprimer</button>
-                                        </CardActions>
+                                        {
+                                            !account.guestAccount && (
+                                                <CardActions>
+                                                    <button disabled={ selected.length > 0 } onClick={ () => handleUpdate(account) }>Modifier</button>
+                                                    <button disabled={ selected.length > 0 } onClick={ () => handleDelete(_id) }>Supprimer</button>
+                                                </CardActions>
+                                            )
+                                        }
                                     </Card>
                                 )
                             })

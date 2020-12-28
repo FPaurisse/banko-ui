@@ -31,10 +31,10 @@ interface useCardProps<T> {
     indexes: string[];
     error: CombinedError;
     actions?: ActionsModel;
-    reloading: boolean;
+    fetching: boolean;
 }
 
-export const useCard = <T extends unknown>({ cards, indexes, error, actions, reloading }: useCardProps<T>): useCardContextValues<T> => {
+export const useCard = <T extends unknown>({ cards, indexes, error, actions, fetching }: useCardProps<T>): useCardContextValues<T> => {
     const [items, setItems] = React.useState<T[]>([]);
     const [selected, setSelected] = React.useState<string[]>([]);
     const [allIsChecked, setAllIsChecked] = React.useState<boolean>(false);
@@ -76,12 +76,12 @@ export const useCard = <T extends unknown>({ cards, indexes, error, actions, rel
 
     React.useEffect(() => {
         const debounced = debounce(() => setLoading(false), 500);
-        if (reloading) {
+        if (fetching) {
             setLoading(true)
         } else (
             debounced()
         )
-    }, [reloading])
+    }, [fetching])
 
     return ({
         items,

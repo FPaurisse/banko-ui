@@ -7,7 +7,7 @@ import { AccountModel }   from '@models/AccountModel';
 const ACCOUNTS_BY_USER_QUERY: DocumentNode = gql`
     query ($userId: String!) {
         getAccountsByUser(userId: $userId){
-            _id, title, userId, guests
+            _id, title, userId, guests, guestAccount
         }
     }
 `;

@@ -36,7 +36,7 @@ const useAccountForm = (sharedProfiles: ProfileModel[]): AccountReturn => {
             type: 'multiselect',
             label: 'Invités',
             options: sharedProfiles && sharedProfiles.length > 0 ? 
-                sharedProfiles.map((profile) => ({ label: profile.username, value: profile._id }))
+                sharedProfiles.map((profile) => ({ label: profile.username, value: profile.userId }))
                 : [],
             isMulti: true
         }
