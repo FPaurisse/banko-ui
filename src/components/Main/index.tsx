@@ -8,7 +8,6 @@ import { ProfileContextProvider }           from '@providers/profile/useProfileC
 
 import AppRouter                            from '@components/Router';
 import Sidenav                              from '@components/Sidenav';
-import OnBoarding                           from '@components/OnBoarding';
 
 const Main: React.FC = () => {
 
@@ -25,14 +24,8 @@ const Main: React.FC = () => {
         <React.Fragment>
             <ProfileContextProvider { ...profile }>
                 <AccountsByUserContextProvider { ...accountsByUser }>
-                    {
-                        accountsByUser.onBoarding
-                            ? <OnBoarding />
-                            : <React.Fragment>
-                                <Sidenav />
-                                <AppRouter />
-                            </React.Fragment>
-                    }
+                    <Sidenav onBoarding={ accountsByUser.onBoarding } />
+                    <AppRouter onBoarding={ accountsByUser.onBoarding } />
                 </AccountsByUserContextProvider>
             </ProfileContextProvider>
         </React.Fragment>

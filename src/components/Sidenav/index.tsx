@@ -1,21 +1,26 @@
 import * as React               from 'react';
-import { RouteComponentProps }  from '@reach/router';
 
 import Menu                     from '@components/Sidenav/Menu';
 import UserInfo                 from '@components/Sidenav/UserInfo';
 
 import { HeaderStyle }          from './Sidenav.style';
 
-const User: React.FC<RouteComponentProps> = () => {
+interface Props {
+    onBoarding: boolean;
+}
+
+const Sidenav: React.FC<Props> = ({ onBoarding }) => {
     
     return (
         <React.Fragment>
             <HeaderStyle>
-                <Menu />
+                {
+                    !onBoarding && <Menu />
+                }
                 <UserInfo />
             </HeaderStyle>
         </React.Fragment>
     )
 };
 
-export default User;
+export default Sidenav;

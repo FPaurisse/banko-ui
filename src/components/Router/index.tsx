@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Router }       from '@reach/router';
+import { navigate, Router }       from '@reach/router';
 
 import Operations       from '@components/Operations';
 import Categories       from '@components/Categories';
@@ -8,12 +8,28 @@ import  Profile        from '@components/Profile';
 
 import { MainStyle }    from './Main.style';
 
-const AppRouter: React.FC = () => {
+interface Props {
+    onBoarding: boolean;
+}
+
+const AppRouter: React.FC<Props> = ({ onBoarding }) => {
+    
+    React.useEffect(() => {
+        if (onBoarding) {
+            navigate('/accounts');
+        }
+    }, [])
     
     return (
         <Router component={ MainStyle }>
-            <Operations path="/" />
-            <Categories path="/categories" />
+            {
+                !onBoarding && (
+                    <React.Fragment>
+                        <Operations path="/" />
+                        <Categories path="/categories" />
+                    </React.Fragment>
+                )
+            }
             <Accounts path="/accounts" />
             <Profile path="/profile" />
         </Router>

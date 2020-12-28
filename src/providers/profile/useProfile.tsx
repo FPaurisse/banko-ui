@@ -24,7 +24,7 @@ const useProfile = (userId: string, accounts: AccountModel[]): ProfileContextVal
     const { data: profileByUserId, fetching } = useProfileByUserId(userId);
 
     React.useEffect(() => {
-        if (!fetching && accounts && accounts.length > 0) {
+        if (!fetching) {
             if (profileByUserId) {
                 setProfile(profileByUserId);
                 form.setEntity(profileByUserId);
@@ -32,7 +32,7 @@ const useProfile = (userId: string, accounts: AccountModel[]): ProfileContextVal
             } else {
                 const userProfiles = {
                     userId: user._id,
-                    accountIdByDefault: accounts[0]._id,
+                    accountIdByDefault: accounts && accounts.length > 0 ? accounts[0]._id : null,
                     shareMyProfile: false,
                     username: user.username,
                     email: user.email,
