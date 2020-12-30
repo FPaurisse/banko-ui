@@ -16,6 +16,7 @@ export type UseFormOptions<T> = {
         create: { state: UseMutationState, executeMutation: (variables: T) => void };
         update: { state: UseMutationState, executeMutation: (variables: T) => void };
     };
+    args: Partial<T>;
 }
 
 export type UseFormContextValues<T> = {
@@ -26,6 +27,7 @@ export type UseFormContextValues<T> = {
         create: (variables: T) => void,
         update: (variables: T) => void
     };
+    args: Partial<T>;
     inputsError: DeepMap<T, FieldError>;
     serverError: CombinedError,
     headings: HeadingsModel;
@@ -62,6 +64,7 @@ const useForm = <T extends unknown> (options: UseFormOptions<T>): UseFormContext
             create,
             update
         },
+        args: options.args,
         inputsError: errors,
         serverError: createError || updateError,
         headings: options.headings,

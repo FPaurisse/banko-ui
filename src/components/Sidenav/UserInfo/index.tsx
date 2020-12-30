@@ -4,6 +4,10 @@ import { useKeycloak } from '@react-keycloak/web';
 
 const UserInfo: React.FC = () => {
     const { keycloak } = useKeycloak();
+
+    const handleLogout = (): void => {
+        keycloak.logout();
+    }
     
     return (
         <React.Fragment>
@@ -15,7 +19,7 @@ const UserInfo: React.FC = () => {
                     <Link to='/profile'>Paramètres</Link>
                 </p>
                 <p>
-                    <button onClick={ () => keycloak.logout() }>Logout</button>
+                    <button onClick={ handleLogout }>Logout</button>
                 </p>
             </div>
         </React.Fragment>

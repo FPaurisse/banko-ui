@@ -11,12 +11,15 @@ export type UserReturn = {
     definition: FormModel<ProfileModel>;
 }
 
-const useProfileForm = (accounts: AccountModel[]): UserReturn => {
+const useProfileForm = (accounts: AccountModel[], userId: string): UserReturn => {
 
     const form = useForm<ProfileModel>({
         actions: {
             create: useProfileCreate(),
             update: useProfileUpdate()
+        },
+        args: {
+            userId
         },
         headings: {
             creation: 'Paramètres',

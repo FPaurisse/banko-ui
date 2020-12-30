@@ -21,7 +21,7 @@ const useAccountCards = (userId: string): AccountCardProvider => {
 
     const { data: sharedProfiles } = useSharedProfiles(userId);
     
-    const { definition, form }  = useAccountForm(sharedProfiles);
+    const { definition, form }  = useAccountForm(sharedProfiles, userId);
     const { entity } = form;
 
     const {

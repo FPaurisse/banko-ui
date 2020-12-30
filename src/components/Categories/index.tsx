@@ -14,12 +14,14 @@ import { useAccountsByUserContext } from '@providers/account/useAccountsByUserCo
 import { CategoriesStyle, Container, Content } from './Categories.style';
 import { TagContextProvider } from '@library/Tag/provider/useTagContext';
 import Tags from '@library/Tag/Tags';
+import { useUserContext } from '@providers/user/useUserContext';
 
 const Categories: React.FC<RouteComponentProps> = () => {
     
     const period = usePeriod();
-    const { selected: accoutId } = useAccountsByUserContext();
-    const { form, definition, tags } = useCategoryTags(accoutId);
+    const { selected: accountId } = useAccountsByUserContext();
+    const { user } = useUserContext();
+    const { form, definition, tags } = useCategoryTags(accountId, user._id);
 
     return (
         <CategoriesStyle>

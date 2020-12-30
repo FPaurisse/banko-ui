@@ -11,12 +11,15 @@ export type AccountReturn = {
     definition: FormModel<AccountModel>;
 }
 
-const useAccountForm = (sharedProfiles: ProfileModel[]): AccountReturn => {
+const useAccountForm = (sharedProfiles: ProfileModel[], userId: string): AccountReturn => {
 
     const form = useForm<AccountModel>({
         actions: {
             create: useAccountCreate(),
             update: useAccountUpdate()
+        },
+        args: {
+            userId
         },
         headings: {
             creation: 'Ajouter un compte',

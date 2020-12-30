@@ -8,6 +8,7 @@ export class OperationModel {
     isCredit: boolean;
     userId: string;
     accountId: string;
+    isSheduled: boolean;
     
     static Empty(): OperationModel {
         return new OperationModel({
@@ -18,7 +19,8 @@ export class OperationModel {
             date: null,
             isPassed: false,
             userId: '',
-            accountId: ''
+            accountId: '',
+            isSheduled: false
         });
     }
 

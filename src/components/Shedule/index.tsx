@@ -9,25 +9,20 @@ import { FormContextProvider }      from '@library/Form/provider/useFormContext'
 
 import { usePeriod }                from '@providers/period/usePeriod';
 import { PeriodContextProvider }    from '@providers/period/usePeriodContext';
-import useOperationsList            from '@providers/operation/useOperationsList';
-import { TotalContextProvider }     from '@providers/total/useTotalContext';
-
-import Total                        from '@components/Operations/Total';
-import Navigation                   from '@components/Operations/Navigation';   
-import Actions                      from '@components/Operations/Actions';
-
-import { Content, Footer, Container, OperationsStyle } from './Operations.style';
 import { useAccountsByUserContext } from '@providers/account/useAccountsByUserContext';
+import useSheduleList               from '@providers/shedule/useSheduleList';
+
+import { Content, Container, SheduleStyle } from './Shedule.style';
 import { useUserContext } from '@providers/user/useUserContext';
 
-const Operations: React.FC<RouteComponentProps> = () => {
-    const period                            = usePeriod();
-    const { user }                          = useUserContext();
-    const { selected: accountId }           = useAccountsByUserContext();
-    const { form, definition, list, total } = useOperationsList(period, user._id, accountId);
+const Shedule: React.FC<RouteComponentProps> = () => {
+    const period                        = usePeriod();
+    const { user }                      = useUserContext();
+    const { selected: accountId }       = useAccountsByUserContext();
+    const { form, definition, list }    = useSheduleList(period, user._id, accountId);
 
     return (
-        <OperationsStyle>
+        <SheduleStyle>
             <PeriodContextProvider { ...period }>
                 <FormContextProvider { ...form }>
                     <ListContextProvider { ...list }>
@@ -41,21 +36,14 @@ const Operations: React.FC<RouteComponentProps> = () => {
                                 <Input { ...definition.find((field) => field.name === 'date') } />
                             </Form>
                             <Content>
-                                <Navigation />
-                                <Actions />
                                 <List />
-                                <Footer>
-                                    <TotalContextProvider { ...total }>
-                                        <Total />
-                                    </TotalContextProvider>
-                                </Footer>
                             </Content>
                         </Container>
                     </ListContextProvider>
                 </FormContextProvider>
             </PeriodContextProvider>
-        </OperationsStyle>
+        </SheduleStyle>
     )
 };
 
-export default Operations;
+export default Shedule;

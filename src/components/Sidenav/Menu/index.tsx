@@ -80,6 +80,9 @@ const Menu: React.FC = () => {
             <p>
                 <Link to="/categories">Mes catégories</Link>
             </p>
+            <p>
+                <Link to="/shedule">Mon échéancier</Link>
+            </p>
         </div>
     );
 };

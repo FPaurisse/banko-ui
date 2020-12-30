@@ -20,14 +20,14 @@ type OperationListProvider = {
     total: TotalContextValues;
 };
 
-const useOperationsList = (period: PeriodContextValues, accountId: string): OperationListProvider => {
+const useOperationsList = (period: PeriodContextValues, userId: string, accountId: string): OperationListProvider => {
 
     const {
         data: CategoriesByAccount,
         error: categoriesError
     } = useCategoriesByAccount(accountId);
 
-    const { definition, form }  = useOperationForm(CategoriesByAccount);
+    const { definition, form }  = useOperationForm(CategoriesByAccount, userId, accountId);
     
     const { entity } = form;
     const { month, year, setPeriod } = period;
@@ -77,6 +77,12 @@ const useOperationsList = (period: PeriodContextValues, accountId: string): Oper
             form.form.reset(model);
         }
     }, [entity])
+
+    React.useEffect(() => {
+        if (form.form.formState.isSubmitting) {
+            setPeriod(form.form.getValues('date'));
+        }
+    }, [form.form.formState.isSubmitting])
 
     return ({
         definition,

@@ -11,7 +11,7 @@ export type OperationReturn = {
     definition: FormModel<OperationModel>;
 }
 
-const useOperationForm = (categories: CategoryModel[], userId: string, accountId: string): OperationReturn => {
+const useSheduleForm = (categories: CategoryModel[], userId: string, accountId: string): OperationReturn => {
 
     const form = useForm<OperationModel>({
         actions: {
@@ -19,7 +19,7 @@ const useOperationForm = (categories: CategoryModel[], userId: string, accountId
             update: useOperationUpdate()
         },
         args: {
-            isSheduled: false,
+            isSheduled: true,
             accountId,
             userId
         },
@@ -76,4 +76,4 @@ const useOperationForm = (categories: CategoryModel[], userId: string, accountId
     return { form, definition }
 };
 
-export default useOperationForm;
+export default useSheduleForm;

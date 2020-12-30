@@ -16,8 +16,8 @@ type CategoryListProvider = {
     tags: useTagContextValues<CategoryModel>;
 };
 
-const useCategoryList = (accountId: string): CategoryListProvider => {
-    const { definition, form }  = useCategoryForm();
+const useCategoryList = (accountId: string, userId: string): CategoryListProvider => {
+    const { definition, form } = useCategoryForm(accountId, userId);
     const { entity } = form;
 
     const {

@@ -1,41 +1,27 @@
-import * as React from 'react';
+import * as React               from 'react';
 
-import { useFormContext }           from '@library/Form/provider/useFormContext';
-import { useKeyboardEvent }         from '@library/utils';
-import { useModalContext }          from '@library/Modal/provider/useModalContext';
+import { useFormContext }       from '@library/Form/provider/useFormContext';
+import { useModalContext }      from '@library/Modal/provider/useModalContext';
+import { useKeyboardEvent }     from '@library/utils';
 
-import { usePeriodContext }         from '@providers/period/usePeriodContext';
-import { useAccountsByUserContext } from '@providers/account/useAccountsByUserContext';
-import { useUserContext }           from '@providers/user/useUserContext';
-
-import { FormStyle } from './Form.style';
+import { FormStyle }            from './Form.style';
 
 const Form: React.FC = ({ children }) => {
-    const { form, actions, headings, entity, setEntity } = useFormContext();
-    const accounts          = useAccountsByUserContext();
+    const { args, form, actions, headings, entity, setEntity } = useFormContext();
+    
     const { setOpen, open } = useModalContext();
-    const { setPeriod }     = usePeriodContext();
-    const { user }          = useUserContext();
     
     const { handleSubmit, formState }   = form;
     const { update, create }            = actions;
     const { isDirty }                   = formState;
 
     const onSubmit = async (data: Record<string, unknown>): Promise<void> => {
-        if (!data.isCredit) {
-            data.amount = `-${data.amount}`;   
-        }
-        if (accounts && accounts.selected) {
-            data.accountId = accounts.selected;
-        }
-        data.userId = user._id;
         if (entity) {
             const { _id } = entity as Record<string, unknown>;
-            update({ _id, ...data })
+            update({ _id, ...data, ...args })
         } else {
-            create(data)
+            create({ ...data, ...args })
         }
-        setPeriod(data.date as string);
         setOpen(false);
     };
 

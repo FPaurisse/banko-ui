@@ -10,13 +10,17 @@ export type CategoryReturn = {
     definition: FormModel<CategoryModel>;
 }
 
-const useCategoryForm = (): CategoryReturn => {
+const useCategoryForm = (accountId: string, userId: string): CategoryReturn => {
 
     const form = useForm<CategoryModel>({
         actions: {
             create: useCategoryCreate(),
             update: useCategoryUpdate()
         },
+        args: {
+            accountId,
+            userId
+        }, 
         headings: {
             creation: 'Ajouter une catégorie',
             edition: 'Modifier la catégorie'
