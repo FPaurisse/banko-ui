@@ -1,6 +1,6 @@
 import * as React                                       from 'react';
 import { debounce, intersection, isEqual, without }     from 'lodash';
-import { CombinedError, UseMutationState } from 'urql';
+import { CombinedError, UseMutationState }              from 'urql';
 
 interface ActionModel<T> {
     label: string;
