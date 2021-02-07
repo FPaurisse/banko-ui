@@ -1,5 +1,5 @@
-import * as React                                                               from 'react';
-import { debounce, intersection, isEqual, without }                                       from 'lodash';
+import * as React                                       from 'react';
+import { debounce, intersection, isEqual, without }     from 'lodash';
 import { CombinedError } from 'urql';
 
 export type useListContextValues<T> = {
@@ -67,7 +67,7 @@ export const useList = <T extends unknown>({ listing, indexes, error, actions, r
     }, [listing])
 
     React.useEffect(() => {
-        if (indexes.length > 0 && isEqual(intersection(selected, indexes), indexes)) {
+        if (indexes && indexes.length > 0 && isEqual(intersection(selected, indexes), indexes)) {
             setAllIsChecked(true);
         } else {
             setAllIsChecked(false);

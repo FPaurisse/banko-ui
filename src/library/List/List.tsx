@@ -1,22 +1,18 @@
-import * as React from 'react';
-import moment from 'moment';
+import * as React           from 'react';
+import moment               from 'moment';
 
 import { OperationModel }   from '@models/OperationModel';
+
 import { useListContext }   from '@library/List/provider/useListContext';
-import { useFormContext }   from '@library/Form/provider/useFormContext';
+
 import { ListStyle, Item, ItemCheck, ItemDetail, ItemActions, Loading } from './List.style';
 
 const List: React.FC = () => {
 
     const { items, actions, selected, selectItem, unselectItem, loading }   = useListContext();
-    const { setEntity } = useFormContext();
 
     const handleDelete = (_id: string): void => {
         actions.remove({ _id });
-    }
-
-    const handleUpdate = (operation: OperationModel): void => {
-        setEntity(operation);
     }
 
     const handleCheck = (_id: string): void => {
@@ -47,7 +43,6 @@ const List: React.FC = () => {
                                             { title }
                                         </ItemDetail>
                                         <ItemActions>
-                                            <button disabled={ selected.length > 0 } onClick={ () => handleUpdate(operation) }>Modifier</button>
                                             <button disabled={ selected.length > 0 } onClick={ () => handleDelete(_id) }>Supprimer</button>
                                         </ItemActions>
                                     </Item>

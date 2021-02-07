@@ -19,40 +19,43 @@ import Actions                      from '@components/Operations/Actions';
 import { Content, Footer, Container, OperationsStyle } from './Operations.style';
 import { useAccountsByUserContext } from '@providers/account/useAccountsByUserContext';
 import { useUserContext } from '@providers/user/useUserContext';
+import { useOperationSave } from '@providers/operation/useOperationSave';
 
 const Operations: React.FC<RouteComponentProps> = () => {
-    const period                            = usePeriod();
-    const { user }                          = useUserContext();
-    const { selected: accountId }           = useAccountsByUserContext();
-    const { form, definition, list, total } = useOperationsList(period, user._id, accountId);
+    const period                        = usePeriod();
+    const { user }                      = useUserContext();
+    const { selected: accountId }       = useAccountsByUserContext();
+    const { list, total }               = useOperationsList(period, user._id, accountId);
+    const { form, definition, save }    = useOperationSave(period, user._id, accountId)
 
     return (
         <OperationsStyle>
             <PeriodContextProvider { ...period }>
-                <FormContextProvider { ...form }>
+                <Container>
+                    <FormContextProvider { ...form }>
+                        <Form>
+                            <Input { ...definition.find((field) => field.name === 'title') } />
+                            <Input { ...definition.find((field) => field.name === 'categories') } />
+                            <Input { ...definition.find((field) => field.name === 'isCredit') } />
+                            <Input { ...definition.find((field) => field.name === 'amount') } />
+                            <Input { ...definition.find((field) => field.name === 'isPassed') } />
+                            <Input { ...definition.find((field) => field.name === 'date') } />
+                            <button onClick={ save }>Valider</button>
+                        </Form>
+                    </FormContextProvider>
                     <ListContextProvider { ...list }>
-                        <Container>
-                            <Form>
-                                <Input { ...definition.find((field) => field.name === 'title') } />
-                                <Input { ...definition.find((field) => field.name === 'categories') } />
-                                <Input { ...definition.find((field) => field.name === 'isCredit') } />
-                                <Input { ...definition.find((field) => field.name === 'amount') } />
-                                <Input { ...definition.find((field) => field.name === 'isPassed') } />
-                                <Input { ...definition.find((field) => field.name === 'date') } />
-                            </Form>
-                            <Content>
-                                <Navigation />
-                                <Actions />
-                                <List />
-                                <Footer>
-                                    <TotalContextProvider { ...total }>
-                                        <Total />
-                                    </TotalContextProvider>
-                                </Footer>
-                            </Content>
-                        </Container>
+                        <Content>
+                            <Navigation />
+                            <Actions />
+                            <List />
+                            <Footer>
+                                <TotalContextProvider { ...total }>
+                                    <Total />
+                                </TotalContextProvider>
+                            </Footer>
+                        </Content>
                     </ListContextProvider>
-                </FormContextProvider>
+                </Container>
             </PeriodContextProvider>
         </OperationsStyle>
     )

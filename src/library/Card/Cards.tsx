@@ -4,7 +4,6 @@ import { navigate }                 from '@reach/router';
 import { AccountModel }             from '@models/AccountModel';
 
 import { useCardContext }           from '@library/Card/provider/useCardContext';
-import { useFormContext }           from '@library/Form/provider/useFormContext';
 
 import { useAccountsByUserContext } from '@providers/account/useAccountsByUserContext';
 import { useModalContext }          from '@library/Modal/provider/useModalContext';
@@ -16,20 +15,13 @@ const Cards: React.FC = () => {
     const { items, actions, selected, loading } = useCardContext();
     const { setSelected } = useAccountsByUserContext();
     const { setOpen } = useModalContext();
-    const { setEntity } = useFormContext();
 
     const handleCreate = (): void => {
-        setEntity(null);
         setOpen(true);
     }
 
     const handleDelete = (_id: string): void => {
         actions.remove({ _id });
-    }
-
-    const handleUpdate = (account: AccountModel): void => {
-        setOpen(true);
-        setEntity(account);
     }
 
     const handleClick = (_id: string): void => {
@@ -60,7 +52,6 @@ const Cards: React.FC = () => {
                                         {
                                             !account.guestAccount && (
                                                 <CardActions>
-                                                    <button disabled={ selected.length > 0 } onClick={ () => handleUpdate(account) }>Modifier</button>
                                                     <button disabled={ selected.length > 0 } onClick={ () => handleDelete(_id) }>Supprimer</button>
                                                 </CardActions>
                                             )

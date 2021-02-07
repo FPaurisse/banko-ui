@@ -1,36 +1,26 @@
-import * as React                                       from 'react';
+import { OperationModel }                   from '@models/OperationModel';
 
-import { OperationModel }                               from '@models/OperationModel';
+import { useList, useListContextValues }    from '@library/List/provider/useList';
 
-import { FormModel }                                    from '@library/Form/models/FormModel';
-import { UseFormContextValues }                         from '@library/Form/provider/useForm';
-import { useList, useListContextValues }                from '@library/List/provider/useList';
+import { PeriodContextValues }              from '@providers/period/usePeriod';
 
-import useOperationForm                                 from '@providers/operation/useOperationForm';
-import { PeriodContextValues }                          from '@providers/period/usePeriod';
-
-import { useOperationsByPeriod, useOperationDelete, useOperationsToCalculate, useOperationsDelete, useOperationsUpdate }    from '@service/useOperations';
-import { TotalContextValues, useTotal } from '@providers/total/useTotal';
-import { useCategoriesByAccount } from '@service/useCategory';
+import {
+    useOperationsByPeriod,
+    useOperationDelete,
+    useOperationsToCalculate,
+    useOperationsDelete,
+    useOperationsUpdate
+}                                           from '@service/useOperations';
+import { TotalContextValues, useTotal }     from '@providers/total/useTotal';
 
 type OperationListProvider = {
-    definition: FormModel<OperationModel>;
-    form: UseFormContextValues<OperationModel>;
     list: useListContextValues<OperationModel>;
     total: TotalContextValues;
 };
 
 const useOperationsList = (period: PeriodContextValues, userId: string, accountId: string): OperationListProvider => {
-
-    const {
-        data: CategoriesByAccount,
-        error: categoriesError
-    } = useCategoriesByAccount(accountId);
-
-    const { definition, form }  = useOperationForm(CategoriesByAccount, userId, accountId);
     
-    const { entity } = form;
-    const { month, year, setPeriod } = period;
+    const { month, year } = period;
 
     const {
         data: operationsByPeriod,
@@ -60,33 +50,15 @@ const useOperationsList = (period: PeriodContextValues, userId: string, accountI
 
     const list = useList<OperationModel>({
         listing: operationsByPeriod,
-        indexes: operationsByPeriod.map((x) => x._id),
+        indexes: operationsByPeriod && operationsByPeriod.map((x) => x._id),
         actions: { delete: remove, deleteAll: removeAll, updateAll: updateAll },
-        error: listError || removeError || removeAllError || updateAllError || categoriesError,
+        error: listError || removeError || removeAllError || updateAllError,
         reloading: listFetching
     });
 
     const total = useTotal(operationsToCalculate, totalFetching);
 
-    React.useEffect(() => {
-        if (entity) {
-            form.form.reset(entity);
-            setPeriod(entity.date);
-        } else {
-            const model = OperationModel.Empty();
-            form.form.reset(model);
-        }
-    }, [entity])
-
-    React.useEffect(() => {
-        if (form.form.formState.isSubmitting) {
-            setPeriod(form.form.getValues('date'));
-        }
-    }, [form.form.formState.isSubmitting])
-
     return ({
-        definition,
-        form,
         list,
         total
     })

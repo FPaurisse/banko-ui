@@ -15,8 +15,8 @@ const useAccountForm = (sharedProfiles: ProfileModel[], userId: string): Account
 
     const form = useForm<AccountModel>({
         actions: {
-            create: useAccountCreate(),
-            update: useAccountUpdate()
+            create: useAccountCreate().executeMutation,
+            update: useAccountUpdate().executeMutation
         },
         args: {
             userId

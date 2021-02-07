@@ -5,7 +5,6 @@ import Operations       from '@components/Operations';
 import Categories       from '@components/Categories';
 import Accounts         from '@components/Accounts';
 import  Profile        from '@components/Profile';
-import Shedule from '@components/Shedule';
 
 import { MainStyle }    from './Main.style';
 
@@ -28,7 +27,6 @@ const AppRouter: React.FC<Props> = ({ onBoarding }) => {
                     <React.Fragment>
                         <Operations path="/" />
                         <Categories path="/categories" />
-                        <Shedule path="/shedule" />
                     </React.Fragment>
                 )
             }

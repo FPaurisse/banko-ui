@@ -3,7 +3,6 @@ import * as React                   from 'react';
 import { AccountModel }             from '@models/AccountModel';
 
 import { useTagContext }           from '@library/Tag/provider/useTagContext';
-import { useFormContext }           from '@library/Form/provider/useFormContext';
 
 import { useModalContext }          from '@library/Modal/provider/useModalContext';
 
@@ -14,22 +13,14 @@ const Tags: React.FC = () => {
     const { items, actions, selected, loading } = useTagContext();
 
     const { setOpen } = useModalContext();
-    const { setEntity } = useFormContext();
 
     const handleCreate = (): void => {
-        setEntity(null);
         setOpen(true);
     }
 
     const handleDelete = (_id: string): void => {
         actions.remove({ _id });
     }
-
-    const handleUpdate = (account: AccountModel): void => {
-        setOpen(true);
-        setEntity(account);
-    }
-
 
     React.useEffect(() => {
         setOpen(false);
@@ -52,7 +43,6 @@ const Tags: React.FC = () => {
                                             { title }
                                         </TagDetail>
                                         <TagActions>
-                                            <button disabled={ selected.length > 0 } onClick={ () => handleUpdate(account) }>Modifier</button>
                                             <button disabled={ selected.length > 0 } onClick={ () => handleDelete(_id) }>Supprimer</button>
                                         </TagActions>
                                     </Tag>

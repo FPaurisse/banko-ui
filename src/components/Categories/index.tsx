@@ -15,31 +15,34 @@ import { CategoriesStyle, Container, Content } from './Categories.style';
 import { TagContextProvider } from '@library/Tag/provider/useTagContext';
 import Tags from '@library/Tag/Tags';
 import { useUserContext } from '@providers/user/useUserContext';
+import { useCategorySave } from '@providers/category/useCategorySave';
 
 const Categories: React.FC<RouteComponentProps> = () => {
     
     const period = usePeriod();
     const { selected: accountId } = useAccountsByUserContext();
     const { user } = useUserContext();
-    const { form, definition, tags } = useCategoryTags(accountId, user._id);
+    const { tags } = useCategoryTags(accountId);
+    const { form, definition, save } = useCategorySave(accountId, user._id);
 
     return (
         <CategoriesStyle>
             <PeriodContextProvider { ...period }>
                 <FormContextProvider { ...form }>
-                    <TagContextProvider { ...tags }>
-                        <Container>
-                            <Modal>
-                                <Form>
-                                    <Input { ...definition.find((field) => field.name === 'title') } />
-                                </Form>
-                            </Modal>
-                            <Content>
-                                <Tags />
-                            </Content>
-                        </Container>
-                    </TagContextProvider>
+                    <Modal>
+                        <Form>
+                            <Input { ...definition.find((field) => field.name === 'title') } />
+                            <button onClick={ save }>Valider</button>
+                        </Form>
+                    </Modal>
                 </FormContextProvider>
+                <TagContextProvider { ...tags }>
+                    <Container>
+                        <Content>
+                            <Tags />
+                        </Content>
+                    </Container>
+                </TagContextProvider>
             </PeriodContextProvider>
         </CategoriesStyle>
     )

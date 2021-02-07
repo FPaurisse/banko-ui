@@ -7,7 +7,7 @@ import { OperationModel }   from '@models/OperationModel';
 const OPERATIONS_BY_PERIOD_QUERY: DocumentNode = gql`
     query ($month: String!, $year: String!, $accountId: String!) {
         getOperationsByPeriod(month: $month, year: $year, accountId: $accountId){
-            _id, title, categories, amount, date, isPassed, isCredit, userId, accountId, isSheduled
+            _id, title, categories, amount, date, isPassed, isCredit, userId, accountId
         }
     }
 `;
@@ -15,15 +15,7 @@ const OPERATIONS_BY_PERIOD_QUERY: DocumentNode = gql`
 const OPERATIONS_TO_CALCULATE_QUERY: DocumentNode = gql`
     query ($month: String!, $year: String!, $accountId: String!) {
         getOperationsToCalculate(month: $month, year: $year, accountId: $accountId){
-            _id, amount, isPassed, isCredit, isSheduled
-        }
-    }
-`;
-
-const SHEDULED_OPERATIONS: DocumentNode = gql`
-    query ($accountId: String!) {
-        getSheduledOperations(accountId: $accountId){
-            _id, title, categories, amount, date, isPassed, isCredit, userId, accountId, isSheduled
+            _id, amount, isPassed, isCredit
         }
     }
 `;
@@ -37,8 +29,7 @@ const CREATE_OPERATION_MUTATION: TypedDocumentNode = gql`
         $isPassed: Boolean!,
         $isCredit: Boolean!,
         $userId: String!,
-        $accountId: String!,
-        $isSheduled: Boolean!
+        $accountId: String!
     ){
         createOperation(
             title: $title, 
@@ -48,10 +39,9 @@ const CREATE_OPERATION_MUTATION: TypedDocumentNode = gql`
             isPassed: $isPassed,
             isCredit: $isCredit, 
             userId: $userId, 
-            accountId: $accountId,
-            isSheduled: $isSheduled
+            accountId: $accountId
         ){
-            _id, title, categories, amount, date, isPassed, isCredit, userId, accountId, isSheduled
+            _id, title, categories, amount, date, isPassed, isCredit, userId, accountId
         }
     }
 `;
@@ -64,8 +54,7 @@ const UPDATE_OPERATION_MUTATION: TypedDocumentNode = gql`
         $amount: String,
         $date: String,
         $isPassed: Boolean,
-        $isCredit: Boolean,
-        $isSheduled: Boolean!
+        $isCredit: Boolean
     ){
         updateOperation(
             _id: $_id,
@@ -74,10 +63,9 @@ const UPDATE_OPERATION_MUTATION: TypedDocumentNode = gql`
             amount: $amount,
             date: $date,
             isPassed: $isPassed,
-            isCredit: $isCredit,
-            isSheduled: $isSheduled
+            isCredit: $isCredit
         ){
-            _id, title, categories, amount, date, isPassed, isCredit, isSheduled
+            _id, title, categories, amount, date, isPassed, isCredit
         }
     }
 `;
@@ -85,13 +73,11 @@ const UPDATE_OPERATION_MUTATION: TypedDocumentNode = gql`
 const UPDATE_OPERATIONS_MUTATION: TypedDocumentNode = gql`
     mutation UpdateOperationsMutation(
         $selected: [ID!]!,
-        $isPassed: Boolean,
-        $isSheduled: Boolean!
+        $isPassed: Boolean
     ){
         updateOperations(
             selected: $selected,
-            isPassed: $isPassed,
-            isSheduled: $isSheduled
+            isPassed: $isPassed
         ){
             selected
         }
@@ -112,12 +98,10 @@ const DELETE_OPERATION_MUTATION: TypedDocumentNode = gql`
 
 const DELETE_OPERATIONS_MUTATION: TypedDocumentNode = gql`
     mutation DeleteOperationsMutation(
-        $selected: [ID!]!,
-        $isSheduled: Boolean!
+        $selected: [ID!]!
     ){
         deleteOperations(
-            selected: $selected,
-            isSheduled: $isSheduled
+            selected: $selected
         ){
             selected
         }
@@ -125,18 +109,13 @@ const DELETE_OPERATIONS_MUTATION: TypedDocumentNode = gql`
 `;
 
 const useOperationsByPeriod = (month: string, year: string, accountId: string): UseQueryState<OperationModel[]> => {
-    const [{ data = { getOperationsByPeriod: [] }, fetching, error, stale }] = useQuery({ query: OPERATIONS_BY_PERIOD_QUERY, variables: { month, year, accountId } });
-    return { data: data.getOperationsByPeriod, fetching, error, stale };
+    const [{ data: response = { getOperationsByPeriod: null }, fetching, error, stale }] = useQuery({ query: OPERATIONS_BY_PERIOD_QUERY, variables: { month, year, accountId } });
+    return { data: response.getOperationsByPeriod, fetching, error, stale };
 }
 
 const useOperationsToCalculate = (month: string, year: string, accountId: string): UseQueryState<OperationModel[]> => {
     const [{ data = { getOperationsToCalculate: [] }, fetching, error, stale }] = useQuery({ query: OPERATIONS_TO_CALCULATE_QUERY, variables: { month, year, accountId } });
     return { data: data.getOperationsToCalculate, fetching, error, stale };
-}
-
-const useSheduledOperations = (accountId: string): UseQueryState<OperationModel[]> => {
-    const [{ data = { getSheduledOperations: [] }, fetching, error, stale }] = useQuery({ query: SHEDULED_OPERATIONS, variables: { accountId } });
-    return { data: data.getSheduledOperations, fetching, error, stale };
 }
 
 const useOperationCreate = (): { state: UseMutationState, executeMutation: () => void } => {
@@ -167,7 +146,6 @@ const useOperationsDelete = (): { state: UseMutationState, executeMutation: () =
 export {
     useOperationsByPeriod,
     useOperationsToCalculate,
-    useSheduledOperations,
     useOperationCreate, 
     useOperationUpdate,
     useOperationDelete,
