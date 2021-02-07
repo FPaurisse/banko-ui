@@ -4,7 +4,7 @@ const FormStyle = styled.form<{ $hidden?: boolean }>`
     display: ${({ $hidden }) => $hidden ? 'none' : 'flex'};
     flex-direction: column;
     align-items: center;
-    justify-content: space-between;
+    justify-content: flex-start;
     background-color: #FFFFFF;
     border: 1px solid #DFEEF3;
     overflow: auto;

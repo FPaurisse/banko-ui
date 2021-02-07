@@ -3,16 +3,18 @@ import List                         from '@library/List/List';
 import { ListContextProvider }      from '@library/List/provider/useListContext';
 
 import useOperationsList            from '@providers/operation/useOperationsList';
-import { TotalContextProvider }     from '@providers/total/useTotalContext';
+import { TotalContextProvider }     from '@providers/operation/total/useTotalContext';
+import { useTotal }                 from '@providers/operation/total/useTotal';
 
 import Total                        from '@components/Operations/Total';
 import Navigation                   from '@components/Operations/Navigation';   
-import Actions                      from '@components/Operations/Actions';
+import Actions                      from '@library/Actions';
 
-import { Content, Footer } from './Operations.style';
+import { Content, Footer }          from './Operations.style';
 
 const OperationList: React.FC = () => {
-    const { list, total } = useOperationsList();
+    const { list }  = useOperationsList();
+    const total     = useTotal();
     
     return (
         <ListContextProvider { ...list }>

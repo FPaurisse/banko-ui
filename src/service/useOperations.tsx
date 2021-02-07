@@ -100,7 +100,7 @@ const DELETE_OPERATIONS_MUTATION: TypedDocumentNode = gql`
     mutation DeleteOperationsMutation(
         $selected: [ID!]!
     ){
-        deleteOperations(
+        deleteSelectedOperations(
             selected: $selected
         ){
             selected

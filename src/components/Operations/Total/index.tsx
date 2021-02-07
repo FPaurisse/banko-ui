@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { useTotalContext } from '@providers/total/useTotalContext';
-import { TotalStyle } from './Total.style';
+import * as React           from 'react';
+import { useTotalContext }  from '@providers/operation/total/useTotalContext';
+import { TotalStyle }       from './Total.style';
 
 const Total: React.FC = () => {
     const total = useTotalContext();

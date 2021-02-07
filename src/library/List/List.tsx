@@ -9,11 +9,7 @@ import { ListStyle, Item, ItemCheck, ItemDetail, ItemActions, Loading } from './
 
 const List: React.FC = () => {
 
-    const { items, actions, selected, selectItem, unselectItem, loading }   = useListContext();
-
-    const handleDelete = (_id: string): void => {
-        actions.remove({ _id });
-    }
+    const { items, actionRow, selected, selectItem, unselectItem, loading }   = useListContext();
 
     const handleCheck = (_id: string): void => {
         if (selected.includes(_id)) {
@@ -43,7 +39,20 @@ const List: React.FC = () => {
                                             { title }
                                         </ItemDetail>
                                         <ItemActions>
-                                            <button disabled={ selected.length > 0 } onClick={ () => handleDelete(_id) }>Supprimer</button>
+                                            {
+                                                actionRow.map((action, index) => {
+                                                    return (
+                                                        <button
+                                                            key={ index }
+                                                            disabled={ selected.length > 0 }
+                                                            onClick={ () => action.provider.executeMutation({ _id })
+                                                            }
+                                                        >
+                                                            { action.label }
+                                                        </button>
+                                                    )
+                                                })
+                                            }
                                         </ItemActions>
                                     </Item>
                                 )

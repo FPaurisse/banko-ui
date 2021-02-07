@@ -1,6 +1,23 @@
 import * as React                                       from 'react';
 import { debounce, intersection, isEqual, without }     from 'lodash';
-import { CombinedError } from 'urql';
+import { CombinedError, UseMutationState } from 'urql';
+
+interface ActionModel<T> {
+    label: string;
+    provider: {
+        state: UseMutationState<T>,
+        executeMutation: (data?: Partial<T>) => void
+    }
+}
+
+interface useListProps<T> {
+    listing: T[];
+    indexes: string[];
+    error: CombinedError;
+    actionRow?: ActionModel<T>[];
+    actionBar?: ActionModel<T>[];
+    reloading: boolean;
+}
 
 export type useListContextValues<T> = {
     items: T[];
@@ -11,30 +28,13 @@ export type useListContextValues<T> = {
     unselectItems: () => void;
     unselectAll: () => void;
     allIsChecked: boolean;
-    actions: {
-        remove: (variables: Record<string, unknown>) => void,
-        removeAll: (variables: Record<string, unknown>) => void,
-        updateAll: (variables: Record<string, unknown>) => void,
-    };
+    actionRow?: ActionModel<T>[];
+    actionBar?: ActionModel<T>[];
     serverError: CombinedError;
     loading: boolean;
 }
 
-interface ActionsModel {
-    delete: () => void;
-    deleteAll?: () => void;
-    updateAll?: () => void;
-}
-
-interface useListProps<T> {
-    listing: T[];
-    indexes: string[];
-    error: CombinedError;
-    actions?: ActionsModel;
-    reloading: boolean;
-}
-
-export const useList = <T extends unknown>({ listing, indexes, error, actions, reloading }: useListProps<T>): useListContextValues<T> => {
+export const useList = <T extends unknown>({ listing, indexes, error, actionRow, actionBar, reloading }: useListProps<T>): useListContextValues<T> => {
     const [items, setItems] = React.useState<T[]>([]);
     const [selected, setSelected] = React.useState<string[]>([]);
     const [allIsChecked, setAllIsChecked] = React.useState<boolean>(false);
@@ -92,11 +92,8 @@ export const useList = <T extends unknown>({ listing, indexes, error, actions, r
         unselectItems,
         unselectAll,
         allIsChecked,
-        actions: {
-            remove: actions.delete,
-            removeAll: actions.deleteAll,
-            updateAll: actions.updateAll
-        },
+        actionRow,
+        actionBar,
         serverError: error,
         loading: loading
     })

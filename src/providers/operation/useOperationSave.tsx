@@ -6,7 +6,7 @@ import { UseFormContextValues }     from '@library/Form/provider/useForm';
 import { OperationModel }           from '@models/OperationModel';
 
 import useOperationForm             from '@providers/operation/useOperationForm';
-import { usePeriodContext }         from '@providers/period/usePeriodContext';
+import { usePeriodContext }         from '@providers/operation/period/usePeriodContext';
 import { useAccountsByUserContext } from '@providers/account/useAccountsByUserContext';
 import { useUserContext }           from '@providers/user/useUserContext';
 

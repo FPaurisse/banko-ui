@@ -1,7 +1,7 @@
 import * as React           from 'react';
 
-import { usePeriodContext } from '@providers/period/usePeriodContext';
-import { NavigationStyle } from './Navigation.style';
+import { usePeriodContext } from '@providers/operation/period/usePeriodContext';
+import { NavigationStyle }  from './Navigation.style';
 
 const Navigation: React.FC = () => {
     const period = usePeriodContext();
