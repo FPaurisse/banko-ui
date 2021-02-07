@@ -2,8 +2,6 @@ import { OperationModel }                   from '@models/OperationModel';
 
 import { useList, useListContextValues }    from '@library/List/provider/useList';
 
-import { PeriodContextValues }              from '@providers/period/usePeriod';
-
 import {
     useOperationsByPeriod,
     useOperationDelete,
@@ -12,15 +10,18 @@ import {
     useOperationsUpdate
 }                                           from '@service/useOperations';
 import { TotalContextValues, useTotal }     from '@providers/total/useTotal';
+import { useAccountsByUserContext }         from '@providers/account/useAccountsByUserContext';
+import { usePeriodContext } from '@providers/period/usePeriodContext';
 
 type OperationListProvider = {
     list: useListContextValues<OperationModel>;
     total: TotalContextValues;
 };
 
-const useOperationsList = (period: PeriodContextValues, userId: string, accountId: string): OperationListProvider => {
+const useOperationsList = (): OperationListProvider => {
     
-    const { month, year } = period;
+    const { month, year }           = usePeriodContext();
+    const { selected: accountId }   = useAccountsByUserContext();
 
     const {
         data: operationsByPeriod,

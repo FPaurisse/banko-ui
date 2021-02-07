@@ -1,8 +1,13 @@
+import * as React                   from 'react';
+
 import { FormModel }                from '@library/Form/models/FormModel';
 import { UseFormContextValues }     from '@library/Form/provider/useForm';
+import { useModalContext }          from '@library/Modal/provider/useModalContext';
 
 import { CategoryModel }            from '@models/CategoryModel';
 
+import { useAccountsByUserContext } from '@providers/account/useAccountsByUserContext';
+import { useUserContext }           from '@providers/user/useUserContext';
 import useCategoryForm              from '@providers/category/useCategoryForm';
 
 export type CategorySaveProvider = {
@@ -11,16 +16,38 @@ export type CategorySaveProvider = {
     save: () => void;
 };
 
-const useCategorySave = (accountId: string, userId: string): CategorySaveProvider => { 
-    const { definition, form } = useCategoryForm(accountId, userId);
+const useCategorySave = (): CategorySaveProvider => { 
+    const { open, setOpen }         = useModalContext();
+    const { selected: accountId }   = useAccountsByUserContext();
+    const { user: { _id: userId } } = useUserContext();
+    
+    const { definition, form }      = useCategoryForm(accountId, userId);
 
     const save = (): void => {
         if (!form.entity) {
-            form.actions.create({ ...form.values(), accountId, userId })
+            form.actions.create.executeMutation({
+                ...form.values(),
+                accountId,
+                userId
+            })
         } else {
-            form.actions.update({ ...form.values(), _id: form.entity._id })
+            form.actions.update.executeMutation({
+                ...form.values(),
+                _id: form.entity._id
+            })
         }
     }
+
+    React.useEffect(() => {
+        if (form.actions.create.state.fetching) {
+            if (!form.actions.create.state.error) {
+                form.reset();
+                if (open) {
+                    setOpen(false)
+                }
+            }
+        }
+    }, [form.actions.create.state.fetching])
 
     return {
         definition,

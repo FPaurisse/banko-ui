@@ -1,13 +1,17 @@
 import { CategoryModel }                                from '@models/CategoryModel';
 
+import { useTag, useTagContextValues }                  from '@library/Tag/provider/useTag';
+
+import { useAccountsByUserContext }                     from '@providers/account/useAccountsByUserContext';
+
 import { useCategoryDelete, useCategoriesByAccount }    from '@service/useCategory';
-import { useTag, useTagContextValues } from '@library/Tag/provider/useTag';
 
 type CategoryListProvider = {
     tags: useTagContextValues<CategoryModel>;
 };
 
-const useCategoryList = (accountId: string): CategoryListProvider => {
+const useCategoryList = (): CategoryListProvider => {
+    const { selected: accountId }   = useAccountsByUserContext();
 
     const {
         data: CategoriesByAccount,

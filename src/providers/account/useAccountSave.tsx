@@ -6,6 +6,7 @@ import { useModalContext } from '@library/Modal/provider/useModalContext';
 import { AccountModel }             from '@models/AccountModel';
 
 import useAccountForm               from '@providers/Account/useAccountForm';
+import { useUserContext }           from '@providers/user/useUserContext';
 
 import { useSharedProfiles }        from '@service/useProfile';
 
@@ -15,28 +16,38 @@ export type AccountSaveProvider = {
     save: () => void;
 };
 
-const useAccountSave = (userId: string): AccountSaveProvider => {
+const useAccountSave = (): AccountSaveProvider => {
 
     const { open, setOpen } = useModalContext();
+    const { user: { _id: userId } } = useUserContext();
     const { data: sharedProfiles } = useSharedProfiles(userId);
     
     const { definition, form }  = useAccountForm(sharedProfiles, userId);
 
     const save = (): void => {
         if (!form.entity) {
-            form.actions.create({ ...form.values(), userId })
+            form.actions.create.executeMutation({
+                ...form.values(),
+                userId
+            })
         } else {
-            form.actions.update({ ...form.values(), _id: form.entity._id })
+            form.actions.update.executeMutation({
+                ...form.values(),
+                _id: form.entity._id
+            })
         }
     }
 
     React.useEffect(() => {
-        if (form.form.formState.isSubmitting) {
-            if (open) {
-                setOpen(false)
+        if (form.actions.create.state.fetching) {
+            if (!form.actions.create.state.error) {
+                form.reset();
+                if (open) {
+                    setOpen(false)
+                }
             }
         }
-    }, [form.form.formState.isSubmitting])
+    }, [form.actions.create.state.fetching])
 
     return {
         definition,

@@ -14,8 +14,8 @@ const useCategoryForm = (accountId: string, userId: string): CategoryReturn => {
 
     const form = useForm<CategoryModel>({
         actions: {
-            create: useCategoryCreate().executeMutation,
-            update: useCategoryUpdate().executeMutation
+            create: useCategoryCreate(),
+            update: useCategoryUpdate()
         },
         args: {
             accountId,

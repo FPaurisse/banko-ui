@@ -15,8 +15,8 @@ const useOperationForm = (categories: CategoryModel[], userId: string, accountId
 
     const form = useForm<OperationModel>({
         actions: {
-            create: useOperationCreate().executeMutation,
-            update: useOperationUpdate().executeMutation
+            create: useOperationCreate(),
+            update: useOperationUpdate()
         },
         args: {
             accountId,

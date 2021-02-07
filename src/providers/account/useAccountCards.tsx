@@ -2,13 +2,16 @@ import { AccountModel }                         from '@models/AccountModel';
 
 import { useCard, useCardContextValues }        from '@library/Card/provider/useCard';
 
+import { useUserContext }                       from '@providers/user/useUserContext';
+
 import { useAccountDelete, useAccountsByUser }  from '@service/useAccount';
 
 type AccountCardProvider = {
     cards: useCardContextValues<AccountModel>;
 };
 
-const useAccountCards = (userId: string): AccountCardProvider => {
+const useAccountCards = (): AccountCardProvider => {
+    const { user: { _id: userId } } = useUserContext();
 
     const {
         data: AccountsByUser,
