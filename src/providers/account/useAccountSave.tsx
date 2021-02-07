@@ -24,9 +24,9 @@ const useAccountSave = (userId: string): AccountSaveProvider => {
 
     const save = (): void => {
         if (!form.entity) {
-            form.actions.create({ ...form.values, userId })
+            form.actions.create({ ...form.values(), userId })
         } else {
-            form.actions.update({ ...form.values, _id: form.entity._id })
+            form.actions.update({ ...form.values(), _id: form.entity._id })
         }
     }
 

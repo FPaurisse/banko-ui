@@ -25,9 +25,9 @@ const useOperationSave = (period: PeriodContextValues, userId: string, accountId
 
     const save = (): void => {
         if (!form.entity) {
-            form.actions.create({ ...form.values, date: '02-02-2021', userId, accountId })
+            form.actions.create({ ...form.values(), date: '02-02-2021', userId, accountId })
         } else {
-            form.actions.update({ ...form.values, _id: form.entity._id })
+            form.actions.update({ ...form.values(), _id: form.entity._id })
         }
     }
 

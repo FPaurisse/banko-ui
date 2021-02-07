@@ -12,13 +12,13 @@ export type CategorySaveProvider = {
 };
 
 const useCategorySave = (accountId: string, userId: string): CategorySaveProvider => { 
-    const { definition, form }  = useCategoryForm(accountId, userId);
+    const { definition, form } = useCategoryForm(accountId, userId);
 
     const save = (): void => {
         if (!form.entity) {
-            form.actions.create({ ...form.values, accountId, userId })
+            form.actions.create({ ...form.values(), accountId, userId })
         } else {
-            form.actions.update({ ...form.values, _id: form.entity._id })
+            form.actions.update({ ...form.values(), _id: form.entity._id })
         }
     }
 
