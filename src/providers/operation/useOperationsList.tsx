@@ -9,15 +9,16 @@ import {
     useOperationsUpdate
 }                                           from '@service/useOperations';
 import { useAccountsByUserContext }         from '@providers/account/useAccountsByUserContext';
-import { usePeriodContext }                 from '@providers/operation/period/usePeriodContext';
+import { PeriodContextValues } from './period/usePeriod';
+import { UseFormContextValues } from '@library/Form/provider/useForm';
 
-type OperationListProvider = {
+export type OperationListProvider = {
     list: useListContextValues<OperationModel>;
 };
 
-const useOperationsList = (): OperationListProvider => {
+const useOperationsList = (period: PeriodContextValues, form: UseFormContextValues<OperationModel>): OperationListProvider => {
     
-    const { month, year }           = usePeriodContext();
+    const { month, year }           = period;
     const { selected: accountId }   = useAccountsByUserContext();
 
     const {
@@ -30,12 +31,13 @@ const useOperationsList = (): OperationListProvider => {
         listing: operationsByPeriod,
         indexes: operationsByPeriod && operationsByPeriod.map((x) => x._id),
         actionRow: [
-            { label: 'Supprimer', provider: useOperationDelete() }
+            { label: 'Modifier', setEntity: form.setEntity },
+            { label: 'Supprimer', provider: useOperationDelete().executeMutation }
         ],
         actionBar: [
-            { label: 'Approuver', provider: useOperationsUpdate() },
-            { label: 'À venir', provider: useOperationsUpdate() },
-            { label: 'Supprimer', provider: useOperationsDelete() }
+            { label: 'Approuver', provider: useOperationsUpdate().executeMutation },
+            { label: 'À venir', provider: useOperationsUpdate().executeMutation },
+            { label: 'Supprimer', provider: useOperationsDelete().executeMutation }
         ],
         error: listError,
         reloading: listFetching

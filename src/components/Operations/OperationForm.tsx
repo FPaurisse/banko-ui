@@ -2,12 +2,10 @@ import * as React               from 'react';
 
 import Form                     from '@library/Form/Form';
 import Input                    from '@library/Form/Input';
-import { FormContextProvider }  from '@library/Form/provider/useFormContext';
+import { FormContextProvider } from '@library/Form/provider/useFormContext';
+import { OperationSaveProvider } from '@providers/operation/useOperationSave';
 
-import { useOperationSave }     from '@providers/operation/useOperationSave';
-
-const OperationForm: React.FC = () => {
-    const { form, definition, save } = useOperationSave();
+const OperationForm: React.FC<OperationSaveProvider> = ({ form, definition, save }) => {
     
     return (
         <FormContextProvider { ...form }>
@@ -19,6 +17,7 @@ const OperationForm: React.FC = () => {
                 <Input { ...definition.find((field) => field.name === 'isPassed') } />
                 <Input { ...definition.find((field) => field.name === 'date') } />
                 <button onClick={ save }>Valider</button>
+                <button onClick={ () => form.setEntity(null) }>Annuler</button>
             </Form>
         </FormContextProvider>
     )

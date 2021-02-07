@@ -6,8 +6,8 @@ import { UseFormContextValues }     from '@library/Form/provider/useForm';
 import { OperationModel }           from '@models/OperationModel';
 
 import useOperationForm             from '@providers/operation/useOperationForm';
-import { usePeriodContext }         from '@providers/operation/period/usePeriodContext';
 import { useAccountsByUserContext } from '@providers/account/useAccountsByUserContext';
+import { PeriodContextValues }      from '@providers/operation/period/usePeriod';
 import { useUserContext }           from '@providers/user/useUserContext';
 
 import { useCategoriesByAccount }   from '@service/useCategory';
@@ -18,8 +18,8 @@ export type OperationSaveProvider = {
     save: () => void;
 };
 
-const useOperationSave = (): OperationSaveProvider => {
-    const { setPeriod }             = usePeriodContext();
+const useOperationSave = (period: PeriodContextValues): OperationSaveProvider => {
+    const { setPeriod }             = period;
     const { selected: accountId }   = useAccountsByUserContext();
     const { user: { _id: userId } } = useUserContext();
     const categories                = useCategoriesByAccount(accountId);

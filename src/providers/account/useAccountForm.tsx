@@ -14,6 +14,7 @@ export type AccountReturn = {
 const useAccountForm = (sharedProfiles: ProfileModel[], userId: string): AccountReturn => {
 
     const form = useForm<AccountModel>({
+        empty: AccountModel.Empty(),
         actions: {
             create: useAccountCreate(),
             update: useAccountUpdate()

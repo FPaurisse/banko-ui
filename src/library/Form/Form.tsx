@@ -1,9 +1,9 @@
-import * as React               from 'react';
+import * as React                       from 'react';
 
-import { useFormContext }       from '@library/Form/provider/useFormContext';
-import { useKeyboardEvent }     from '@library/utils';
+import { useFormContext }               from '@library/Form/provider/useFormContext';
+import { useKeyboardEvent }             from '@library/utils';
 
-import { FormStyle }            from './Form.style';
+import { FormStyle }                    from './Form.style';
 
 const Form: React.FC = ({ children }) => {
     const { headings, entity, setEntity } = useFormContext();

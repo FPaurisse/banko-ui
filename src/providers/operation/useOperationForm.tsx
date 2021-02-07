@@ -14,6 +14,7 @@ export type OperationReturn = {
 const useOperationForm = (categories: CategoryModel[], userId: string, accountId: string): OperationReturn => {
 
     const form = useForm<OperationModel>({
+        empty: OperationModel.Empty(),
         actions: {
             create: useOperationCreate(),
             update: useOperationUpdate()

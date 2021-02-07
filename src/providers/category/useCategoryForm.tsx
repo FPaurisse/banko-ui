@@ -13,6 +13,7 @@ export type CategoryReturn = {
 const useCategoryForm = (accountId: string, userId: string): CategoryReturn => {
 
     const form = useForm<CategoryModel>({
+        empty: CategoryModel.Empty(),
         actions: {
             create: useCategoryCreate(),
             update: useCategoryUpdate()

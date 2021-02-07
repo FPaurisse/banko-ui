@@ -14,6 +14,7 @@ export type UserReturn = {
 const useProfileForm = (accounts: AccountModel[], userId: string): UserReturn => {
 
     const form = useForm<ProfileModel>({
+        empty: ProfileModel.Empty(),
         actions: {
             create: useProfileCreate(),
             update: useProfileUpdate()

@@ -1,13 +1,11 @@
 import * as React                                       from 'react';
 import { debounce, intersection, isEqual, without }     from 'lodash';
-import { CombinedError, UseMutationState }              from 'urql';
+import { CombinedError }                                from 'urql';
 
 interface ActionModel<T> {
-    label: string;
-    provider: {
-        state: UseMutationState<T>,
-        executeMutation: (data?: Partial<T>) => void
-    }
+    label?: string;
+    provider?: (data?: Partial<T>) => void;
+    setEntity?: React.Dispatch<React.SetStateAction<T>>;
 }
 
 interface useListProps<T> {

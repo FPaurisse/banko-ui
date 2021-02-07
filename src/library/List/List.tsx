@@ -45,7 +45,7 @@ const List: React.FC = () => {
                                                         <button
                                                             key={ index }
                                                             disabled={ selected.length > 0 }
-                                                            onClick={ () => action.provider.executeMutation({ _id })
+                                                            onClick={ () => action.setEntity ? action.setEntity(operation) : action.provider({ _id })
                                                             }
                                                         >
                                                             { action.label }
